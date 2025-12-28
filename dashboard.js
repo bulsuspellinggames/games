@@ -1,51 +1,32 @@
-// SCORE SAVING FUNCTION - UPDATED FOR CLOUD
-async function saveScoreToDashboard(playerName, playerScore, gameType) {
-    // Create score object
-    const scoreData = {
-        playerName: playerName,
-        score: playerScore,
-        gems: gems,
-        gameType: gameType,
-        timestamp: new Date().toISOString(),
-        deviceId: localStorage.getItem('deviceId') || 'unknown'
-    };
-    
-    // Save to cloud
-    const cloudSuccess = await saveGameScoreToCloud(playerName, playerScore, gameType);
-    
-    if (cloudSuccess) {
-        console.log('✅ Score saved to cloud');
-    } else {
-        console.log('⚠️ Saved to local storage (cloud unavailable)');
+const BIN_ID = "6951693a43b1c97be90a711a"; // paste your bin ID here
+const API_KEY = "$2a$10$vtFc9uv3beCdsHzHCVNv2eC07iJ0zVdRgvqK71rZzyAoxWloiRAAm";
+
+// Fetch current leaderboard
+async function getLeaderboard() {
+  const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+    headers: {
+      "X-Master-Key": API_KEY
     }
-    
-    // Also save player data to cloud (including gems and items)
-    const playerData = {
-        name: playerName,
-        gems: gems,
-        items: playerItems,
-        color: playerColor,
-        equippedAccessories: equippedAccessories,
-        equippedHair: equippedHair,
-        equippedTop: equippedTop,
-        equippedBottom: equippedBottom,
-        equippedSpecialBlocks: equippedSpecialBlocks,
-        lastPlayed: new Date().toISOString(),
-        lastScore: playerScore,
-        totalGames: (localStorage.getItem(`${playerName}_totalGames`) || 0) + 1
-    };
-    
-    await savePlayerToCloud(playerName, playerData);
-    
-    // Keep local backup
-    localStorage.setItem('gameScores', JSON.stringify(
-        JSON.parse(localStorage.getItem('gameScores') || '[]')
-            .concat(scoreData)
-            .slice(-50)
-    ));
-    
-    console.log('Score saved:', scoreData);
-    
-    // Refresh all player data from cloud to update other players
-    await updateAllPlayersFromCloud();
+  });
+  const data = await res.json();
+  return data.record.players || [];
 }
+
+// Update leaderboard
+async function updateLeaderboard(newPlayer) {
+  const players = await getLeaderboard();
+  players.push(newPlayer); // Add new player
+
+  await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Master-Key": API_KEY
+    },
+    body: JSON.stringify({ players })
+  });
+}
+
+// Example usage
+updateLeaderboard({ name: "Kimberly", score: 120, game: "Lava Rush" });
+getLeaderboard().then(players => console.log(players));
