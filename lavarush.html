@@ -1,0 +1,5591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lava Rush – Spelling Battle</title>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@700&display=swap" rel="stylesheet" />
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Comic Neue', Arial, sans-serif;background:#87CEEB;color:#fff}
+/* Full screen setup with 6th grade design */
+.stage{position:fixed;top:0;left:0;width:100vw;height:100vh;background:linear-gradient(to bottom, #87CEEB 0%, #98D8F0 30%, #87CEEB 100%);display:flex;flex-direction:column;align-items:center;overflow:hidden}
+/* Enhanced Cloud Designs - More creative and varied */
+.cloud{position:absolute;background:white;border-radius:50px;box-shadow:0 0 20px rgba(255,255,255,0.8);z-index:1;opacity:0.9}
+.cloud::before,.cloud::after{content:'';position:absolute;background:white;border-radius:50%}
+/* Cloud 1 - Large fluffy cloud */
+.cloud-1{width:180px;height:70px;top:10%;left:5%;animation:floatCloud 25s infinite linear;}
+.cloud-1::before{width:80px;height:80px;top:-30px;left:20px;}
+.cloud-1::after{width:60px;height:60px;top:-20px;right:30px;}
+/* Cloud 2 - Medium cloud */
+.cloud-2{width:140px;height:50px;top:25%;right:10%;animation:floatCloud 20s infinite linear reverse;}
+.cloud-2::before{width:60px;height:60px;top:-25px;left:15px;}
+.cloud-2::after{width:50px;height:50px;top:-15px;right:20px;}
+/* Cloud 3 - Small cloud */
+.cloud-3{width:120px;height:40px;top:15%;left:20%;animation:floatCloud 30s infinite linear;}
+.cloud-3::before{width:50px;height:50px;top:-20px;left:10px;}
+/* Cloud 4 - Top right cloud */
+.cloud-4{width:160px;height:60px;top:5%;right:20%;animation:floatCloud 35s infinite linear reverse;}
+.cloud-4::before{width:70px;height:70px;top:-25px;left:25px;}
+.cloud-4::after{width:55px;height:55px;top:-15px;right:35px;}
+/* Cloud 5 - Bottom left cloud */
+.cloud-5{width:130px;height:45px;bottom:30%;left:8%;animation:floatCloud 22s infinite linear;}
+.cloud-5::before{width:55px;height:55px;top:-20px;left:15px;}
+/* Cloud 6 - Middle right cloud */
+.cloud-6{width:150px;height:55px;top:40%;right:15%;animation:floatCloud 28s infinite linear reverse;}
+.cloud-6::before{width:65px;height:65px;top:-25px;left:20px;}
+.cloud-6::after{width:45px;height:45px;top:-15px;right:25px;}
+/* Cloud floating animation */
+@keyframes floatCloud {
+  0%{transform:translateX(-100px);}
+  100%{transform:translateX(calc(100vw + 200px));}
+}
+
+/* ✨ FIXED SUN DESIGN - SUN'S FACE NOW VISIBLE ✨ */
+.sun-container {
+  position: absolute;
+  top: 4%;
+  right: 6%;
+  width: 120px;
+  height: 120px;
+  z-index: 1; /* Lower z-index than clouds */
+  animation: sunOrbit 30s infinite linear;
+  overflow: visible; /* Allow rays to extend beyond */
+}
+
+.sun-body {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  animation: sunDance 8s infinite alternate ease-in-out;
+  z-index: 2; /* Body above rays */
+}
+
+/* Main sun circle with gradient and glow */
+.sun-circle {
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 30% 30%, 
+    #FFEC00 0%,
+    #FF9800 20%,
+    #FF5722 40%,
+    #FF9800 60%,
+    #FFEC00 100%);
+  border-radius: 50%;
+  position: relative;
+  box-shadow: 
+    0 0 80px #FF9800,
+    0 0 160px rgba(255, 152, 0, 0.8),
+    0 0 240px rgba(255, 152, 0, 0.4),
+    inset 0 -15px 30px rgba(255, 235, 59, 0.9);
+  animation: sunPulse 3s infinite alternate;
+  z-index: 3; /* Circle above everything */
+}
+
+/* Sun face - creative and expressive - NOW VISIBLE */
+.sun-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 4; /* Face above circle */
+}
+
+.sun-eyes {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 5px;
+  z-index: 5;
+}
+
+.sun-eye {
+  width: 20px;
+  height: 30px;
+  background: #333;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  position: relative;
+  overflow: hidden;
+  animation: eyeBlink 5s infinite;
+  z-index: 6;
+}
+
+.sun-eye::before {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+  top: 6px;
+  left: 5px;
+  animation: eyeSparkle 3s infinite;
+  z-index: 7;
+}
+
+.sun-eye::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: #FFEC00;
+  border-radius: 50%;
+  top: 8px;
+  left: 7px;
+  z-index: 8;
+}
+
+.sun-smile {
+  width: 50px;
+  height: 25px;
+  border: 4px solid transparent;
+  border-bottom: 6px solid #FF3333;
+  border-radius: 0 0 50px 50px;
+  margin-top: 15px;
+  animation: sunSmile 4s infinite alternate;
+  z-index: 6;
+}
+
+.sun-cheeks {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 5;
+}
+
+.sun-cheek {
+  position: absolute;
+  width: 18px;
+  height: 10px;
+  background: rgba(255, 105, 97, 0.6);
+  border-radius: 50%;
+  top: 50%;
+  filter: blur(2px);
+  animation: cheekGlow 2s infinite alternate;
+  z-index: 5;
+}
+
+.sun-cheek.left {
+  left: 15%;
+}
+
+.sun-cheek.right {
+  right: 15%;
+}
+
+/* Creative sun rays - spiraling out - FIXED POSITIONING */
+.sun-rays {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  animation: rotateRays 20s infinite linear;
+  z-index: 1; /* Rays behind the sun body */
+}
+
+.sun-ray {
+  position: absolute;
+  background: linear-gradient(to right, transparent, #FFEC00, #FF9800, #FFEC00, transparent);
+  border-radius: 10px;
+  transform-origin: center center;
+  filter: drop-shadow(0 0 5px #FF9800);
+  opacity: 0.7;
+}
+
+/* Long rays - FIXED POSITIONING */
+.ray-1 {width: 180px; height: 12px; top: 50%; left: 50%; transform: translate(-50%, -50%) translateX(90px);}
+.ray-2 {width: 180px; height: 12px; top: 50%; left: 50%; transform: translate(-50%, -50%) translateX(-90px);}
+.ray-3 {width: 12px; height: 180px; top: 50%; left: 50%; transform: translate(-50%, -50%) translateY(90px);}
+.ray-4 {width: 12px; height: 180px; top: 50%; left: 50%; transform: translate(-50%, -50%) translateY(-90px);}
+
+/* Diagonal rays - FIXED POSITIONING */
+.ray-5 {width: 150px; height: 12px; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(45deg) translateX(75px);}
+.ray-6 {width: 150px; height: 12px; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg) translateX(75px);}
+.ray-7 {width: 150px; height: 12px; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(135deg) translateX(75px);}
+.ray-8 {width: 150px; height: 12px; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-135deg) translateX(75px);}
+
+/* Short decorative rays - FIXED POSITIONING */
+.ray-9 {width: 100px; height: 8px; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(22.5deg) translateX(50px);}
+.ray-10 {width: 100px; height: 8px; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(67.5deg) translateX(50px);}
+.ray-11 {width: 100px; height: 8px; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(112.5deg) translateX(50px);}
+.ray-12 {width: 100px; height: 8px; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(157.5deg) translateX(50px);}
+
+/* Sun particles - floating around */
+.sun-particles {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  top: -50%;
+  left: -50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.sun-particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #FFEC00;
+  border-radius: 50%;
+  filter: blur(1px);
+  animation: floatParticle 10s infinite linear;
+}
+
+/* Sun animations */
+@keyframes sunOrbit {
+  0% { transform: rotate(0deg) translateX(0) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(20px) rotate(-360deg); }
+}
+
+@keyframes sunDance {
+  0% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-10px) rotate(5deg); }
+  50% { transform: translateY(0) rotate(0deg); }
+  75% { transform: translateY(10px) rotate(-5deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+@keyframes sunPulse {
+  0% { 
+    box-shadow: 
+      0 0 80px #FF9800,
+      0 0 160px rgba(255, 152, 0, 0.8),
+      0 0 240px rgba(255, 152, 0, 0.4),
+      inset 0 -15px 30px rgba(255, 235, 59, 0.9);
+    transform: scale(1);
+  }
+  100% { 
+    box-shadow: 
+      0 0 100px #FF9800,
+      0 0 200px rgba(255, 152, 0, 0.9),
+      0 0 300px rgba(255, 152, 0, 0.6),
+      inset 0 -20px 40px rgba(255, 235, 59, 1);
+    transform: scale(1.05);
+  }
+}
+
+@keyframes rotateRays {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes rayGlow1 {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+@keyframes rayGlow2 {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.9; }
+}
+
+@keyframes eyeBlink {
+  0%, 90%, 100% { height: 30px; }
+  92%, 98% { height: 4px; }
+}
+
+@keyframes eyeSparkle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes sunSmile {
+  0% { 
+    width: 50px;
+    border-bottom-width: 6px;
+    border-radius: 0 0 50px 50px;
+  }
+  100% { 
+    width: 60px;
+    border-bottom-width: 8px;
+    border-radius: 0 0 60px 60px;
+  }
+}
+
+@keyframes cheekGlow {
+  0% { 
+    background: rgba(255, 105, 97, 0.6);
+    transform: scale(1);
+  }
+  100% { 
+    background: rgba(255, 105, 97, 0.9);
+    transform: scale(1.2);
+  }
+}
+
+@keyframes floatParticle {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--tx, 100px), var(--ty, -100px)) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Sun halo effect */
+.sun-halo {
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  top: -30px;
+  left: -30px;
+  border-radius: 50%;
+  background: radial-gradient(circle, transparent 30%, rgba(255, 235, 59, 0.1) 50%, transparent 70%);
+  animation: haloPulse 4s infinite alternate;
+  z-index: 0;
+}
+
+@keyframes haloPulse {
+  0% { 
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  100% { 
+    transform: scale(1.2);
+    opacity: 0.6;
+  }
+}
+
+/* Lava & arena with brighter colors */
+.arena{position:relative;width:100%;height:100%;max-width:none;background:radial-gradient(circle at 50% 10%, rgba(255,180,0,0.1), transparent 30%);border-radius:0;overflow:hidden;border:none}
+.lava{position:absolute;left:0;right:0;bottom:0;height:18%;background:linear-gradient(to top,#FF3300 0%,#FF6600 40%,#FFAA00 100%);transition:height 1s linear;z-index:2}
+.lava-surface{position:absolute;left:0;right:0;top:-40px;height:60px;background:linear-gradient(to top,rgba(255,100,0,0.95),rgba(255,200,0,0.7));filter:blur(6px);opacity:0.9;animation:surf 3s infinite alternate}
+@keyframes surf{from{transform:translateY(0)}to{transform:translateY(8px)}}
+.lava-bubble{position:absolute;border-radius:50%;background:rgba(255,80,0,0.9);box-shadow:0 6px 0 rgba(0,0,0,0.2);opacity:0.9}
+/* Home overlay with cheerful colors */
+.overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10;background:linear-gradient(180deg, rgba(135,206,235,0.9), rgba(100,180,230,0.95));backdrop-filter:blur(2px)}
+.title{font-family:'Bangers',cursive;font-size:72px;color:#FF3300;text-align:center;text-shadow:0 6px 20px rgba(255,90,0,0.85), 4px 4px 0 #FFD700, -4px -4px 0 #4CAF50;}
+.subtitle{font-size:26px;color:#4A235A;text-shadow:0 3px 6px rgba(0,0,0,0.2);margin-top:6px;font-weight:700;}
+.play-btn{margin-top:36px;padding:22px 56px;font-family:'Bangers',cursive;font-size:48px;background:linear-gradient(180deg,#FF5722,#E64A19);border-radius:28px;border:6px solid #FFD700;color:#fff;cursor:pointer;box-shadow:0 12px 0 rgba(0,0,0,0.6),0 0 30px rgba(255,90,0,0.6);transition:all 0.2s}
+.play-btn:hover{background:linear-gradient(180deg,#FF7043,#FF5722);transform:scale(1.05)}
+.play-btn:active{transform:translateY(2px)}
+/* Home button during gameplay - CHANGED TEXT TO "BACK" */
+.home-btn-game{position:absolute;top:20px;left:20px;z-index:12;padding:14px 28px;font-family:'Bangers',cursive;font-size:24px;background:linear-gradient(180deg,#4CAF50,#2E7D32);border-radius:15px;border:4px solid #FFD700;color:#fff;cursor:pointer;box-shadow:0 8px 0 rgba(0,0,0,0.5),0 0 20px rgba(76,175,80,0.5);transition:all 0.2s;display:none}
+.home-btn-game:hover{background:linear-gradient(180deg,#66BB6A,#4CAF50);transform:scale(1.05)}
+.home-btn-game:active{transform:translateY(2px)}
+/* Store button during gameplay - MOVED BELOW BACK BUTTON */
+.store-btn-game{position:absolute;top:80px;left:20px;z-index:12;padding:14px 28px;font-family:'Bangers',cursive;font-size:24px;background:linear-gradient(180deg,#FF9800,#F57C00);border-radius:15px;border:4px solid #FFD700;color:#fff;cursor:pointer;box-shadow:0 8px 0 rgba(0,0,0,0.5),0 0 20px rgba(255,152,0,0.5);transition:all 0.2s;display:none}
+.store-btn-game:hover{background:linear-gradient(180deg,#FFB74D,#FF9800);transform:scale(1.05)}
+.store-btn-game:active{transform:translateY(2px)}
+/* Game Over overlay - ADDED MISSING STYLES */
+.game-over-overlay{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;z-index:30;background:linear-gradient(180deg, rgba(231,76,60,0.95), rgba(192,57,43,0.98));backdrop-filter:blur(4px)}
+.winner-overlay{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;z-index:30;background:linear-gradient(180deg, rgba(76,175,80,0.95), rgba(46,125,50,0.98));backdrop-filter:blur(4px)}
+.game-over-title{font-family:'Bangers',cursive;font-size:72px;color:#FFD700;text-shadow:0 6px 20px rgba(0,0,0,0.8), 4px 4px 0 #FF3300;margin-bottom:20px}
+.winner-title{font-family:'Bangers',cursive;font-size:72px;color:#FFD700;text-shadow:0 6px 20px rgba(76,175,80,0.8), 4px 4px 0 #FFD700;margin-bottom:20px}
+.game-over-message{font-size:32px;color:#fff;text-align:center;margin-bottom:30px;font-weight:700}
+.game-over-score{font-size:42px;color:#FFD700;font-family:'Bangers',cursive;margin-bottom:15px;text-shadow:2px 2px 0 #000}
+.restart-btn{margin-top:30px;padding:20px 50px;font-family:'Bangers',cursive;font-size:36px;background:linear-gradient(180deg,#4CAF50,#2E7D32);border-radius:20px;border:6px solid #FFD700;color:#fff;cursor:pointer;box-shadow:0 10px 0 rgba(0,0,0,0.6),0 0 25px rgba(76,175,80,0.7);transition:all 0.2s}
+.restart-btn:hover{background:linear-gradient(180deg,#66BB6A,#4CAF50);transform:scale(1.05)}
+.restart-btn:active{transform:translateY(2px)}
+/* Homepage button */
+.homepage-btn{margin-top:20px;padding:16px 40px;font-family:'Bangers',cursive;font-size:28px;background:linear-gradient(180deg,#FF9800,#F57C00);border-radius:20px;border:4px solid #FFD700;color:#fff;cursor:pointer;box-shadow:0 8px 0 rgba(0,0,0,0.6),0 0 20px rgba(255,152,0,0.6);transition:all 0.2s}
+.homepage-btn:hover{background:linear-gradient(180deg,#FFB74D,#FF9800);transform:scale(1.05)}
+.homepage-btn:active{transform:translateY(2px)}
+/* CHANGED: Shop button on Game Over and You Win screens - TEXT CHANGED TO "HOME" AND COLOR TO ORANGE */
+.back-to-home-btn{margin-top:20px;padding:16px 40px;font-family:'Bangers',cursive;font-size:28px;background:linear-gradient(180deg,#FF9800,#F57C00);border-radius:20px;border:4px solid #FFD700;color:#fff;cursor:pointer;box-shadow:0 8px 0 rgba(0,0,0,0.6),0 0 20px rgba(255,152,0,0.7);transition:all 0.2s}
+.back-to-home-btn:hover{background:linear-gradient(180deg,#FFB74D,#FF9800);transform:scale(1.05)}
+.back-to-home-btn:active{transform:translateY(2px)}
+/* Shop button - MOVED TO HOME SCREEN */
+.home-buttons-container{display:flex;gap:20px;margin-top:30px;flex-wrap:wrap;justify-content:center;}
+.store-btn-home{padding:18px 32px;font-family:'Bangers',cursive;font-size:28px;border-radius:20px;border:5px solid #FFD700;color:#fff;cursor:pointer;box-shadow:0 8px 0 rgba(0,0,0,0.5),0 0 20px rgba(255,215,0,0.5);transition:all 0.2s;display:flex;align-items:center;gap:10px;justify-content:center;background:linear-gradient(180deg,#FF9800,#F57C00);}
+.store-btn-home:hover{background:linear-gradient(180deg,#FFB74D,#FF9800);transform:scale(1.05)}
+.store-btn-home:active{transform:translateY(2px)}
+.store-icon{font-size:28px;}
+
+/* Combined Store Overlay - SIDE BY SIDE LAYOUT */
+.store-overlay{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;z-index:25;background:linear-gradient(180deg, rgba(255,235,59,0.95), rgba(255,193,7,0.98));backdrop-filter:blur(4px);padding:20px;overflow:hidden;}
+.store-wrapper{display:flex;width:95%;max-width:1400px;max-height:85vh;gap:20px;height:85vh;}
+
+/* Character Preview Section - LEFT SIDE - FIXED SIZE */
+.character-preview-section{flex:0 0 400px;background:rgba(255,255,255,0.95);border-radius:25px;border:8px solid #FF5722;padding:25px;display:flex;flex-direction:column;align-items:center;box-shadow:0 15px 40px rgba(0,0,0,0.3);overflow:hidden;height:100%;}
+.preview-title{font-family:'Bangers',cursive;font-size:38px;color:#FF5722;margin-bottom:20px;text-align:center;text-shadow:2px 2px 0 #FFD700;width:100%;}
+.character-preview-container{width:100%;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;}
+.character-preview-display{width:280px;height:420px;position:relative;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg, #F5F5F5, #E0E0E0);border-radius:20px;border:5px solid #333;box-shadow:0 10px 25px rgba(0,0,0,0.2);margin-bottom:25px;overflow:hidden;}
+.preview-info-container{width:100%;background:#FFEB3B;border-radius:15px;border:4px solid #FF9800;padding:20px;margin-bottom:20px;box-shadow:0 5px 15px rgba(255,152,0,0.3);}
+.preview-info{font-size:20px;color:#333;text-align:center;font-weight:bold;margin-bottom:10px;}
+.preview-note{font-size:16px;color:#666;text-align:center;line-height:1.5;}
+.current-items{width:100%;background:#E1F5FE;border-radius:15px;padding:20px;border:4px solid #0288D1;box-shadow:0 5px 15px rgba(2,136,209,0.3);}
+.current-items-title{font-family:'Bangers',cursive;font-size:26px;color:#0288D1;margin-bottom:15px;text-align:center;text-shadow:1px 1px 0 #FFF;}
+.current-items-list{font-size:16px;color:#333;line-height:1.6;max-height:120px;overflow-y:auto;padding-right:10px;}
+.current-items-list::-webkit-scrollbar{width:8px;}
+.current-items-list::-webkit-scrollbar-track{background:#F1F1F1;border-radius:4px;}
+.current-items-list::-webkit-scrollbar-thumb{background:#0288D1;border-radius:4px;}
+.current-items-list::-webkit-scrollbar-thumb:hover{background:#0277BD;}
+
+/* Store Container - RIGHT SIDE */
+.store-container{flex:1;background:rgba(255,255,255,0.95);border-radius:25px;border:8px solid #4CAF50;padding:30px;overflow:hidden;box-shadow:0 15px 40px rgba(0,0,0,0.3);display:flex;flex-direction:column;height:100%;}
+.store-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px;}
+/* CHANGED: "Roblox Store" to "Shop" */
+.store-title{font-family:'Bangers',cursive;font-size:44px;color:#4CAF50;text-shadow:2px 2px 0 #FFD700;}
+.store-close{background:#FF5722;border:none;border-radius:50%;width:45px;height:45px;color:white;font-size:26px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 0 rgba(0,0,0,0.2);transition:all 0.2s;}
+.store-close:hover{background:#E64A19;transform:scale(1.1);}
+.store-balance{font-size:30px;color:#FF9800;font-weight:bold;margin-bottom:25px;text-align:center;display:flex;align-items:center;justify-content:center;gap:12px;background:#FFF8E1;padding:12px 20px;border-radius:15px;border:4px solid #FFB300;box-shadow:0 5px 15px rgba(255,152,0,0.2);}
+.store-tabs{display:flex;gap:10px;margin-bottom:25px;justify-content:center;flex-wrap:wrap;}
+.tab-btn{padding:14px 28px;background:#4CAF50;color:white;border:none;border-radius:12px;cursor:pointer;font-family:'Comic Neue';font-size:20px;font-weight:bold;transition:all 0.2s;box-shadow:0 4px 0 rgba(0,0,0,0.2);}
+.tab-btn:hover{background:#388E3C;transform:translateY(-2px);}
+.tab-btn.active{background:#FF5722;transform:translateY(-2px);box-shadow:0 6px 12px rgba(255,87,34,0.4);}
+.store-content{display:flex;flex:1;flex-direction:column;overflow:hidden;}
+
+/* Store Items Section */
+.store-items-section{flex:1;overflow-y:auto;padding-right:10px;}
+.store-items-section::-webkit-scrollbar{width:10px;}
+.store-items-section::-webkit-scrollbar-track{background:#F1F1F1;border-radius:5px;}
+.store-items-section::-webkit-scrollbar-thumb{background:#4CAF50;border-radius:5px;}
+.store-items-section::-webkit-scrollbar-thumb:hover{background:#388E3C;}
+.store-items-title{font-family:'Bangers',cursive;font-size:36px;color:#4CAF50;text-shadow:2px 2px 0 #FFD700;margin-bottom:25px;text-align:center;}
+.store-items{display:grid;grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));gap:20px;}
+.store-item{background:#FFF8E1;border-radius:15px;padding:20px;border:4px solid #FFB300;display:flex;flex-direction:column;align-items:center;gap:12px;transition:all 0.3s;box-shadow:0 5px 15px rgba(0,0,0,0.1);}
+.store-item:hover{transform:translateY(-8px);box-shadow:0 10px 25px rgba(0,0,0,0.15);}
+.item-image{width:100px;height:100px;background:linear-gradient(135deg, #E0F7FA, #B3E5FC);border-radius:12px;border:3px solid #0288D1;display:flex;align-items:center;justify-content:center;font-size:42px;box-shadow:0 4px 8px rgba(2,136,209,0.2);}
+.item-name{font-size:20px;font-weight:bold;color:#333;text-align:center;}
+.item-price{font-size:20px;color:#FF9800;font-weight:bold;display:flex;align-items:center;gap:8px;}
+.buy-btn{padding:10px 20px;background:#4CAF50;color:white;border:none;border-radius:8px;cursor:pointer;font-family:'Comic Neue';font-weight:bold;width:100%;transition:all 0.2s;font-size:16px;box-shadow:0 4px 0 rgba(0,0,0,0.2);}
+.buy-btn:hover{background:#388E3C;transform:scale(1.05);}
+.buy-btn.owned{background:#9E9E9B;cursor:default;}
+.remove-btn{padding:10px 20px;background:#FF5722;color:white;border:none;border-radius:8px;cursor:pointer;font-family:'Comic Neue';font-weight:bold;width:100%;transition:all 0.2s;font-size:16px;box-shadow:0 4px 0 rgba(0,0,0,0.2);margin-top:8px;}
+.remove-btn:hover{background:#E64A19;transform:scale(1.05);}
+.try-btn{padding:10px 20px;background:#FF9800;color:white;border:none;border-radius:8px;cursor:pointer;font-family:'Comic Neue';font-weight:bold;width:100%;margin-top:8px;transition:all 0.2s;font-size:16px;box-shadow:0 4px 0 rgba(0,0,0,0.2);}
+.try-btn:hover{background:#F57C00;transform:scale(1.05);}
+.try-btn.active{background:#4CAF50;}
+
+/* Gem animation and counter */
+.gem-animation{position:absolute;z-index:25;font-size:30px;font-weight:bold;pointer-events:none;animation:floatGem 1.5s ease-out forwards;text-shadow:0 0 10px rgba(255,215,0,0.8);}
+@keyframes floatGem{
+  0%{transform:translateY(0) scale(1);opacity:1;}
+  100%{transform:translateY(-100px) scale(0.5);opacity:0;}
+}
+.gem-counter{background:rgba(255,215,0,0.9);border:4px solid #FF9800;padding:10px 18px;border-radius:15px;font-family:'Bangers',cursive;font-size:20px;color:#000;box-shadow:0 6px 0 rgba(0,0,0,0.3);display:flex;align-items:center;gap:8px;}
+.gem-icon{color:#FFD700;text-shadow:0 0 5px rgba(255,215,0,0.8);font-size:24px;}
+/* Reward notification */
+.reward-notification{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(255,235,59,0.95);border:5px solid #4CAF50;border-radius:20px;padding:20px 30px;z-index:30;display:none;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 0 40px rgba(76,175,80,0.7);}
+.reward-title{font-family:'Bangers',cursive;font-size:36px;color:#4CAF50;margin-bottom:10px;}
+.reward-message{font-size:24px;color:#000;margin-bottom:15px;text-align:center;}
+.reward-gems{font-size:32px;color:#FF9800;font-weight:bold;margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+/* Characters region - ROBLOX characters only */
+.row{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(18% + 40px);display:flex;gap:30px;align-items:flex-end;z-index:5;transition:bottom 0.5s ease-out}
+.char-col{width:100px;display:flex;flex-direction:column;align-items:center;position:relative}
+/* Stack container */
+.stack-container{position:relative;min-height:60px;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end}
+.block-stack{display:flex;flex-direction:column-reverse;align-items:center;gap:3px;width:100%;position:absolute;bottom:0;z-index:1}
+.block{width:70px;height:18px;background:linear-gradient(135deg,#FF9800,#FFB74D);border:3px solid #E65100;border-radius:8px;box-shadow:inset 0 -3px 0 rgba(0,0,0,0.25),0 4px 0 rgba(0,0,0,0.35);position:relative;z-index:1}
+
+/* ROBLOX-STYLE CHARACTER - FIXED SIZE FOR PREVIEW */
+.roblox-character {
+  width: 80px;
+  height: 120px;
+  position: relative;
+  margin-bottom: 0;
+  z-index: 6;
+}
+
+/* FIXED: Smaller character for store preview */
+.roblox-character.preview-large {
+  width: 120px;  /* Reduced from 160px */
+  height: 180px; /* Reduced from 240px */
+  transform: scale(1); /* Changed from scale(2) */
+  transform-origin: center center;
+}
+
+/* HEAD - Rounded cylinder/pill shape */
+.rb-head {
+  width: 40px;
+  height: 40px;
+  background: #D4A5A5;
+  border-radius: 20px;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 
+    inset -4px -4px 8px rgba(0,0,0,0.2),
+    2px 2px 6px rgba(0,0,0,0.3);
+  z-index: 7;
+}
+
+.preview-large .rb-head {
+  width: 60px;  /* Reduced from 80px */
+  height: 60px; /* Reduced from 80px */
+  border-radius: 30px; /* Reduced from 40px */
+}
+
+/* FACE */
+.rb-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.rb-eye {
+  width: 6px;
+  height: 6px;
+  background: #000;
+  border-radius: 50%;
+  position: absolute;
+  top: 14px;
+}
+
+.preview-large .rb-eye {
+  width: 9px;  /* Reduced from 12px */
+  height: 9px; /* Reduced from 12px */
+  top: 21px;  /* Adjusted from 28px */
+}
+
+.rb-eye.left {
+  left: 10px;
+}
+
+.preview-large .rb-eye.left {
+  left: 15px; /* Reduced from 20px */
+}
+
+.rb-eye.right {
+  right: 10px;
+}
+
+.preview-large .rb-eye.right {
+  right: 15px; /* Reduced from 20px */
+}
+
+/* FIXED: BLACK SMILING MOUTH - ALWAYS SMILING */
+.rb-mouth {
+  width: 12px;
+  height: 6px;
+  border: 2px solid #000;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.preview-large .rb-mouth {
+  width: 18px;  /* Reduced from 24px */
+  height: 9px;  /* Reduced from 12px */
+  bottom: 15px; /* Adjusted from 20px */
+  border-width: 2px; /* Reduced from 3px */
+  border-radius: 0 0 9px 9px; /* Adjusted */
+}
+
+/* REMOVED THE GREEN SMILE STYLE - KEEP ONLY BLACK SMILING MOUTH */
+.rb-mouth.smiling {
+  /* Changed from green to black smile */
+  border: 2px solid #000;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  height: 6px;
+  bottom: 10px;
+}
+
+.preview-large .rb-mouth.smiling {
+  /* Changed from green to black smile */
+  border: 2px solid #000;
+  border-top: none;
+  border-radius: 0 0 9px 9px;
+  height: 9px;
+  bottom: 15px;
+}
+
+/* TORSO - Rectangular blocky shape */
+.rb-torso {
+  width: 42px;
+  height: 50px;
+  background: #5B9BD5;
+  position: absolute;
+  top: 45px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 4px;
+  box-shadow: 
+    inset -3px -3px 6px rgba(0,0,0,0.25),
+    2px 2px 6px rgba(0,0,0,0.3);
+  z-index: 6;
+}
+
+.preview-large .rb-torso {
+  width: 63px;  /* Reduced from 84px */
+  height: 75px; /* Reduced from 100px */
+  top: 67px;   /* Adjusted from 90px */
+  border-radius: 6px; /* Reduced from 8px */
+}
+
+/* ARMS - Cylindrical blocky arms */
+.rb-arm {
+  width: 14px;
+  height: 45px;
+  background: #D4A5A5;
+  position: absolute;
+  top: 48px;
+  border-radius: 7px;
+  box-shadow: 
+    inset -2px -2px 4px rgba(0,0,0,0.2),
+    1px 1px 4px rgba(0,0,0,0.3);
+  z-index: 5;
+}
+
+.preview-large .rb-arm {
+  width: 21px;  /* Reduced from 28px */
+  height: 67px; /* Reduced from 90px */
+  top: 72px;   /* Adjusted from 96px */
+  border-radius: 10px; /* Reduced from 14px */
+}
+
+.rb-arm.left {
+  left: 6px;
+  transform: rotate(-5deg);
+}
+
+.preview-large .rb-arm.left {
+  left: 9px; /* Reduced from 12px */
+}
+
+.rb-arm.right {
+  right: 6px;
+  transform: rotate(5deg);
+}
+
+.preview-large .rb-arm.right {
+  right: 9px; /* Reduced from 12px */
+}
+
+/* LEGS - Cylindrical blocky legs - TIGHTENED SPACING */
+.legs-container {
+  position: absolute;
+  top: 95px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 42px; /* Reduced from 50px to tighten spacing */
+  height: 55px;
+  display: flex;
+  justify-content: space-between;
+  z-index: 5;
+}
+
+.preview-large .legs-container {
+  width: 63px;  /* Reduced from 84px */
+  height: 82px; /* Reduced from 110px */
+  top: 142px;  /* Adjusted from 190px */
+}
+
+.rb-leg {
+  width: 18px;
+  height: 55px;
+  background: #2F5F7F;
+  border-radius: 9px 9px 4px 4px;
+  box-shadow: 
+    inset -2px -2px 4px rgba(0,0,0,0.3),
+    1px 1px 4px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+.preview-large .rb-leg {
+  width: 27px;  /* Reduced from 36px */
+  height: 82px; /* Reduced from 110px */
+  border-radius: 13px 13px 6px 6px; /* Adjusted */
+}
+
+.rb-leg.left {
+  margin-right: 6px; /* Reduced from 10px to tighten spacing */
+}
+
+.preview-large .rb-leg.left {
+  margin-right: 9px; /* Reduced from 12px */
+}
+
+.rb-leg.right {
+  margin-left: 6px; /* Reduced from 10px to tighten spacing */
+}
+
+.preview-large .rb-leg.right {
+  margin-left: 9px; /* Reduced from 12px */
+}
+
+/* SHOES/FEET */
+.rb-shoe {
+  width: 20px;
+  height: 10px;
+  background: #1a3a4a;
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 0 0 10px 10px;
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+  z-index: 4;
+}
+
+.preview-large .rb-shoe {
+  width: 30px;  /* Reduced from 40px */
+  height: 15px; /* Reduced from 20px */
+  bottom: -9px; /* Adjusted from -12px */
+  border-radius: 0 0 15px 15px; /* Adjusted */
+}
+
+/* =========================================================== */
+/* FIXED: ITEM DESIGNS THAT MATCH THE PICTURES EXACTLY */
+/* =========================================================== */
+
+/* CLASSIC POLO SHIRT - MATCHES PICTURE EXACTLY */
+.rb-classic-polo {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 6;
+}
+
+.rb-classic-polo .shirt-base {
+  width: 42px;
+  height: 50px;
+  background: #1E88E5;
+  position: absolute;
+  top: 45px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 4px;
+  box-shadow: 
+    inset -3px -3px 6px rgba(0,0,0,0.25),
+    2px 2px 6px rgba(0,0,0,0.3);
+  z-index: 6;
+}
+
+.preview-large .rb-classic-polo .shirt-base {
+  width: 63px;
+  height: 75px;
+  top: 67px;
+  border-radius: 6px;
+}
+
+.rb-classic-polo .collar {
+  position: absolute;
+  top: 43px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 44px;
+  height: 8px;
+  background: #0D47A1;
+  border-radius: 4px 4px 0 0;
+  z-index: 7;
+}
+
+.preview-large .rb-classic-polo .collar {
+  width: 66px;
+  height: 12px;
+  top: 65px;
+}
+
+.rb-classic-polo .button {
+  position: absolute;
+  top: 52px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  background: #FFD700;
+  border-radius: 50%;
+  z-index: 7;
+}
+
+.preview-large .rb-classic-polo .button {
+  width: 9px;
+  height: 9px;
+  top: 78px;
+}
+
+/* DRESS SHIRT - FORMAL BUTTON-UP - MATCHES PICTURE EXACTLY */
+.rb-dress-shirt {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 6;
+}
+
+.rb-dress-shirt .shirt-base {
+  width: 42px;
+  height: 50px;
+  background: #FFFFFF;
+  position: absolute;
+  top: 45px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 4px;
+  box-shadow: 
+    inset -3px -3px 6px rgba(0,0,0,0.2),
+    2px 2px 6px rgba(0,0,0,0.3);
+  z-index: 6;
+  border: 1px solid #B0BEC5;
+}
+
+.preview-large .rb-dress-shirt .shirt-base {
+  width: 63px;
+  height: 75px;
+  top: 67px;
+  border-radius: 6px;
+  border: 2px solid #B0BEC5;
+}
+
+.rb-dress-shirt .buttons {
+  position: absolute;
+  top: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 40px;
+  z-index: 7;
+}
+
+.preview-large .rb-dress-shirt .buttons {
+  width: 45px;
+  height: 60px;
+  top: 72px;
+}
+
+.rb-dress-shirt .button {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 5px;
+  background: #78909C;
+  border-radius: 50%;
+}
+
+.rb-dress-shirt .button:nth-child(1) { top: 5px; }
+.rb-dress-shirt .button:nth-child(2) { top: 15px; }
+.rb-dress-shirt .button:nth-child(3) { top: 25px; }
+
+.preview-large .rb-dress-shirt .button {
+  width: 7px;
+  height: 7px;
+}
+
+.preview-large .rb-dress-shirt .button:nth-child(1) { top: 7px; }
+.preview-large .rb-dress-shirt .button:nth-child(2) { top: 22px; }
+.preview-large .rb-dress-shirt .button:nth-child(3) { top: 37px; }
+
+/* STRIPED SHIRT - CASUAL PATTERN - MATCHES PICTURE EXACTLY */
+.rb-striped-shirt {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 6;
+}
+
+.rb-striped-shirt .shirt-base {
+  width: 42px;
+  height: 50px;
+  background: repeating-linear-gradient(45deg, #2196F3, #2196F3 5px, #1976D2 5px, #1976D2 10px);
+  position: absolute;
+  top: 45px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 4px;
+  box-shadow: 
+    inset -3px -3px 6px rgba(0,0,0,0.25),
+    2px 2px 6px rgba(0,0,0,0.3);
+  z-index: 6;
+}
+
+.preview-large .rb-striped-shirt .shirt-base {
+  width: 63px;
+  height: 75px;
+  top: 67px;
+  border-radius: 6px;
+}
+
+/* CHINO PANTS - MATCHES PICTURE EXACTLY */
+.rb-chino-pants {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 5;
+}
+
+.rb-chino-pants .pants-base {
+  width: 18px;
+  height: 55px;
+  background: #795548;
+  border-radius: 9px 9px 4px 4px;
+  box-shadow: 
+    inset -2px -2px 4px rgba(0,0,0,0.3),
+    1px 1px 4px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+.preview-large .rb-chino-pants .pants-base {
+  width: 27px;
+  height: 82px;
+  border-radius: 13px 13px 6px 6px;
+}
+
+/* DRESS PANTS - FORMAL BLACK - MATCHES PICTURE EXACTLY */
+.rb-dress-pants {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 5;
+}
+
+.rb-dress-pants .pants-base {
+  width: 18px;
+  height: 55px;
+  background: #212121;
+  border-radius: 9px 9px 4px 4px;
+  box-shadow: 
+    inset -2px -2px 4px rgba(0,0,0,0.3),
+    1px 1px 4px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+.preview-large .rb-dress-pants .pants-base {
+  width: 27px;
+  height: 82px;
+  border-radius: 13px 13px 6px 6px;
+}
+
+/* DENIM JEANS - MATCHES PICTURE EXACTLY */
+.rb-jeans {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 5;
+}
+
+.rb-jeans .pants-base {
+  width: 18px;
+  height: 55px;
+  background: #1565C0;
+  border-radius: 9px 9px 4px 4px;
+  box-shadow: 
+    inset -2px -2px 4px rgba(0,0,0,0.3),
+    1px 1px 4px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+.preview-large .rb-jeans .pants-base {
+  width: 27px;
+  height: 82px;
+  border-radius: 13px 13px 6px 6px;
+}
+
+/* CARGO PANTS - MATCHES PICTURE EXACTLY */
+.rb-cargo-pants {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 5;
+}
+
+.rb-cargo-pants .pants-base {
+  width: 18px;
+  height: 55px;
+  background: #5D4037;
+  border-radius: 9px 9px 4px 4px;
+  box-shadow: 
+    inset -2px -2px 4px rgba(0,0,0,0.3),
+    1px 1px 4px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+.preview-large .rb-cargo-pants .pants-base {
+  width: 27px;
+  height: 82px;
+  border-radius: 13px 13px 6px 6px;
+}
+
+.rb-cargo-pants .pocket {
+  position: absolute;
+  top: 15px;
+  left: -4px;
+  width: 10px;
+  height: 8px;
+  background: #4E342E;
+  border: 1px solid #3E2723;
+  border-radius: 2px;
+}
+
+.preview-large .rb-cargo-pants .pocket {
+  width: 15px;
+  height: 12px;
+  top: 22px;
+  left: -6px;
+}
+
+/* TRACK PANTS - ATHLETIC - MATCHES PICTURE EXACTLY */
+.rb-track-pants {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 5;
+}
+
+.rb-track-pants .pants-base {
+  width: 18px;
+  height: 55px;
+  background: #263238;
+  border-radius: 9px 9px 4px 4px;
+  box-shadow: 
+    inset -2px -2px 4px rgba(0,0,0,0.3),
+    1px 1px 4px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+.preview-large .rb-track-pants .pants-base {
+  width: 27px;
+  height: 82px;
+  border-radius: 13px 13px 6px 6px;
+}
+
+.rb-track-pants .stripe {
+  position: absolute;
+  top: 20px;
+  left: 2px;
+  width: 14px;
+  height: 3px;
+  background: #FF5722;
+}
+
+.preview-large .rb-track-pants .stripe {
+  width: 21px;
+  height: 4px;
+  top: 30px;
+  left: 3px;
+}
+
+/* =========================================================== */
+/* END OF ITEM DESIGNS */
+/* =========================================================== */
+
+/* =========================================================== */
+/* NEW TOP DESIGNS - THREE ADDITIONAL SHIRTS - INCLUDING SLEEVELESS UNDERSHIRT */
+/* =========================================================== */
+
+/* SLEEVELESS UNDERSHIRT - Tank top design */
+.rb-sleeveless-undershirt {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 6;
+  display: none;
+}
+
+.rb-sleeveless-undershirt .shirt-base {
+  width: 42px;
+  height: 50px;
+  background: #FFFFFF;
+  position: absolute;
+  top: 45px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 4px;
+  box-shadow: 
+    inset -3px -3px 6px rgba(0,0,0,0.25),
+    2px 2px 6px rgba(0,0,0,0.3);
+  z-index: 6;
+}
+
+.preview-large .rb-sleeveless-undershirt .shirt-base {
+  width: 63px;
+  height: 75px;
+  top: 67px;
+  border-radius: 6px;
+}
+
+.rb-sleeveless-undershirt .arm-holes {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.rb-sleeveless-undershirt .arm-hole {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: #5B9BD5;
+  border-radius: 50%;
+  top: 55px;
+}
+
+.rb-sleeveless-undershirt .arm-hole.left {
+  left: 3px;
+}
+
+.rb-sleeveless-undershirt .arm-hole.right {
+  right: 3px;
+}
+
+.preview-large .rb-sleeveless-undershirt .arm-hole {
+  width: 24px;
+  height: 24px;
+  top: 82px;
+}
+
+.preview-large .rb-sleeveless-undershirt .arm-hole.left {
+  left: 4px;
+}
+
+.preview-large .rb-sleeveless-undershirt .arm-hole.right {
+  right: 4px;
+}
+
+.rb-sleeveless-undershirt .neck-hole {
+  position: absolute;
+  top: 43px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 10px;
+  background: #5B9BD5;
+  border-radius: 0 0 10px 10px;
+  z-index: 7;
+}
+
+.preview-large .rb-sleeveless-undershirt .neck-hole {
+  width: 30px;
+  height: 15px;
+  top: 65px;
+}
+
+/* GRAPHIC T-SHIRT - Casual t-shirt with design */
+.rb-graphic-tshirt {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 6;
+  display: none;
+}
+
+.rb-graphic-tshirt .shirt-base {
+  width: 42px;
+  height: 50px;
+  background: #FF5722;
+  position: absolute;
+  top: 45px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 4px;
+  box-shadow: 
+    inset -3px -3px 6px rgba(0,0,0,0.25),
+    2px 2px 6px rgba(0,0,0,0.3);
+  z-index: 6;
+}
+
+.preview-large .rb-graphic-tshirt .shirt-base {
+  width: 63px;
+  height: 75px;
+  top: 67px;
+  border-radius: 6px;
+}
+
+.rb-graphic-tshirt .graphic {
+  position: absolute;
+  top: 55px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 25px;
+  height: 25px;
+  background: #FFD700;
+  border-radius: 50%;
+  border: 2px solid #000;
+  z-index: 7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #000;
+}
+
+.preview-large .rb-graphic-tshirt .graphic {
+  width: 37px;
+  height: 37px;
+  top: 82px;
+  font-size: 24px;
+}
+
+.rb-graphic-tshirt .sleeves {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.rb-graphic-tshirt .sleeve {
+  position: absolute;
+  width: 12px;
+  height: 20px;
+  background: #FF5722;
+  border-radius: 6px;
+  top: 48px;
+}
+
+.rb-graphic-tshirt .sleeve.left {
+  left: 5px;
+  transform: rotate(-10deg);
+}
+
+.rb-graphic-tshirt .sleeve.right {
+  right: 5px;
+  transform: rotate(10deg);
+}
+
+.preview-large .rb-graphic-tshirt .sleeve {
+  width: 18px;
+  height: 30px;
+  top: 72px;
+}
+
+/* VEST - Formal vest */
+.rb-vest {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 6;
+  display: none;
+}
+
+.rb-vest .vest-base {
+  width: 42px;
+  height: 50px;
+  background: #212121;
+  position: absolute;
+  top: 45px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 4px;
+  box-shadow: 
+    inset -3px -3px 6px rgba(0,0,0,0.25),
+    2px 2px 6px rgba(0,0,0,0.3);
+  z-index: 6;
+}
+
+.preview-large .rb-vest .vest-base {
+  width: 63px;
+  height: 75px;
+  top: 67px;
+  border-radius: 6px;
+}
+
+.rb-vest .buttons {
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 30px;
+  z-index: 7;
+}
+
+.preview-large .rb-vest .buttons {
+  width: 30px;
+  height: 45px;
+  top: 75px;
+}
+
+.rb-vest .button {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 5px;
+  background: #FFD700;
+  border-radius: 50%;
+}
+
+.rb-vest .button:nth-child(1) { top: 5px; }
+.rb-vest .button:nth-child(2) { top: 15px; }
+
+.preview-large .rb-vest .button {
+  width: 7px;
+  height: 7px;
+}
+
+.preview-large .rb-vest .button:nth-child(1) { top: 7px; }
+.preview-large .rb-vest .button:nth-child(2) { top: 22px; }
+
+/* SPORT POLO - Athletic polo shirt */
+.rb-sport-polo {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 6;
+  display: none;
+}
+
+.rb-sport-polo .shirt-base {
+  width: 42px;
+  height: 50px;
+  background: linear-gradient(135deg, #FF5722, #E64A19);
+  position: absolute;
+  top: 45px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 4px;
+  box-shadow: 
+    inset -3px -3px 6px rgba(0,0,0,0.25),
+    2px 2px 6px rgba(0,0,0,0.3);
+  z-index: 6;
+}
+
+.preview-large .rb-sport-polo .shirt-base {
+  width: 63px;
+  height: 75px;
+  top: 67px;
+  border-radius: 6px;
+}
+
+.rb-sport-polo .collar {
+  position: absolute;
+  top: 43px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 44px;
+  height: 8px;
+  background: #BF360C;
+  border-radius: 4px 4px 0 0;
+  z-index: 7;
+}
+
+.preview-large .rb-sport-polo .collar {
+  width: 66px;
+  height: 12px;
+  top: 65px;
+}
+
+.rb-sport-polo .stripe {
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 25px;
+  height: 3px;
+  background: #FFFFFF;
+  z-index: 7;
+}
+
+.preview-large .rb-sport-polo .stripe {
+  width: 37px;
+  height: 4px;
+  top: 75px;
+}
+
+/* CHECKERED SHIRT - Patterned shirt */
+.rb-checkered-shirt {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 6;
+  display: none;
+}
+
+.rb-checkered-shirt .shirt-base {
+  width: 42px;
+  height: 50px;
+  background: 
+    repeating-linear-gradient(
+      to right,
+      #4CAF50,
+      #4CAF50 5px,
+      #FFFFFF 5px,
+      #FFFFFF 10px
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      #4CAF50,
+      #4CAF50 5px,
+      #FFFFFF 5px,
+      #FFFFFF 10px
+    );
+  background-blend-mode: multiply;
+  position: absolute;
+  top: 45px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 4px;
+  box-shadow: 
+    inset -3px -3px 6px rgba(0,0,0,0.25),
+    2px 2px 6px rgba(0,0,0,0.3);
+  z-index: 6;
+}
+
+.preview-large .rb-checkered-shirt .shirt-base {
+  width: 63px;
+  height: 75px;
+  top: 67px;
+  border-radius: 6px;
+}
+
+.rb-checkered-shirt .buttons {
+  position: absolute;
+  top: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 40px;
+  z-index: 7;
+}
+
+.preview-large .rb-checkered-shirt .buttons {
+  width: 45px;
+  height: 60px;
+  top: 72px;
+}
+
+.rb-checkered-shirt .button {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 5px;
+  background: #78909C;
+  border-radius: 50%;
+}
+
+.rb-checkered-shirt .button:nth-child(1) { top: 5px; }
+.rb-checkered-shirt .button:nth-child(2) { top: 15px; }
+.rb-checkered-shirt .button:nth-child(3) { top: 25px; }
+
+.preview-large .rb-checkered-shirt .button {
+  width: 7px;
+  height: 7px;
+}
+
+.preview-large .rb-checkered-shirt .button:nth-child(1) { top: 7px; }
+.preview-large .rb-checkered-shirt .button:nth-child(2) { top: 22px; }
+.preview-large .rb-checkered-shirt .button:nth-child(3) { top: 37px; }
+
+/* =========================================================== */
+/* END OF NEW TOP DESIGNS */
+/* =========================================================== */
+
+/* === TOP HAT BASE === */
+.rb-hat {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 22px;
+  background: #f7f7f7;
+  border: 2px solid #000;
+  border-radius: 6px 6px 4px 4px;
+  z-index: 6; /* nasa ibabaw ng ulo */
+  display: none;
+}
+
+/* === HAT BRIM === */
+.rb-hat::before {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 56px;
+  height: 12px;
+  background: #f0eeed;
+  border: 2px solid #000;
+  border-radius: 50%;
+  z-index: 1; /* NASA LIKOD */
+}
+
+/* === INNER SHADOW (DEPTH) === */
+.rb-hat::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 1px;
+  right: 1px;
+  height: 6px;
+  background: rgb(141, 138, 138);
+  border-radius: 50%;
+}
+
+/* === LARGE PREVIEW === */
+.preview-large .rb-hat {
+  width: 40px;
+  height: 40px;
+  top: -30px;
+  border-width: 3px;
+}
+
+.preview-large .rb-hat::before {
+  width: 80px;
+  height: 16px;
+  bottom: -9px;
+  border-width: 3px;
+}
+
+.head {
+  position: relative;
+  z-index: 6; /* ulo ang nasa gitna */
+  }
+
+
+
+/* FIXED: Eyeglasses on eyes - properly positioned */
+.rb-glasses {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 35px;
+  height: 15px;
+  display: none;
+  z-index: 8;
+}
+
+.preview-large .rb-glasses {
+  width: 52px;  /* Reduced from 70px */
+  height: 22px; /* Reduced from 30px */
+  top: 21px;   /* Adjusted from 30px to fit eyes properly */
+}
+
+/* FIXED: Eye glasses that fit properly on both eyes */
+.rb-glasses-frame {
+  position: absolute;
+  width: 35px;
+  height: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.preview-large .rb-glasses-frame {
+  width: 52px;
+  height: 10px;
+}
+
+.rb-glasses-lens {
+  width: 30px;
+  height: 15px;
+  border: 2px solid #000;
+  border-radius: 50%;
+  background: rgb(2, 23, 130);
+}
+
+.preview-large .rb-glasses-lens {
+  width: 70px;
+  height: 20px;
+  border-width: 3px;
+}
+
+.rb-glasses-bridge {
+  width: 10px;
+  height: 2px;
+  background: #000;
+}
+
+.preview-large .rb-glasses-bridge {
+  width: 18px;
+  height: 4px;
+}
+
+/* FIXED: Backpack on back - properly positioned at the back */
+.rb-backpack {
+  position: absolute;
+  top: 60px;
+  right: -18px; /* Changed from left: -20px to right: -18px for back position */
+  width: 20px;
+  height: 35px;
+  background: #795548;
+  border: 2px solid #000;
+  border-radius: 5px;
+  display: none;
+  z-index: 4;
+}
+
+.preview-large .rb-backpack {
+  width: 30px;  /* Reduced from 40px */
+  height: 52px; /* Reduced from 70px */
+  top: 90px;   /* Adjusted from 100px to match torso better */
+  right: -27px; /* Adjusted from -40px */
+  border-width: 3px; /* Reduced from 4px */
+  border-radius: 7px; /* Reduced from 10px */
+}
+
+.rb-backpack-strap {
+  position: absolute;
+  top: 5px;
+  left: -6px; /* Changed from right: -6px to left: -6px */
+  width: 6px;
+  height: 30px;
+  background: #5D4037;
+  border: 1px solid #000;
+}
+
+.preview-large .rb-backpack-strap {
+  width: 9px;  /* Reduced from 12px */
+  height: 45px; /* Reduced from 60px */
+  top: 7px;   /* Adjusted from 10px */
+  left: -9px; /* Adjusted from -12px */
+  border-width: 1.5px; /* Reduced from 2px */
+}
+
+/* FIXED: Backpack shoulder straps - only straps visible on shoulders */
+.rb-backpack-straps {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.rb-backpack-shoulder-strap {
+  position: absolute;
+  background: #5D4037;
+  border: 1px solid #000;
+}
+
+.rb-backpack-shoulder-strap.left {
+  width: 4px;
+  height: 20px;
+  top: 15px;
+  left: 15px;
+  transform: rotate(10deg);
+}
+
+.rb-backpack-shoulder-strap.right {
+  width: 4px;
+  height: 20px;
+  top: 15px;
+  right: 15px;
+  transform: rotate(-10deg);
+}
+
+.preview-large .rb-backpack-shoulder-strap.left,
+.preview-large .rb-backpack-shoulder-strap.right {
+  width: 6px;
+  height: 30px;
+  top: 22px;
+}
+
+.preview-large .rb-backpack-shoulder-strap.left {
+  left: 18px;
+}
+
+.preview-large .rb-backpack-shoulder-strap.right {
+  right: 18px;
+}
+
+/* === NECKLACE - V-shaped chain with pendant === */
+.rb-necklace {
+  position: absolute;
+  top: 45px; /* Positioned at neck level */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px; /* Wider to accommodate V shape */
+  height: 25px;
+  display: none;
+  z-index: 7;
+}
+
+.preview-large .rb-necklace {
+  width: 60px;  /* Wider for V shape */
+  height: 35px;
+  top: 67px;
+}
+
+/* === V-SHAPED CHAIN (using border technique) === */
+.rb-necklace-chain {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+/* Left chain line */
+.rb-necklace-chain::before,
+.rb-necklace-chain::after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  background: linear-gradient(to bottom, #FFD700, #b39700, #FFD700);
+  border-radius: 1px;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+  top: 0;
+}
+
+/* Left side of V */
+.rb-necklace-chain::before {
+  left: 10px;
+  height: 50%;
+  transform: rotate(-30deg);
+  transform-origin: top center;
+}
+
+/* Right side of V */
+.rb-necklace-chain::after {
+  right: 10px;
+  height: 50%;
+  transform: rotate(30deg);
+  transform-origin: top center;
+}
+
+/* Horizontal connector at neck */
+.rb-necklace-chain .chain-connector {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 1px;
+  background: #FFD700;
+  border-radius: 0.5px;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+}
+
+.preview-large .rb-necklace-chain::before,
+.preview-large .rb-necklace-chain::after {
+  width: 3px;
+  border-radius: 1.5px;
+}
+
+.preview-large .rb-necklace-chain::before {
+  left: 8px;
+  height: 75%;
+}
+
+.preview-large .rb-necklace-chain::after {
+  right: 8px;
+  height: 75%;
+}
+
+.preview-large .rb-necklace-chain .chain-connector {
+  width: 30px;
+  height: 2px;
+}
+
+/* === PENDANT (𖤍 symbol) === */
+.rb-necklace-pendant {
+  position: absolute;
+  top: 60%; /* Positioned at bottom of V */
+  left: 50%;
+  transform: translateX(-50%);
+  color: #FFD700;
+  font-size: 16px;
+  text-shadow: 0 0 2px #000, 0 0 3px #000;
+  z-index: 8;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.8));
+  animation: pendant-glow 3s ease-in-out infinite alternate;
+}
+
+@keyframes pendant-glow {
+  0% {
+    text-shadow: 0 0 2px #000, 0 0 3px #000, 0 0 4px #FFD700;
+  }
+  100% {
+    text-shadow: 0 0 3px #000, 0 0 4px #000, 0 0 6px #FFD700, 0 0 8px #FFD700;
+  }
+}
+
+.preview-large .rb-necklace-pendant {
+  font-size: 15px;
+  top: 33%;
+}
+/* =========================================================== */
+/* NEW ACCESSORIES - WATCH, HEADPHONES, RIBBON NECK */
+/* =========================================================== */
+
+/* === WATCH BASE === */
+.rb-watch {
+  position: absolute;
+  top: 75px;
+  right: 8px; /* on wrist */
+  width: 8px; /* Watch face - smaller than bands */
+  height: 8px;
+  background: #faf9f7; /* gold */
+  border: 2px solid #2f2701; /* darker gold outline */
+  border-radius: 50%;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  display: none;
+  z-index: 7;
+}
+
+/* === BAND (left + right) === */
+.rb-watch::before,
+.rb-watch::after {
+  content: "";
+  position: absolute;
+  width: 6px; /* Bands are wider than watch face */
+  height: 3px;
+  background: #010100; /* gold band - changed from brown to match watch */
+  border: 1px solid #050400; /* darker outline */
+  border-radius: 1px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Left band - positioned to connect to watch */
+.rb-watch::before {
+  left: -6px;
+  border-right: none; /* Clean connection to watch */
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* Right band - positioned to connect to watch */
+.rb-watch::after {
+  right: -6px;
+  border-left: none; /* Clean connection to watch */
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+/* === LARGE PREVIEW === */
+.preview-large .rb-watch {
+  width: px; /* Proportionally smaller than bands */
+  height: 8px;
+  top: 113px;
+  right: 15px;
+  border-width: 1px;
+}
+
+.preview-large .rb-watch::before,
+.preview-large .rb-watch::after {
+  width: 4px; /* Bands remain wider than watch face */
+  height: 3px;
+  border-width: 1px;
+}
+
+/* tiny center dot */
+.rb-watch::marker {
+  width: 1px;
+  height: 1px;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #000;
+  z-index: 1;
+}
+
+/* simple minute hand */
+.rb-watch::hand {
+  width: 1px;
+  height: 3px; /* Shorter to fit smaller watch */
+  top: 20%; /* Adjusted position */
+  left: 50%;
+  background: #000;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+
+.rb-headphones {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 60px;
+  display: none;
+  z-index: 6;
+}
+
+.preview-large .rb-headphones {
+  width: 50px;
+  height: 40px;
+  top: -8px;
+}
+
+.rb-headphones-band {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 56px;
+  height: 28px;
+  border: 3px solid #000;
+  border-bottom: none;
+  border-radius: 50px 50px 0 0;
+  background: none;
+  z-index: 1; /* nasa likod */
+}
+
+.preview-large .rb-headphones-band {
+  width: 84px;
+  height: 60px;
+  border-width: 4px;
+}
+
+.rb-headphones-cup {
+  position: absolute;
+  bottom: 0;
+  width: 14px;
+  height: 22px;
+  background: #222;
+  border: 3px solid #000;
+  border-radius: 6px;
+  z-index: 5;
+}
+
+.preview-large .rb-headphones-cup {
+  width: 20px;
+  height: 34px;
+  border-width: 4px;
+}
+
+.rb-headphones-cup.left {
+  left: -3px;
+}
+
+.rb-headphones-cup.right {
+  right: -3px;
+}
+.head {
+  position: relative;
+  z-index: 3;
+}
+
+/* ================================
+   REALISTIC RIBBON NECK (BOW STYLE)
+================================ */
+
+/* Container */
+.rb-ribbon-neck {
+  position: absolute;
+  top: 38px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 46px;
+  height: 26px;
+  display: none;
+  z-index: 8;
+}
+
+/* ================================
+   BOW LOOPS
+================================ */
+
+/* Left loop */
+.rb-ribbon-bow-left {
+  position: absolute;
+  width: 22px;
+  height: 14px;
+  background: #9c0202d6;
+  border-radius: 3px 10px 10px 3px;
+  left: 0;
+  top: 6px;
+  transform: rotate(-12deg);
+  box-shadow: inset 2px 0 3px rgba(255,255,255,0.25);
+}
+
+/* Right loop */
+.rb-ribbon-bow-right {
+  position: absolute;
+  width: 22px;
+  height: 14px;
+  background: #9c0202d6;
+  border-radius: 10px 3px 3px 10px;
+  right: 0;
+  top: 6px;
+  transform: rotate(12deg);
+  box-shadow: inset -2px 0 3px rgba(255,255,255,0.25);
+}
+
+.rb-ribbon-center {
+  position: absolute;
+  width: 8px;
+  height: 10px;
+  background: #7d0101;
+  border-radius: 2px;
+  top: 10px; /* was 8px */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+/* ================================
+   RIBBON TAILS
+================================ */
+.rb-ribbon-end {
+  position: absolute;
+  width: 8px;
+  height: 14px;
+  background: #9c0202d6;
+  top: 18px;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+/* Left tail */
+.rb-ribbon-end.left {
+  left: 12px;
+  transform: rotate(-8deg);
+}
+
+/* Right tail */
+.rb-ribbon-end.right {
+  right: 12px;
+  transform: rotate(8deg);
+}
+
+/* ================================
+   PREVIEW LARGE
+================================ */
+.preview-large .rb-ribbon-neck {
+  width: 64px;
+  height: 36px;
+  top: 56px;
+}
+
+.preview-large .rb-ribbon-bow-left,
+.preview-large .rb-ribbon-bow-right {
+  width: 30px;
+  height: 21px;
+}
+
+.preview-large .rb-ribbon-center {
+  width: 12px;
+  height: 14px;
+}
+
+.preview-large .rb-ribbon-end {
+  width: 12px;
+  height: 22px;
+  top: 26px;
+}
+
+/* =========================================================== */
+/* END OF NEW ACCESSORIES */
+/* =========================================================== */
+
+/* =========================================================== */
+/* FIXED HAIR STYLES - REALISTIC CARTOON-STYLE HAIR */
+/* =========================================================== */
+
+/* HAIR STYLES - Base class for all hair */
+.rb-hair {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  display: none;
+  border-radius: 50% 50% 0 0;
+}
+
+/* 1. SPIKY HAIR - Cartoon style */
+.rb-spiky-hair {
+  width: 48px;
+  height: 30px;
+  background: linear-gradient(to bottom, #8B4513, #D2691E);
+  top: -8px;
+  border-radius: 24px 24px 10px 10px;
+  border: 2px solid #5D4037;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.preview-large .rb-spiky-hair {
+  width: 72px;
+  height: 45px;
+  top: -12px;
+  border-radius: 36px 36px 15px 15px;
+}
+
+/* Add spikes */
+.rb-spiky-hair::before,
+.rb-spiky-hair::after,
+.rb-spiky-hair .hair-spike {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 12px;
+  background: linear-gradient(to bottom, #D2691E, #8B4513);
+  border-radius: 50% 50% 0 0;
+  border: 1px solid #5D4037;
+}
+
+.rb-spiky-hair::before {
+  top: -8px;
+  left: 10px;
+  transform: rotate(15deg);
+}
+
+.rb-spiky-hair::after {
+  top: -8px;
+  right: 10px;
+  transform: rotate(-15deg);
+}
+
+.preview-large .rb-spiky-hair::before,
+.preview-large .rb-spiky-hair::after {
+  width: 15px;
+  height: 18px;
+  top: -12px;
+}
+
+.preview-large .rb-spiky-hair::before {
+  left: 15px;
+}
+
+.preview-large .rb-spiky-hair::after {
+  right: 15px;
+}
+
+/* 2. LONG HAIR - Cartoon style */
+.rb-long-hair {
+  width: 42px;
+  height: 45px;
+  background: linear-gradient(to bottom, #000000, #333333);
+  top: -5px;
+  border-radius: 21px 21px 0 0;
+  border: 2px solid #000;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+  overflow: hidden;
+}
+
+.preview-large .rb-long-hair {
+  width: 63px;
+  height: 67px;
+  top: -7px;
+  border-radius: 31px 31px 0 0;
+}
+
+/* Add hair strands */
+.rb-long-hair::before,
+.rb-long-hair::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 35px;
+  background: linear-gradient(to bottom, #333, #000);
+  border-radius: 0 0 4px 4px;
+  bottom: -35px;
+}
+
+.rb-long-hair::before {
+  left: 8px;
+  transform: rotate(10deg);
+}
+
+.rb-long-hair::after {
+  right: 8px;
+  transform: rotate(-10deg);
+}
+
+.preview-large .rb-long-hair::before,
+.preview-large .rb-long-hair::after {
+  width: 12px;
+  height: 52px;
+  bottom: -52px;
+}
+
+/* 3. CURLY HAIR - Cartoon style */
+.rb-curly-hair {
+  width: 46px;
+  height: 35px;
+  background: linear-gradient(to bottom, #FFD700, #FFA500);
+  top: -10px;
+  border-radius: 50%;
+  border: 2px solid #B28704;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.preview-large .rb-curly-hair {
+  width: 69px;
+  height: 52px;
+  top: -15px;
+}
+
+/* Add curl texture */
+.rb-curly-hair::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2) 5%, transparent 15%),
+              radial-gradient(circle at 70% 30%, rgba(255,255,255,0.2) 5%, transparent 15%),
+              radial-gradient(circle at 50% 60%, rgba(255,255,255,0.2) 5%, transparent 15%);
+  border-radius: 50%;
+}
+
+/* 4. PUNK HAIR - Mohawk style */
+.rb-punk-hair {
+  width: 30px;
+  height: 45px;
+  background: linear-gradient(to bottom, #FF00FF, #FF1493, #8B008B);
+  top: -15px;
+  border-radius: 5px 5px 0 0;
+  border: 2px solid #4B0082;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+}
+
+.preview-large .rb-punk-hair {
+  width: 45px;
+  height: 67px;
+  top: -22px;
+  border-radius: 7px 7px 0 0;
+}
+
+/* Add spikes to punk hair */
+.rb-punk-hair::before,
+.rb-punk-hair::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 18px;
+  background: linear-gradient(to bottom, #FF1493, #8B008B);
+  border-radius: 50% 50% 0 0;
+  border: 1px solid #4B0082;
+}
+
+.rb-punk-hair::before {
+  top: -10px;
+  left: 5px;
+  transform: rotate(20deg);
+}
+
+.rb-punk-hair::after {
+  top: -10px;
+  right: 5px;
+  transform: rotate(-20deg);
+}
+
+.preview-large .rb-punk-hair::before,
+.preview-large .rb-punk-hair::after {
+  width: 18px;
+  height: 27px;
+  top: -15px;
+}
+
+/* 5. AFRO HAIR - Big and round */
+.rb-afro-hair {
+  width: 52px;
+  height: 35px;
+  background: radial-gradient(circle at 30% 30%, #000000, #333333, #000000);
+  top: -5px;
+  border-radius: 50%;
+  border: 2px solid #111;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.5);
+}
+
+.preview-large .rb-afro-hair {
+  width: 78px;
+  height: 52px;
+  top: -7px;
+}
+
+/* Add texture to afro hair */
+.rb-afro-hair::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1) 10%, transparent 25%),
+              radial-gradient(circle at 70% 30%, rgba(255,255,255,0.1) 10%, transparent 25%),
+              radial-gradient(circle at 50% 70%, rgba(255,255,255,0.1) 10%, transparent 25%);
+  border-radius: 50%;
+}
+
+/* 6. BRAIDS HAIR - Side braids */
+.rb-braids-hair {
+  width: 44px;
+  height: 30px;
+  background: linear-gradient(to bottom, #8B4513, #A0522D);
+  top: -5px;
+  border-radius: 22px 22px 10px 10px;
+  border: 2px solid #5D4037;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.preview-large .rb-braids-hair {
+  width: 66px;
+  height: 45px;
+  top: -7px;
+  border-radius: 33px 33px 15px 15px;
+}
+
+/* Add braid strands */
+.rb-braids-hair::before,
+.rb-braids-hair::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 40px;
+  background: linear-gradient(to bottom, #A0522D 0%, #8B4513 33%, #A0522D 66%, #8B4513 100%);
+  border: 1px solid #5D4037;
+  top: 30px;
+}
+
+.rb-braids-hair::before {
+  left: 8px;
+  transform: rotate(15deg);
+  border-radius: 0 0 5px 5px;
+}
+
+.rb-braids-hair::after {
+  right: 8px;
+  transform: rotate(-15deg);
+  border-radius: 0 0 5px 5px;
+}
+
+.preview-large .rb-braids-hair::before,
+.preview-large .rb-braids-hair::after {
+  width: 15px;
+  height: 60px;
+  top: 45px;
+}
+
+/* 7. BOB HAIR - Short and stylish */
+.rb-bob-hair {
+  width: 42px;
+  height: 25px;
+  background: linear-gradient(to bottom, #4A235A, #6F42C1);
+  top: -3px;
+  border-radius: 21px 21px 5px 5px;
+  border: 2px solid #4A235A;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+}
+
+.preview-large .rb-bob-hair {
+  width: 63px;
+  height: 37px;
+  top: -4px;
+  border-radius: 31px 31px 7px 7px;
+}
+
+/* Add hair ends */
+.rb-bob-hair::before,
+.rb-bob-hair::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 15px;
+  background: linear-gradient(to bottom, #6F42C1, #4A235A);
+  border-radius: 0 0 4px 4px;
+  bottom: -15px;
+}
+
+.rb-bob-hair::before {
+  left: 6px;
+  transform: rotate(5deg);
+}
+
+.rb-bob-hair::after {
+  right: 6px;
+  transform: rotate(-5deg);
+}
+
+.preview-large .rb-bob-hair::before,
+.preview-large .rb-bob-hair::after {
+  width: 12px;
+  height: 22px;
+  bottom: -22px;
+}
+
+/* 8. MESSY BUN HAIR - Casual bun style */
+.rb-messy-bun-hair {
+  width: 40px;
+  height: 35px;
+  background: linear-gradient(to bottom, #654321, #8B4513);
+  top: -10px;
+  border-radius: 50%;
+  border: 2px solid #5D4037;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.preview-large .rb-messy-bun-hair {
+  width: 60px;
+  height: 52px;
+  top: -15px;
+}
+
+/* Add bun details */
+.rb-messy-bun-hair::before {
+  content: '';
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  background: radial-gradient(circle at 30% 30%, #8B4513, #654321);
+  border-radius: 50%;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.preview-large .rb-messy-bun-hair::before {
+  width: 37px;
+  height: 37px;
+  top: 7px;
+}
+
+/* 9. DREADLOCKS - Cartoon dreads */
+.rb-dreadlocks-hair {
+  width: 44px;
+  height: 30px;
+  background: linear-gradient(to bottom, #1A1A1A, #333333);
+  top: -5px;
+  border-radius: 22px 22px 10px 10px;
+  border: 2px solid #000;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+}
+
+.preview-large .rb-dreadlocks-hair {
+  width: 66px;
+  height: 45px;
+  top: -7px;
+  border-radius: 33px 33px 15px 15px;
+}
+
+/* Add dreadlock strands */
+.rb-dreadlocks-hair::before,
+.rb-dreadlocks-hair::after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 35px;
+  background: linear-gradient(to bottom, #333, #1A1A1A);
+  border-radius: 3px;
+  bottom: -35px;
+}
+
+.rb-dreadlocks-hair::before {
+  left: 10px;
+  transform: rotate(8deg);
+}
+
+.rb-dreadlocks-hair::after {
+  right: 10px;
+  transform: rotate(-8deg);
+}
+
+.preview-large .rb-dreadlocks-hair::before,
+.preview-large .rb-dreadlocks-hair::after {
+  width: 9px;
+  height: 52px;
+  bottom: -52px;
+}
+
+/* 10. NEW: SIDE PART HAIR - Stylish side-swept hair */
+.rb-side-part-hair {
+  width: 46px;
+  height: 32px;
+  background: linear-gradient(to bottom right, #8B4513, #D2691E, #8B4513);
+  top: -6px;
+  border-radius: 23px 23px 8px 8px;
+  border: 2px solid #5D4037;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  overflow: hidden;
+  transform: translateX(-50%) rotate(-5deg);
+  transform-origin: center bottom;
+}
+
+.preview-large .rb-side-part-hair {
+  width: 69px;
+  height: 48px;
+  top: -9px;
+  border-radius: 34px 34px 12px 12px;
+}
+
+/* Add side-swept texture */
+.rb-side-part-hair::before {
+  content: '';
+  position: absolute;
+  width: 80%;
+  height: 90%;
+  background: linear-gradient(135deg, rgba(210, 105, 30, 0.8) 0%, rgba(139, 69, 19, 0.9) 50%, rgba(210, 105, 30, 0.7) 100%);
+  border-radius: 0 0 20px 20px;
+  top: 0;
+  left: 10%;
+  clip-path: polygon(0 0, 100% 0, 90% 100%, 10% 100%);
+}
+
+.rb-side-part-hair::after {
+  content: '';
+  position: absolute;
+  width: 15px;
+  height: 20px;
+  background: linear-gradient(to bottom, #D2691E, #8B4513);
+  border-radius: 0 0 8px 8px;
+  bottom: -20px;
+  right: 10px;
+  transform: rotate(10deg);
+}
+
+.preview-large .rb-side-part-hair::after {
+  width: 22px;
+  height: 30px;
+  bottom: -30px;
+  right: 15px;
+}
+
+/* =========================================================== */
+/* END OF HAIR STYLES */
+/* =========================================================== */
+
+/* ANIMATED VERSION */
+.animated-char {
+  animation: idle 2s ease-in-out infinite;
+}
+
+@keyframes idle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* WALKING ANIMATION */
+.walking-char {
+  animation: walk 1s steps(4) infinite;
+}
+
+.walking-char .rb-leg.left {
+  animation: leg-left 1s ease-in-out infinite;
+}
+
+.walking-char .rb-leg.right {
+  animation: leg-right 1s ease-in-out infinite;
+}
+
+.walking-char .rb-arm.left {
+  animation: arm-right 1s ease-in-out infinite;
+}
+
+.walking-char .rb-arm.right {
+  animation: arm-left 1s ease-in-out infinite;
+}
+
+@keyframes walk {
+  0%, 100% { transform: translateX(0); }
+}
+
+@keyframes leg-left {
+  0%, 100% { transform: rotate(-8deg); }
+  50% { transform: rotate(8deg); }
+}
+
+@keyframes leg-right {
+  0%, 100% { transform: rotate(8deg); }
+  50% { transform: rotate(-8deg); }
+}
+
+@keyframes arm-left {
+  0%, 100% { transform: rotate(8deg); }
+  50% { transform: rotate(-8deg); }
+}
+
+@keyframes arm-right {
+  0%, 100% { transform: rotate(-8deg); }
+  50% { transform: rotate(8deg); }
+}
+
+/* ROBLOX COLOR VARIANTS - UPDATED: NOW ONLY AFFECTS LEGS */
+.rb-red-variant .rb-leg {
+  background: #C0392B;
+}
+
+.rb-green-variant .rb-leg {
+  background: #27AE60;
+}
+
+.rb-white-variant .rb-leg {
+  background: #FFFFFF;
+  border: 1px solid #CCCCCC;
+}
+
+.rb-purple-variant .rb-leg {
+  background: #8E44AD;
+}
+
+.rb-black-variant .rb-leg {
+  background: #000000;
+}
+
+/* REMOVED TORSO COLOR CHANGES - TORSO STAYS BLUE */
+.rb-red-variant .rb-torso,
+.rb-green-variant .rb-torso,
+.rb-white-variant .rb-torso,
+.rb-purple-variant .rb-torso,
+.rb-black-variant .rb-torso {
+  background: #5B9BD5; /* KEEP ORIGINAL BLUE TORSO COLOR */
+}
+
+/* Name bubble */
+.name-bubble{position:absolute;top:-60px;background:#FFEB3B;color:#000;padding:6px 12px;border-radius:15px;font-weight:700;font-size:16px;border:3px solid #000;box-shadow:0 6px 0 rgba(0,0,0,0.3);z-index:10;white-space:nowrap;font-family:'Comic Neue', cursive;}
+/* HUD & controls with childish design */
+.hud{position:absolute;top:20px;left:50%;transform:translateX(-50%);z-index:12;display:flex;gap:20px;align-items:center}
+.level-box{background:rgba(255,235,59,0.9);border:4px solid #FF9800;padding:12px 20px;border-radius:15px;font-family:'Bangers',cursive;font-size:20px;color:#000;box-shadow:0 6px 0 rgba(0,0,0,0.3)}
+.timer{background:rgba(255,87,34,0.9);border:4px solid #FF3300;padding:10px 18px;border-radius:15px;font-weight:700;font-size:20px;color:#fff;box-shadow:0 6px 0 rgba(0,0,0,0.3)}
+.score-box{background:rgba(76,175,80,0.9);border:4px solid #2E7D32;padding:12px 20px;border-radius:15px;font-family:'Bangers',cursive;font-size:20px;color:#fff;box-shadow:0 6px 0 rgba(0,0,0,0.3)}
+
+/* Input box on lava - Bigger and more colorful */
+.lava-input-container{position:absolute;left:50%;transform:translateX(-50%);bottom:25px;z-index:15;width:94%;max-width:800px;display:none}
+.lava-input-box{display:flex;gap:10px;background:rgba(255,235,59,0.95);padding:16px 20px;border-radius:15px;border:5px solid #000;box-shadow:0 10px 0 rgba(0,0,0,0.4),0 0 20px rgba(255,100,0,0.7)}
+.lava-input-desc{flex:1;font-size:22px;color:#000;font-weight:700;display:flex;align-items:center;font-family:'Comic Neue', cursive;}
+.lava-answer-input{flex:2;padding:14px 16px;font-size:22px;border-radius:10px;border:4px solid #333;background:#fff;font-family:'Comic Neue', cursive;}
+.lava-submit-btn{padding:14px 24px;font-weight:700;border-radius:10px;background:#FF5722;border:4px solid #000;color:#fff;cursor:pointer;font-size:20px;font-family:'Comic Neue', cursive;transition:all 0.2s}
+.lava-submit-btn:hover{background:#FF7043;transform:scale(1.05)}
+.lava-submit-btn:active{transform:translateY(2px)}
+.lava-tries-info{position:absolute;top:-32px;left:50%;transform:translateX(-50%);background:rgba(255,87,34,0.9);color:#fff;padding:6px 14px;border-radius:10px;font-weight:700;font-size:18px;white-space:nowrap;border:3px solid #000;font-family:'Comic Neue', cursive;}
+
+/* Audio replay button */
+.audio-replay-btn {
+  background: #4CAF50;
+  border: 3px solid #000;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  font-size: 20px;
+  padding: 10px 15px;
+  margin-left: 10px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Comic Neue', cursive;
+  font-weight: bold;
+}
+
+.audio-replay-btn:hover {
+  background: #66BB6A;
+  transform: scale(1.05);
+}
+
+.audio-replay-btn:active {
+  transform: translateY(2px);
+}
+
+/* Question card - removed from top, kept for reference but hidden */
+.question-card{position:absolute;left:50%;transform:translateX(-50%);top:14vh;z-index:11;background:rgba(255,235,59,0.96);color:#000;padding:20px;border-radius:15px;border:6px solid #000;min-width:520px;max-width:85%;box-shadow:0 12px 0 rgba(0,0,0,0.4);display:none}
+.question-desc{font-size:22px;margin-bottom:10px;font-family:'Comic Neue', cursive;}
+.input-row{display:flex;gap:12px}
+.answer-input{flex:1;padding:12px 14px;font-size:20px;border-radius:10px;border:4px solid #333;font-family:'Comic Neue', cursive;}
+.submit-btn{padding:12px 20px;font-weight:700;border-radius:10px;background:#FF5722;border:4px solid #000;cursor:pointer;color:#fff;font-size:18px;font-family:'Comic Neue', cursive;}
+.tries{font-weight:700;color:#D32F2F;margin-top:8px;font-size:18px;font-family:'Comic Neue', cursive;}
+.small{font-size:14px;color:#444;margin-top:8px;font-family:'Comic Neue', cursive;}
+
+/* Pop-up notification styles */
+.popup-notification {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(231, 76, 60, 0.95);
+  border: 5px solid #FFD700;
+  border-radius: 20px;
+  padding: 30px 40px;
+  z-index: 35;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 50px rgba(231, 76, 60, 0.8);
+  min-width: 400px;
+  max-width: 600px;
+  text-align: center;
+  animation: popupPulse 0.5s ease-out;
+}
+
+@keyframes popupPulse {
+  0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+  70% { transform: translate(-50%, -50%) scale(1.05); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+.popup-title {
+  font-family: 'Bangers', cursive;
+  font-size: 42px;
+  color: #FFD700;
+  margin-bottom: 15px;
+  text-shadow: 2px 2px 0 #000;
+}
+
+.popup-message {
+  font-size: 26px;
+  color: #fff;
+  margin-bottom: 10px;
+  font-weight: bold;
+  line-height: 1.4;
+}
+
+.popup-correct-answer {
+  font-size: 32px;
+  color: #FFD700;
+  font-family: 'Bangers', cursive;
+  margin-top: 15px;
+  text-shadow: 1px 1px 0 #000;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 3px solid #FFD700;
+}
+
+/* Dead character style */
+.dead{opacity:0.5;filter:grayscale(80%)}
+/* responsive */
+@media(max-width:1200px){
+  .store-wrapper{flex-direction:column;max-height:90vh;height:auto;}
+  .character-preview-section{flex:0 0 auto;height:500px;}
+  .character-preview-display{width:200px;height:300px;}
+  .preview-title{font-size:32px;}
+}
+
+@media(max-width:1000px){
+  .store-wrapper{width:98%;}
+}
+
+@media(max-width:820px){
+  .row{gap:20px}
+  .char-col{width:85px}
+  .block{width:60px;height:16px}
+  .roblox-character{width:65px;height:100px}
+  .name-bubble{top:-55px;font-size:14px;padding:4px 10px}
+  .title{font-size:48px}
+  .play-btn{padding:16px 40px;font-size:36px}
+  .home-btn-game{top:15px;left:15px;padding:12px 20px;font-size:20px;}
+  .store-btn-game{top:75px;left:15px;padding:12px 20px;font-size:20px;}
+  .homepage-btn{padding:12px 30px;font-size:22px}
+  .store-btn-home{padding:14px 24px;font-size:24px;}
+  .home-buttons-container{gap:15px;}
+  .lava-input-container{width:96%;bottom:20px}
+  .lava-input-box{padding:14px 18px}
+  .lava-input-desc{font-size:20px}
+  .lava-answer-input{font-size:20px;padding:12px 14px}
+  .lava-submit-btn{padding:12px 20px;font-size:18px}
+  .lava-triesInfo{font-size:16px}
+  .hud{gap:10px}
+  .level-box, .timer, .score-box{font-size:16px;padding:8px 14px}
+  .gem-counter{font-size:16px;padding:8px 12px;}
+  .store-items{grid-template-columns:repeat(auto-fill, minmax(180px, 1fr));}
+  .game-over-title, .winner-title{font-size:48px;}
+  .game-over-message{font-size:24px;}
+  .game-over-score{font-size:32px;}
+  .restart-btn{font-size:28px;padding:16px 40px;}
+  /* Adjust roblox character for mobile */
+  .roblox-character{width:55px;height:90px;}
+  .rb-head{width:30px;height:30px;}
+  .rb-torso{width:32px;height:40px;top:35px;}
+  .rb-arm{width:11px;height:35px;top:38px;}
+  .legs-container{width:34px;top:75px;}
+  .rb-leg{width:14px;height:45px;}
+  .rb-leg.left{margin-right:6px;}
+  .rb-leg.right{margin-left:6px;}
+  /* Store responsive */
+  .store-container{padding:20px;}
+  .character-preview-section{height:400px;}
+  .character-preview-display{width:150px;height:225px;}
+  .preview-title{font-size:28px;}
+  .store-title{font-size:32px;}
+  .store-items-title{font-size:28px;}
+  .tab-btn{padding:10px 20px;font-size:18px;}
+  .current-items-title{font-size:22px;}
+  .preview-info{font-size:18px;}
+  /* Sun adjustments for mobile */
+  .sun-container {width: 90px; height: 90px; top: 3%; right: 4%;}
+  .sun-circle {width: 90px; height: 90px;}
+  .sun-halo {width: 140px; height: 140px; top: -25px; left: -25px;}
+  .ray-1, .ray-2 {width: 140px; height: 10px;}
+  .ray-3, .ray-4 {width: 10px; height: 140px;}
+  .ray-5, .ray-6, .ray-7, .ray-8 {width: 120px; height: 10px;}
+  .ray-9, .ray-10, .ray-11, .ray-12 {width: 80px; height: 6px;}
+  .sun-eye {width: 16px; height: 24px;}
+  .sun-eye::before {width: 6px; height: 6px;}
+  .sun-smile {width: 40px; height: 20px;}
+  .sun-cheek {width: 14px; height: 8px;}
+  /* Popup responsive */
+  .popup-notification {
+    min-width: 300px;
+    padding: 20px 25px;
+  }
+  .popup-title {
+    font-size: 32px;
+  }
+  .popup-message {
+    font-size: 20px;
+  }
+  .popup-correct-answer {
+    font-size: 24px;
+  }
+}
+</style>
+
+<script src="api-config.js"></script>
+
+</head>
+<body>
+<div class="stage">
+    <!-- Background elements -->
+    <!-- ✨ FIXED SUN DESIGN - SUN'S FACE NOW VISIBLE ✨ -->
+    <div class="sun-container">
+        <div class="sun-halo"></div>
+        <div class="sun-body">
+            <div class="sun-circle">
+                <div class="sun-face">
+                    <div class="sun-eyes">
+                        <div class="sun-eye"></div>
+                        <div class="sun-eye"></div>
+                    </div>
+                    <div class="sun-cheeks">
+                        <div class="sun-cheek left"></div>
+                        <div class="sun-cheek right"></div>
+                    </div>
+                    <div class="sun-smile"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sun rays - FIXED POSITIONING -->
+        <div class="sun-rays">
+            <div class="sun-ray ray-1"></div>
+            <div class="sun-ray ray-2"></div>
+            <div class="sun-ray ray-3"></div>
+            <div class="sun-ray ray-4"></div>
+            <div class="sun-ray ray-5"></div>
+            <div class="sun-ray ray-6"></div>
+            <div class="sun-ray ray-7"></div>
+            <div class="sun-ray ray-8"></div>
+            <div class="sun-ray ray-9"></div>
+            <div class="sun-ray ray-10"></div>
+            <div class="sun-ray ray-11"></div>
+            <div class="sun-ray ray-12"></div>
+        </div>
+        
+        <!-- Sun particles -->
+        <div class="sun-particles" id="sunParticles"></div>
+    </div>
+    
+    <!-- Enhanced Cloud Designs -->
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="cloud cloud-3"></div>
+    <div class="cloud cloud-4"></div>
+    <div class="cloud cloud-5"></div>
+    <div class="cloud cloud-6"></div>
+    
+    <!-- Home button during gameplay - CHANGED TEXT TO "BACK" -->
+    <button class="home-btn-game" id="homeBtnGame">🏠 BACK</button>
+    
+    <!-- Shop button during gameplay - MOVED BELOW BACK BUTTON -->
+    <button class="store-btn-game" id="storeBtnGame">🛒 SHOP</button>
+    
+    <div class="arena" id="arena">
+        <!-- Pop-up notification -->
+        <div class="popup-notification" id="popupNotification">
+            <div class="popup-title" id="popupTitle">WRONG ANSWER!</div>
+            <div class="popup-message" id="popupMessage">Wrong answer</div>
+            <div class="popup-correct-answer" id="popupCorrectAnswer"></div>
+        </div>
+        
+        <div class="row" id="row">
+            <!-- Characters generated by JS -->
+        </div>
+        <div class="lava" id="lava">
+            <div class="lava-surface"></div>
+        </div>
+        <!-- Input box on lava -->
+        <div class="lava-input-container" id="lavaInputContainer">
+            <div class="lava-tries-info" id="lavaTriesInfo">Tries left: 3</div>
+            <div class="lava-input-box">
+                <div class="lava-input-desc" id="lavaInputDesc">Description goes here</div>
+                <!-- Audio replay button added here -->
+                <button class="audio-replay-btn" id="audioReplayBtn">🔊 Replay</button>
+                <input id="lavaAnswerInput" class="lava-answer-input" autocomplete="off" placeholder="Type answer here..." />
+                <button id="lavaSubmitBtn" class="lava-submit-btn">Submit</button>
+            </div>
+        </div>
+        <!-- HUD - Added gem counter -->
+        <div class="hud">
+            <div class="level-box" id="levelBox">Level: —</div>
+            <div class="timer" id="lavaTimer">Lava in: —</div>
+            <div class="score-box" id="scoreBox">Score: 0</div>
+            <!-- Gem counter -->
+            <div class="gem-counter" id="gemCounter">
+                <span class="gem-icon">💎</span>
+                <span id="gemCount">0</span>
+            </div>
+        </div>
+        <!-- Reward notification -->
+        <div class="reward-notification" id="rewardNotification">
+            <div class="reward-title">REWARD!</div>
+            <div class="reward-message">You earned gems for spelling correctly!</div>
+            <div class="reward-gems">
+                <span class="gem-icon">💎</span>
+                <span id="rewardGems">+5</span>
+            </div>
+        </div>
+        <!-- Store Overlay - SIDE BY SIDE LAYOUT -->
+        <div class="store-overlay" id="storeOverlay">
+            <div class="store-wrapper"> 
+                <!-- Character Preview - LEFT SIDE - BIGGER -->
+                <div class="character-preview-section" id="characterPreviewSection">
+                    <div class="preview-title">👤 YOUR CHARACTER</div>
+                    <div class="character-preview-container">
+                        <div class="character-preview-display" id="characterPreviewDisplay">
+                            <!-- Character preview will be rendered here -->
+                        </div>
+                        <div class="preview-info-container">
+                            <div class="preview-info">Click "TRY ON" to preview items before buying!</div>
+                            <div class="preview-note">Items you try on will appear on your character here for preview.</div>
+                        </div>
+                        <div class="current-items">
+                            <div class="current-items-title">EQUIPPED ITEMS</div>
+                            <div class="current-items-list" id="currentItemsList">
+                                <!-- Current items will be listed here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Store Container - RIGHT SIDE -->
+                <div class="store-container">
+                    <!-- CHANGED: "Roblox Store" to "Shop" -->
+                    <div class="store-header">
+                        <div class="store-title">🌟 SHOP 🌟</div>
+                        <button class="store-close" id="storeCloseBtn">×</button>
+                    </div>
+                    <div class="store-balance">
+                        <span class="gem-icon">💎</span>
+                        <span id="storeGemCount">0</span>
+                        Gems Available
+                    </div>
+                    <div class="store-tabs" id="storeTabs">
+                        <!-- Tabs will be generated by JavaScript -->
+                    </div>
+                    <div class="store-content">
+                        <!-- Store Items Section -->
+                        <div class="store-items-section" id="storeItemsSection">
+                            <div class="store-items-title" id="storeItemsTitle">🛒 STORE ITEMS</div>
+                            <div class="store-items" id="storeItems">
+                                <!-- Store items will be generated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Old question card (hidden) -->
+        <div class="question-card" id="questionCard">
+            <div class="question-desc" id="questionDesc">Description goes here</div>
+            <div class="input-row">
+                <input id="answerInput" class="answer-input" autocomplete="off" placeholder="Type your answer here" />
+                <button id="submitBtn" class="submit-btn">Submit</button>
+            </div>
+            <div class="tries" id="triesInfo">Tries left: 3</div>
+            <div class="small">Wrong answers won't reveal the correct word. After 3 tries the game moves to the next word.</div>
+        </div>
+        <!-- Home overlay -->
+        <div class="overlay" id="homeOverlay">
+            <div class="title">🔥 LAVA RUSH: SPELL TO SURVIVE 🔥</div>
+            <div class="subtitle">Earn gems for correct spelling! Customize your Roblox character!</div>
+            <button class="play-btn" id="playBtn">PLAY NOW</button>
+            <!-- Shop button added below PLAY NOW -->
+            <div class="home-buttons-container">
+                <button class="store-btn-home" id="storeBtnHome">
+                    <span class="store-icon">🛒</span>
+                    SHOP
+                </button>
+            </div>
+            <!-- CHANGED: Go to homepage.html instead of index.html -->
+            <button class="homepage-btn" id="homepageBtn">BACK TO HOME</button> 
+        </div>
+        <!-- Game Over Overlay - HIDDEN BY DEFAULT -->
+        <div class="game-over-overlay" id="gameOverOverlay">
+            <div class="game-over-title" id="gameOverTitle">GAME OVER</div>
+            <div class="game-over-message" id="gameOverMessage">You were defeated by the lava!</div>
+            <div class="game-over-score" id="gameOverScore">Score: 0</div>
+            <!-- Show total gems earned -->
+            <div class="game-over-score" id="gemTotal" style="color:#FFD700;">Gems Earned: 0</div>
+            <button class="restart-btn" id="restartBtn">PLAY AGAIN</button>
+            <!-- CHANGED: Added Home button instead of Back to Home button -->
+            <button class="back-to-home-btn" id="backToHomeBtn1">HOME</button>
+            <!-- CHANGED: Removed Shop button and homepage button -->
+        </div>
+        <!-- You Win Overlay - NEW SEPARATE OVERLAY -->
+        <div class="winner-overlay" id="winnerOverlay">
+            <div class="winner-title" id="winnerTitle">🎉 YOU WIN! 🎉</div>
+            <div class="game-over-message" id="winnerMessage">Congratulations! You are the winner!</div>
+            <div class="game-over-score" id="winnerScore">Score: 0</div>
+            <!-- Show total gems earned -->
+            <div class="game-over-score" id="winnerGemTotal" style="color:#FFD700;">Gems Earned: 0</div>
+            <button class="restart-btn" id="winnerRestartBtn">PLAY AGAIN</button>
+            <!-- CHANGED: Added Home button instead of Back to Home button -->
+            <button class="back-to-home-btn" id="backToHomeBtn2">HOME</button>
+            <!-- CHANGED: Removed Shop button and homepage button -->
+        </div>
+    </div>
+</div>
+
+<script>
+  
+// ================= CLOUD LEADERBOARD CONFIGURATION =================
+// Your JSONBin.io credentials (same as in dashboard.html)
+const CLOUD_BIN_ID = '6951693a43b1c97be90a711a';
+const CLOUD_MASTER_KEY = '$2a$10$vtFc9uv3beCdsHzHCVNv2eC07iJ0zVdRgvqK71rZzyAoxWloiRAAm';
+const CLOUD_API_URL = `https://api.jsonbin.io/v3/b/${CLOUD_BIN_ID}`;
+
+// Device ID for this browser
+const deviceId = localStorage.getItem('deviceId') || 
+                'device_' + Math.random().toString(36).substring(2, 12);
+localStorage.setItem('deviceId', deviceId);
+
+// Create sun particles
+function createSunParticles() {
+    const particlesContainer = document.getElementById('sunParticles');
+    if (!particlesContainer) return;
+    
+    particlesContainer.innerHTML = '';
+    
+    // Create 20 particles
+    for (let i = 0; i < 20; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'sun-particle';
+        
+        // Random starting position
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 60 + Math.random() * 40;
+        const startX = Math.cos(angle) * distance;
+        const startY = Math.sin(angle) * distance;
+        
+        // Random end position
+        const endAngle = Math.random() * Math.PI * 2;
+        const endDistance = 80 + Math.random() * 80;
+        const endX = Math.cos(endAngle) * endDistance;
+        const endY = Math.sin(endAngle) * endDistance;
+        
+        particle.style.setProperty('--tx', `${endX}px`);
+        particle.style.setProperty('--ty', `${endY}px`);
+        
+        // Random size and opacity
+        const size = 4 + Math.random() * 8;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.opacity = 0.3 + Math.random() * 0.7;
+        
+        // Random color
+        const colors = ['#FFEC00', '#FF9800', '#FF5722', '#FFEB3B'];
+        particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+        
+        // Random delay and duration
+        const delay = Math.random() * 5;
+        const duration = 8 + Math.random() * 7;
+        
+        particle.style.animationDelay = `${delay}s`;
+        particle.style.animationDuration = `${duration}s`;
+        
+        // Position at starting point
+        particle.style.left = `calc(50% + ${startX}px)`;
+        particle.style.top = `calc(50% + ${startY}px)`;
+        
+        particlesContainer.appendChild(particle);
+    }
+}
+
+// Initialize sun particles when page loads
+window.addEventListener('load', () => {
+    createSunParticles();
+    // Refresh particles every 15 seconds
+    setInterval(createSunParticles, 15000);
+});
+
+
+// --- CONFIG ---
+const LEVELS = [
+  {name:'EASY', words:10, lavaInterval:10, botAccuracy:0.75},
+  {name:'DIFFICULT', words:10, lavaInterval:10, botAccuracy:0.55},
+  {name:'IMPOSSIBLE', words:5, lavaInterval:10, botAccuracy:0.35}
+];
+const START_BLOCKS = 3; // starting blocks for each character
+const MAX_LAVA_PERCENT = 90; // when lava reaches this percent, instant lose
+const BLOCK_HEIGHT_PERCENT = 2.1; // Balanced block height percentage (from 1.8% to 2.1%)
+const SCREEN_ADJUST_THRESHOLD = 70; // When character height reaches this % of screen, adjust view
+const SCREEN_ADJUST_AMOUNT = 12; // Balanced screen adjustment (from 10 to 12)
+
+// Word sets (simple descriptions)
+const WORD_BANK = {
+  EASY: [
+    {word:'Exhibit', desc:'To show something in public so people can see it'},
+    {word:'Clash', desc:'A fight, argument, or strong disagreement between people or ideas.'},
+    {word:'Invertebrate', desc:'An animal that has no backbone, such as insects or worms.'},
+    {word:'Effort', desc:'The physical or mental energy used to do something.'},
+    {word:'Freedom', desc:'The right or ability to act, speak, or think without control.'},
+    {word:'Staff', desc:'The group of people who work for a school, company, or organization.'},
+    {word:'Mood', desc:'The way a person feels at a particular time.'},
+    {word:'Library', desc:'A place where books and other materials are kept for reading or borrowing'},
+    {word:'Excellent', desc:'Extremely good; very high quality'},
+    {word:'Knowledge', desc:'Facts, information, and skills learned through study or experience.'}
+  ],
+  DIFFICULT: [
+    {word:'Ancestral', desc:'Related to family members who lived long ago.'},
+    {word:'Impudence', desc:'Rude behavior showing no respect.'},
+    {word:'Persuade', desc:'To make someone agree or do something by talking to them.'},
+    {word:'Sewers', desc:'Underground pipes that carry waste water away from buildings.'},
+    {word:'Survey', desc:'To ask questions or study something to get information.'},
+    {word:'Anxious', desc:'feeling worried, nervous, or uneasy.'},
+    {word:'Language', desc:'A system of words used by people to communicate.'},
+    {word:'Whistle', desc:'A high sound made by blowing air through the lips or an object.'},
+    {word:'Neither', desc:'Not one nor the other of two choices.'},
+    {word:'Daughter', desc:'A female child of parents.'}
+  ],
+  IMPOSSIBLE: [
+    {word:'Encyclopedia', desc:'A book or set of books that gives information about many subjects.'},
+    {word:'Nuptials', desc:'A wedding or marriage ceremony.'},
+    {word:'Whimsical', desc:'Playful, unusual, or full of imagination.'},
+    {word:'Synagogue', desc:'A Jewish place of worship.'},
+    {word:'Fallacious', desc:'Based on a false idea or incorrect reasoning.'}
+  ]
+};
+
+// --- STORE ITEMS - ROBLOX CHARACTERS ONLY - ADDED SPECIAL BLOCKS ---
+const STORE_ITEMS = {
+  roblox: {
+    tops: [
+      {id: 'rb_classic_polo', name: 'Classic Polo', price: 15, icon: '👕', type: 'tops', effect: 'realistic collared polo shirt'},
+      {id: 'rb_dress_shirt', name: 'White Polo', price: 18, icon: '👕', type: 'tops', effect: 'formal button-up polo shirt'},
+      {id: 'rb_striped_shirt', name: 'Striped Shirt', price: 16, icon: '👕', type: 'tops', effect: 'casual striped t-shirt'},
+      {id: 'rb_graphic_tshirt', name: 'Graphic T-Shirt', price: 20, icon: '👕', type: 'tops', effect: 'casual t-shirt with design'},
+      {id: 'rb_vest', name: 'Formal Vest', price: 25, icon: '👕', type: 'tops', effect: 'formal vest'},
+      {id: 'rb_sport_polo', name: 'Sport Polo', price: 22, icon: '👕', type: 'tops', effect: 'athletic polo with stripe'}
+    ],
+    bottoms: [
+      {id: 'red_torso', name: 'Red', price: 10, icon: '🔴', type: 'bottoms', effect: 'changes legs to red color'},
+      {id: 'green_torso', name: 'Green', price: 10, icon: '🟢', type: 'bottoms', effect: 'changes legs to green color'},
+      {id: 'white_torso', name: 'White', price: 10, icon: '⚪', type: 'bottoms', effect: 'changes legs to white color'},
+      {id: 'purple_torso', name: 'Purple', price: 10, icon: '🟣', type: 'bottoms', effect: 'changes legs to purple color'},
+      {id: 'gold_torso', name: 'Gold', price: 15, icon: '🌟', type: 'bottoms', effect: 'changes legs to gold color'},
+      {id: 'black_torso', name: 'Black', price: 12, icon: '⚫', type: 'bottoms', effect: 'changes legs to black color'}
+    ],
+    accessories: [
+      {id: 'rb_hat', name: 'Cool Hat', price: 25, icon: '🎩', type: 'accessory', effect: 'adds a hat to character'},
+      {id: 'rb_glasses', name: 'Eye Glasses', price: 20, icon: '👓', type: 'accessory', effect: 'adds eyeglasses'},
+      {id: 'rb_necklace', name: 'Gold Necklace', price: 45, icon: '📿', type: 'accessory', effect: 'adds gold necklace'},
+      {id: 'rb_watch', name: 'Simple Watch', price: 35, icon: '⌚', type: 'accessory', effect: 'adds wrist watch'},
+      {id: 'rb_headphones', name: 'Headphones', price: 40, icon: '🎧', type: 'accessory', effect: 'adds headphones'},
+      {id: 'rb_ribbon_neck', name: 'Fashion Neck Ribbon', price: 30, icon: '🎀', type: 'accessory', effect: 'adds an elegant bow/ribbon at the neck'}
+    ],
+    hair: [
+      {id: 'spiky_hair', name: 'Spiky Hair', price: 30, icon: '👨‍🦰', type: 'hair', effect: 'cartoon spiky hair'},
+      {id: 'long_hair', name: 'Long Hair', price: 40, icon: '👩', type: 'hair', effect: 'long flowing hair'},
+      {id: 'curly_hair', name: 'Curly Hair', price: 35, icon: '👨‍🦱', type: 'hair', effect: 'curly hairstyle'},
+      {id: 'afro_hair', name: 'Afro Hair', price: 50, icon: '👨🏿', type: 'hair', effect: 'big afro hairstyle'},
+      {id: 'braids_hair', name: 'Braids Hair', price: 40, icon: '👧', type: 'hair', effect: 'side braids style'},
+      {id: 'bob_hair', name: 'Bob Hair', price: 35, icon: '💇', type: 'hair', effect: 'short bob hairstyle'},
+      {id: 'messy_bun_hair', name: 'Messy Bun', price: 42, icon: '👱‍♀️', type: 'hair', effect: 'casual bun style'},
+      {id: 'dreadlocks_hair', name: 'Dreadlocks', price: 48, icon: '👨‍🦲', type: 'hair', effect: 'cartoon dreadlocks'},
+      {id: 'side_part_hair', name: 'Side Part Hair', price: 38, icon: '💁‍♂️', type: 'hair', effect: 'stylish side-swept hair'}
+    ]
+  },
+  shared: {
+    blocks: [
+      {id: 'diamond_block', name: 'Diamond Block', price: 100, icon: '💎', type: 'block', effect: 'special diamond block that shines'},
+      {id: 'emerald_block', name: 'Emerald Block', price: 80, icon: '🟢', type: 'block', effect: 'glowing emerald green block'},
+      {id: 'ruby_block', name: 'Ruby Block', price: 90, icon: '🔴', type: 'block', effect: 'fiery red ruby block'},
+      // ADDED 3 NEW SPECIAL BLOCKS
+      {id: 'gold_block', name: 'Gold Block', price: 120, icon: '🟨', type: 'block', effect: 'shiny gold block with sparkles'},
+      {id: 'rainbow_block', name: 'Rainbow Block', price: 150, icon: '🌈', type: 'block', effect: 'color-changing rainbow block'},
+      {id: 'glowstone_block', name: 'Glowstone Block', price: 110, icon: '💡', type: 'block', effect: 'glowing light-emitting block'}
+    ]
+  }
+};
+
+// Character color options - UPDATED: Added white and black
+const CHARACTER_COLORS = [
+  {id: 'blue', name: 'Blue', color: '#5B9BD5', legColor: '#2F5F7F'},
+  {id: 'red', name: 'Red', color: '#E74C3C', legColor: '#C0392B'},
+  {id: 'green', name: 'Green', color: '#2ECC71', legColor: '#27AE60'},
+  {id: 'white', name: 'White', color: '#FFFFFF', legColor: '#FFFFFF'},
+  {id: 'purple', name: 'Purple', color: '#9B59B6', legColor: '#8E44AD'},
+  {id: 'gold', name: 'Gold', color: '#FFD700', legColor: '#B28704'},
+  {id: 'black', name: 'Black', color: '#000000', legColor: '#000000'}
+];
+
+// --- STATE ---
+let currentLevelIndex = 0;
+let currentWordIndex = 0;
+let triesLeft = 3;
+let score = 0;
+let gems = 0; // Gem counter - FIXED: Now persists across games
+let lavaPercent = 18; // initial lava height percent of arena
+let lavaTimerSeconds = 0;
+let lavaIntervalId = null;
+let lavaCountdown = null;
+let gameActive = false;
+let screenOffset = 0; // Tracks how much we've moved the screen up
+let highestCharacter = 0; // Tracks the highest character position
+let playerItems = {}; // Store purchased items
+let playerColor = 'blue'; // Default Roblox color
+let equippedAccessories = {}; // Track which accessories are equipped
+let equippedHair = null; // Track which hair is equipped
+let equippedTop = null; // Track which top is equipped
+let equippedBottom = null; // Track which bottom is equipped (now legs color)
+let tryingItem = null; // Track which item is currently being tried on
+let tryingItemType = null; // Track the type of item being tried on
+let equippedSpecialBlocks = {}; // Track which special blocks are equipped - FIXED: Only one can be equipped
+
+// Track wrong attempts per word - NEW VARIABLE ADDED
+let wrongAttemptsForCurrentWord = 0;
+
+// Audio state
+let currentAudioWord = '';
+let audioReplayBtn = document.getElementById('audioReplayBtn');
+
+// Audio elements for sound effects - ADDED: Win and lose sound effects
+const winSound = new Audio('https://cdn.pixabay.com/audio/2025/11/24/audio_a78d073adb.mp3'); // WIN SOUND
+const clapSound = new Audio('https://cdn.pixabay.com/audio/2022/03/10/audio_b80daabd57.mp3'); // CLAPPING SOUND
+const loseSound = new Audio('https://assets.mixkit.co/active_storage/sfx/470/470-preview.mp3'); // <-- YOUR GAME OVER SOUND
+
+// Background music for gameplay
+const gameplayMusic = new Audio('https://assets.mixkit.co/active_storage/sfx/689/689-preview.mp3'); // Gameplay background music
+gameplayMusic.loop = true; // Make it loop
+gameplayMusic.volume = 0.5; // Set volume to 50%
+gameplayMusic.preload = 'auto';
+
+// Background music for homepage and shop
+const homepageMusic = new Audio('https://cdn.pixabay.com/audio/2025/12/24/audio_6d5b30616f.mp3'); // Homepage/Shop background music
+homepageMusic.loop = true; // Make it loop
+homepageMusic.volume = 0.5; // Set volume to 50% (adjust as needed)
+homepageMusic.preload = 'auto';
+
+
+// Preload sounds
+winSound.preload = 'auto';
+
+loseSound.preload = 'auto';
+gameplayMusic.preload = 'auto';
+homepageMusic.preload = 'auto';
+clapSound.preload = 'auto';
+
+// Pop-up elements
+const popupNotification = document.getElementById('popupNotification');
+const popupTitle = document.getElementById('popupTitle');
+const popupMessage = document.getElementById('popupMessage');
+const popupCorrectAnswer = document.getElementById('popupCorrectAnswer');
+
+// Get player name from URL
+const urlParams = new URLSearchParams(window.location.search);
+const playerNameFromURL = urlParams.get('player') || 'Student';
+const gameTypeFromURL = 'Lava Rush';
+
+// Characters: player + 3 bots - ALL ROBLOX CHARACTERS NOW
+let CHARACTERS = [
+  {id:'player', name:playerNameFromURL, blocks:START_BLOCKS, colorClass:'player', isPlayer:true, alive:true, color: 'blue'},
+  {id:'bot1', name:'BLUE BOT', blocks:START_BLOCKS, colorClass:'bot1', isPlayer:false, alive:true, color: 'blue'},
+  {id:'bot2', name:'RED BOT', blocks:START_BLOCKS, colorClass:'bot2', isPlayer:false, alive:true, color: 'red'},
+  {id:'bot3', name:'GREEN BOT', blocks:START_BLOCKS, colorClass:'bot3', isPlayer:false, alive:true, color: 'green'}
+];
+
+// DOM refs
+const row = document.getElementById('row');
+const homeOverlay = document.getElementById('homeOverlay');
+const playBtn = document.getElementById('playBtn');
+const questionCard = document.getElementById('questionCard');
+const questionDesc = document.getElementById('questionDesc');
+const answerInput = document.getElementById('answerInput');
+const submitBtn = document.getElementById('submitBtn');
+const triesInfo = document.getElementById('triesInfo');
+const levelBox = document.getElementById('levelBox');
+const lavaTimer = document.getElementById('lavaTimer');
+const scoreBox = document.getElementById('scoreBox');
+const lavaEl = document.getElementById('lava');
+const gameOverOverlay = document.getElementById('gameOverOverlay');
+const gameOverMessage = document.getElementById('gameOverMessage');
+const gameOverScore = document.getElementById('gameOverScore');
+const restartBtn = document.getElementById('restartBtn');
+const gameOverTitle = document.getElementById('gameOverTitle');
+const gemTotal = document.getElementById('gemTotal');
+const winnerOverlay = document.getElementById('winnerOverlay');
+const winnerMessage = document.getElementById('winnerMessage');
+const winnerScore = document.getElementById('winnerScore');
+const winnerRestartBtn = document.getElementById('winnerRestartBtn');
+const winnerGemTotal = document.getElementById('winnerGemTotal');
+
+// Lava input elements
+const lavaInputContainer = document.getElementById('lavaInputContainer');
+const lavaInputDesc = document.getElementById('lavaInputDesc');
+const lavaAnswerInput = document.getElementById('lavaAnswerInput');
+const lavaSubmitBtn = document.getElementById('lavaSubmitBtn');
+const lavaTriesInfo = document.getElementById('lavaTriesInfo');
+
+// Store elements
+const storeBtnHome = document.getElementById('storeBtnHome');
+const storeOverlay = document.getElementById('storeOverlay');
+const storeCloseBtn = document.getElementById('storeCloseBtn');
+const storeTabs = document.getElementById('storeTabs');
+const storeItemsContainer = document.getElementById('storeItems');
+const storeItemsSection = document.getElementById('storeItemsSection');
+const storeGemCount = document.getElementById('storeGemCount');
+
+// Character preview elements
+const characterPreviewDisplay = document.getElementById('characterPreviewDisplay');
+const currentItemsList = document.getElementById('currentItemsList');
+
+// Gem and reward elements
+const gemCounter = document.getElementById('gemCounter');
+const gemCount = document.getElementById('gemCount');
+const rewardNotification = document.getElementById('rewardNotification');
+const rewardGems = document.getElementById('rewardGems');
+
+// Home button during gameplay
+const homeBtnGame = document.getElementById('homeBtnGame');
+const homepageBtn = document.getElementById('homepageBtn');
+const backToHomeBtn1 = document.getElementById('backToHomeBtn1');
+const backToHomeBtn2 = document.getElementById('backToHomeBtn2');
+
+// NEW: Shop button during gameplay
+const storeBtnGame = document.getElementById('storeBtnGame');
+
+// Function to play correct answer sound (bell sound)
+function playCorrectSound() {
+    // Create a simple bell sound using the Web Audio API
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // C5
+    oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1); // E5
+    oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2); // G5
+    
+    oscillator.type = 'sine';
+    
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.5);
+}
+
+// Create roblox character HTML - WITH ALL NEW HAIR STYLES, TOPS, AND ACCESSORIES
+function createRobloxCharacterHTML(color, isLarge = false) {
+    const colorClass = color === 'red' ? 'rb-red-variant' : 
+                      color === 'green' ? 'rb-green-variant' :
+                      color === 'white' ? 'rb-white-variant' :
+                      color === 'purple' ? 'rb-purple-variant' :
+                      color === 'black' ? 'rb-black-variant' :
+                      color === 'gold' ? 'rb-yellow-variant' : '';
+    
+    // Use the preview-large class for store preview
+    const scaleClass = isLarge ? 'preview-large' : '';
+    
+    return `
+        <div class="roblox-character ${colorClass} ${scaleClass}">
+            <div class="rb-head">
+                <div class="rb-face">
+                    <div class="rb-eye left"></div>
+                    <div class="rb-eye right"></div>
+                    <div class="rb-mouth smiling"></div> <!-- CHANGED: ALWAYS SMILING -->
+                </div>
+            </div>
+            <div class="rb-torso"></div>
+            <div class="rb-arm left"></div>
+            <div class="rb-arm right"></div>
+            <div class="legs-container">
+                <div class="rb-leg left">
+                    <div class="rb-shoe"></div>
+                </div>
+                <div class="rb-leg right">
+                    <div class="rb-shoe"></div>
+                </div>
+            </div>
+            <!-- Accessories -->
+            <div class="rb-hat" style="display:none;">
+                <div class="rb-hat-top"></div>
+            </div>
+            <!-- FIXED: Updated glasses to proper eye glasses -->
+            <div class="rb-glasses" style="display:none;">
+                <div class="rb-glasses-frame">
+                    <div class="rb-glasses-lens left"></div>
+                    <div class="rb-glasses-bridge"></div>
+                    <div class="rb-glasses-lens right"></div>
+                </div>
+            </div>
+            <!-- REMOVED: Backpack -->
+            <div class="rb-necklace" style="display:none;">
+                <div class="rb-necklace-chain"></div>
+                <div class="rb-necklace-pendant">✦</div>
+            </div>
+            <!-- NEW ACCESSORIES -->
+            <div class="rb-watch" style="display:none;">
+                <div class="rb-watch-band"></div>
+            </div>
+            <div class="rb-headphones" style="display:none;">
+                <div class="rb-headphones-band">
+                    <div class="rb-headphones-cup left"></div>
+                    <div class="rb-headphones-cup right"></div>
+                </div>
+            </div>
+            <div class="rb-ribbon-neck" style="display:none;">
+    <div class="rb-ribbon-bow-left"></div>
+    <div class="rb-ribbon-bow-right"></div>
+    <div class="rb-ribbon-center"></div>
+    <div class="rb-ribbon-end left"></div>
+    <div class="rb-ribbon-end right"></div>
+            </div>
+            <!-- Hair styles - ALL NEW STYLES INCLUDED -->
+            <div class="rb-hair rb-spiky-hair" style="display:none;"></div>
+            <div class="rb-hair rb-long-hair" style="display:none;"></div>
+            <div class="rb-hair rb-curly-hair" style="display:none;"></div>
+            <div class="rb-hair rb-punk-hair" style="display:none;"></div>
+            <div class="rb-hair rb-afro-hair" style="display:none;"></div>
+            <div class="rb-hair rb-braids-hair" style="display:none;"></div>
+            <div class="rb-hair rb-bob-hair" style="display:none;"></div>
+            <div class="rb-hair rb-messy-bun-hair" style="display:none;"></div>
+            <div class="rb-hair rb-dreadlocks-hair" style="display:none;"></div>
+            <div class="rb-hair rb-side-part-hair" style="display:none;"></div>
+            <!-- Item Designs - NEW: Actual item designs that match pictures -->
+            <div class="rb-classic-polo" style="display:none;">
+                <div class="shirt-base"></div>
+                <div class="collar"></div>
+                <div class="button"></div>
+            </div>
+            <div class="rb-dress-shirt" style="display:none;">
+                <div class="shirt-base"></div>
+                <div class="buttons">
+                    <div class="button"></div>
+                    <div class="button"></div>
+                    <div class="button"></div>
+                </div>
+            </div>
+            <div class="rb-striped-shirt" style="display:none;">
+                <div class="shirt-base"></div>
+            </div>
+            <!-- NEW: Four additional tops - REMOVED SLEEVELESS UNDERSHIRT -->
+            <div class="rb-graphic-tshirt" style="display:none;">
+                <div class="shirt-base"></div>
+                <div class="graphic">✦</div>
+                <div class="sleeves">
+                    <div class="sleeve left"></div>
+                    <div class="sleeve right"></div>
+                </div>
+            </div>
+            <div class="rb-vest" style="display:none;">
+                <div class="vest-base"></div>
+                <div class="buttons">
+                    <div class="button"></div>
+                    <div class="button"></div>
+                </div>
+            </div>
+            <div class="rb-sport-polo" style="display:none;">
+                <div class="shirt-base"></div>
+                <div class="collar"></div>
+                <div class="stripe"></div>
+            </div>
+        </div>
+    `;
+}
+
+// Show pop-up notification function - UPDATED WITH VOICE FEATURES AND LONGER DISPLAY TIME AFTER 3 WRONG ATTEMPTS
+function showPopupNotification(message, showCorrectAnswer = false, correctAnswer = '') {
+    // Set popup content
+    popupTitle.textContent = showCorrectAnswer ? 'Incorrect' : 'WRONG ANSWER!';
+    popupMessage.textContent = message;
+    
+    if (showCorrectAnswer && correctAnswer) {
+        popupCorrectAnswer.textContent = `The correct answer is: ${correctAnswer}`;
+        popupCorrectAnswer.style.display = 'block';
+        // Speak with voice: "Incorrect! The answer is [correct answer]"
+        speakPopupMessage(`Incorrect! The correct answer is ${correctAnswer}.`, 0.9);
+    } else {
+        popupCorrectAnswer.style.display = 'none';
+        // Speak with voice: "Wrong answer"
+        speakPopupMessage("Wrong answer", 0.9);
+    }
+    
+    // Show the popup
+    popupNotification.style.display = 'flex';
+    
+    // Calculate display time based on wrong attempts
+    // Base time: 3 seconds for wrong answers, 4 seconds for correct answer reveal
+    let baseTime = showCorrectAnswer ? 1500 : 1000;
+    
+    // Increase time after every 3 wrong attempts
+    // For example: after 3 wrong attempts, add 2 seconds, after 6 wrong attempts, add 4 seconds, etc.
+    let extraTime = Math.floor(wrongAttemptsForCurrentWord / 3) * 2000;
+    
+    // Cap the extra time at 8 seconds (so max total time would be 12 seconds)
+    extraTime = Math.min(extraTime, 8000);
+    
+    // Calculate total display time
+    const totalDisplayTime = baseTime + extraTime;
+    
+    // Auto-hide after calculated time
+    setTimeout(() => {
+        popupNotification.style.display = 'none';
+    }, totalDisplayTime);
+    
+    console.log(`Popup display time: ${totalDisplayTime}ms (base: ${baseTime}ms + extra: ${extraTime}ms, wrong attempts: ${wrongAttemptsForCurrentWord})`);
+}
+
+// Initialize store
+function initStore() {
+    // Store button click on home screen
+    storeBtnHome.addEventListener('click', () => {
+        openStore();
+    });
+    
+    // Store button during gameplay
+    storeBtnGame.addEventListener('click', () => {
+        openStore();
+    });
+    
+    // Close store
+    storeCloseBtn.addEventListener('click', () => {
+    storeOverlay.style.display = 'none';
+    // Reset any "trying" items when closing store
+    tryingItem = null;
+    tryingItemType = null;
+    // Save any changes
+    savePlayerData();
+    applyPurchasedItems();
+    
+    // If we're in gameplay, resume gameplay music
+    if (gameActive) {
+        homepageMusic.pause();
+        gameplayMusic.currentTime = 0;
+        gameplayMusic.play().catch(e => console.log("Couldn't play gameplay music:", e));
+    }
+});
+}
+
+
+// Open store function
+function openStore() {
+    // Pause gameplay music, start homepage music when in shop
+    gameplayMusic.pause();
+    homepageMusic.currentTime = 0; // Start from beginning
+    homepageMusic.play().catch(e => {
+        console.log("Couldn't play homepage music in shop:", e);
+    });
+    
+    storeOverlay.style.display = 'flex';
+    storeGemCount.textContent = gems;
+    loadStoreTabs();
+    loadStoreItems('tops');
+    updateCharacterPreview();
+    updateCurrentItemsList();
+}
+
+// Home button during gameplay functionality
+function initHomeButton() {
+    homeBtnGame.addEventListener('click', () => {
+        if (!gameActive) return;
+        
+        // Pause the game
+        gameActive = false;
+        clearInterval(lavaCountdown);
+        botsTimeouts.forEach(t => clearTimeout(t));
+        
+        // Hide game elements
+        lavaInputContainer.style.display = 'none';
+        questionCard.style.display = 'none';
+        homeBtnGame.style.display = 'none';
+        storeBtnGame.style.display = 'none';
+        
+        // Show home overlay
+        homeOverlay.style.display = 'flex';
+        
+        // Resume background music when returning to homepage
+        backgroundMusic.currentTime = 0;
+        backgroundMusic.play().catch(e => console.log("Couldn't play background music:", e));
+        
+        // Save current state so they can return
+        saveGameState();
+    });
+}
+
+// Save current game state
+function saveGameState() {
+    localStorage.setItem('lavaRushGameState', JSON.stringify({
+        currentLevelIndex,
+        currentWordIndex,
+        triesLeft,
+        score,
+        gems,
+        lavaPercent,
+        lavaTimerSeconds,
+        screenOffset,
+        CHARACTERS: CHARACTERS.map(c => ({
+            id: c.id,
+            blocks: c.blocks,
+            alive: c.alive,
+            color: c.color
+        })),
+        playerColor,
+        playerItems,
+        equippedAccessories,
+        equippedHair,
+        equippedTop,
+        equippedBottom,
+        equippedSpecialBlocks
+    }));
+}
+
+// Load game state (if exists)
+function loadGameState() {
+    const savedState = localStorage.getItem('lavaRushGameState');
+    if (savedState) {
+        const state = JSON.parse(savedState);
+        currentLevelIndex = state.currentLevelIndex;
+        currentWordIndex = state.currentWordIndex;
+        triesLeft = state.triesLeft;
+        score = state.score;
+        gems = state.gems;
+        lavaPercent = state.lavaPercent;
+        lavaTimerSeconds = state.lavaTimerSeconds;
+        screenOffset = state.screenOffset;
+        
+        // Restore character states
+        state.CHARACTERS.forEach(savedChar => {
+            const char = CHARACTERS.find(c => c.id === savedChar.id);
+            if (char) {
+                char.blocks = savedChar.blocks;
+                char.alive = savedChar.alive;
+                char.color = savedChar.color;
+            }
+        });
+        
+        playerColor = state.playerColor;
+        playerItems = state.playerItems || {};
+        equippedAccessories = state.equippedAccessories || {};
+        equippedHair = state.equippedHair || null;
+        equippedTop = state.equippedTop || null;
+        equippedBottom = state.equippedBottom || null;
+        equippedSpecialBlocks = state.equippedSpecialBlocks || {};
+        
+        // Update displays
+        gemCount.textContent = gems;
+        scoreBox.textContent = `Score: ${score}`;
+        
+        return true;
+    }
+    return false;
+}
+
+// Resume game from saved state
+function resumeGame() {
+    // Hide home overlay
+    homeOverlay.style.display = 'none';
+    
+    // Show game elements
+    lavaInputContainer.style.display = 'block';
+    homeBtnGame.style.display = 'block';
+    storeBtnGame.style.display = 'block';
+    
+    // Update all stacks and visuals
+    updateAllStacks();
+    updateHUD();
+    applyLavaHeight();
+    
+    // Restart game loop
+    gameActive = true;
+    setupLavaTimer();
+    showNextQuestion();
+    
+    // Apply purchased items
+    applyPurchasedItems();
+}
+
+// Update character preview - UPDATED TO USE ACTUAL ITEM DESIGNS INCLUDING NEW ONES
+function updateCharacterPreview() {
+    if (!characterPreviewDisplay) return;
+    
+    // Create a fresh character with current settings
+    characterPreviewDisplay.innerHTML = createRobloxCharacterHTML(playerColor, true);
+    
+    // Apply current equipped items
+    const previewChar = characterPreviewDisplay.querySelector('.roblox-character');
+    if (!previewChar) return;
+    
+    // Hide default torso when we have a top equipped
+    const defaultTorso = previewChar.querySelector('.rb-torso');
+    
+    // Get all item design elements
+    const classicPolo = previewChar.querySelector('.rb-classic-polo');
+    const dressShirt = previewChar.querySelector('.rb-dress-shirt');
+    const stripedShirt = previewChar.querySelector('.rb-striped-shirt');
+    const graphicTshirt = previewChar.querySelector('.rb-graphic-tshirt');
+    const vest = previewChar.querySelector('.rb-vest');
+    const sportPolo = previewChar.querySelector('.rb-sport-polo');
+    
+    // Apply accessories to preview - UPDATED FOR NEW DESIGNS
+    const hat = previewChar.querySelector('.rb-hat');
+    const glasses = previewChar.querySelector('.rb-glasses');
+    const necklace = previewChar.querySelector('.rb-necklace');
+    const watch = previewChar.querySelector('.rb-watch');
+    const headphones = previewChar.querySelector('.rb-headphones');
+    const ribbonNeck = previewChar.querySelector('.rb-ribbon-neck');
+    
+    // Apply all hair styles
+    const spikyHair = previewChar.querySelector('.rb-spiky-hair');
+    const longHair = previewChar.querySelector('.rb-long-hair');
+    const curlyHair = previewChar.querySelector('.rb-curly-hair');
+    const punkHair = previewChar.querySelector('.rb-punk-hair');
+    const afroHair = previewChar.querySelector('.rb-afro-hair');
+    const braidsHair = previewChar.querySelector('.rb-braids-hair');
+    const bobHair = previewChar.querySelector('.rb-bob-hair');
+    const messyBunHair = previewChar.querySelector('.rb-messy-bun-hair');
+    const dreadlocksHair = previewChar.querySelector('.rb-dreadlocks-hair');
+    const sidePartHair = previewChar.querySelector('.rb-side-part-hair');
+    
+    // Reset all hair styles
+    [spikyHair, longHair, curlyHair, punkHair, afroHair, braidsHair, bobHair, messyBunHair, dreadlocksHair, sidePartHair].forEach(hair => {
+        if (hair) hair.style.display = 'none';
+    });
+    
+    // Hide all item designs initially
+    [classicPolo, dressShirt, stripedShirt, graphicTshirt, vest, sportPolo].forEach(item => {
+        if (item) item.style.display = 'none';
+    });
+    
+    // Show default torso initially
+    if (defaultTorso) defaultTorso.style.display = 'block';
+    
+    // Apply color class based on equippedBottom (legs color)
+    previewChar.classList.remove('rb-red-variant', 'rb-green-variant', 'rb-white-variant', 'rb-purple-variant', 'rb-black-variant');
+    
+    // Handle trying items
+    if (tryingItem && tryingItemType) {
+        if (tryingItemType === 'tops') {
+            // Hide default torso when trying a top
+            if (defaultTorso) defaultTorso.style.display = 'none';
+            
+            // Show the actual item design that matches the picture
+            if (tryingItem === 'rb_classic_polo' && classicPolo) {
+                classicPolo.style.display = 'block';
+            } else if (tryingItem === 'rb_dress_shirt' && dressShirt) {
+                dressShirt.style.display = 'block';
+            } else if (tryingItem === 'rb_striped_shirt' && stripedShirt) {
+                stripedShirt.style.display = 'block';
+            } else if (tryingItem === 'rb_graphic_tshirt' && graphicTshirt) {
+                graphicTshirt.style.display = 'block';
+            } else if (tryingItem === 'rb_vest' && vest) {
+                vest.style.display = 'block';
+            } else if (tryingItem === 'rb_sport_polo' && sportPolo) {
+                sportPolo.style.display = 'block';
+            }
+        } else if (tryingItemType === 'bottoms') {
+            // For bottoms (legs colors), apply color class to change LEGS only
+            if (tryingItem === 'red_torso') {
+                previewChar.classList.add('rb-red-variant');
+            } else if (tryingItem === 'green_torso') {
+                previewChar.classList.add('rb-green-variant');
+            } else if (tryingItem === 'white_torso') {
+                previewChar.classList.add('rb-white-variant');
+            } else if (tryingItem === 'purple_torso') {
+                previewChar.classList.add('rb-purple-variant');
+            } else if (tryingItem === 'gold_torso') {
+                // For gold, apply special styling
+                const legs = previewChar.querySelectorAll('.rb-leg');
+                legs.forEach(leg => {
+                    leg.style.backgroundColor = '#FFD700';
+                });
+            } else if (tryingItem === 'black_torso') {
+                previewChar.classList.add('rb-black-variant');
+            }
+        } else if (tryingItemType === 'accessory') {
+            // Trying accessories - UPDATED FOR NEW DESIGNS (backpack removed)
+            if (tryingItem === 'rb_hat' && hat) hat.style.display = 'block';
+            if (tryingItem === 'rb_glasses' && glasses) glasses.style.display = 'block';
+            if (tryingItem === 'rb_necklace' && necklace) necklace.style.display = 'block';
+            if (tryingItem === 'rb_watch' && watch) watch.style.display = 'block';
+            if (tryingItem === 'rb_headphones' && headphones) headphones.style.display = 'block';
+            if (tryingItem === 'rb_ribbon_neck' && ribbonNeck) ribbonNeck.style.display = 'block';
+        } else if (tryingItemType === 'hair') {
+            // Trying hair - ALL NEW STYLES INCLUDED
+            if (tryingItem === 'spiky_hair' && spikyHair) spikyHair.style.display = 'block';
+            if (tryingItem === 'long_hair' && longHair) longHair.style.display = 'block';
+            if (tryingItem === 'curly_hair' && curlyHair) curlyHair.style.display = 'block';
+            if (tryingItem === 'punk_hair' && punkHair) punkHair.style.display = 'block';
+            if (tryingItem === 'afro_hair' && afroHair) afroHair.style.display = 'block';
+            if (tryingItem === 'braids_hair' && braidsHair) braidsHair.style.display = 'block';
+            if (tryingItem === 'bob_hair' && bobHair) bobHair.style.display = 'block';
+            if (tryingItem === 'messy_bun_hair' && messyBunHair) messyBunHair.style.display = 'block';
+            if (tryingItem === 'dreadlocks_hair' && dreadlocksHair) dreadlocksHair.style.display = 'block';
+            if (tryingItem === 'side_part_hair' && sidePartHair) sidePartHair.style.display = 'block';
+        }
+    } else {
+        // Apply owned/equipped items - USE ACTUAL ITEM DESIGNS
+        if (defaultTorso) defaultTorso.style.display = 'block';
+        
+        // Apply equipped top - USE ACTUAL ITEM DESIGNS (INCLUDING NEW ONES)
+        if (equippedTop === 'rb_classic_polo' && classicPolo) {
+            defaultTorso.style.display = 'none';
+            classicPolo.style.display = 'block';
+        } else if (equippedTop === 'rb_dress_shirt' && dressShirt) {
+            defaultTorso.style.display = 'none';
+            dressShirt.style.display = 'block';
+        } else if (equippedTop === 'rb_striped_shirt' && stripedShirt) {
+            defaultTorso.style.display = 'none';
+            stripedShirt.style.display = 'block';
+        } else if (equippedTop === 'rb_graphic_tshirt' && graphicTshirt) {
+            defaultTorso.style.display = 'none';
+            graphicTshirt.style.display = 'block';
+        } else if (equippedTop === 'rb_vest' && vest) {
+            defaultTorso.style.display = 'none';
+            vest.style.display = 'block';
+        } else if (equippedTop === 'rb_sport_polo' && sportPolo) {
+            defaultTorso.style.display = 'none';
+            sportPolo.style.display = 'block';
+        }
+        
+        // Apply equipped bottom (legs color) - UPDATED WITH NEW COLORS
+        if (equippedBottom === 'red_torso') {
+            previewChar.classList.add('rb-red-variant');
+        } else if (equippedBottom === 'green_torso') {
+            previewChar.classList.add('rb-green-variant');
+        } else if (equippedBottom === 'white_torso') {
+            previewChar.classList.add('rb-white-variant');
+        } else if (equippedBottom === 'purple_torso') {
+            previewChar.classList.add('rb-purple-variant');
+        } else if (equippedBottom === 'gold_torso') {
+            // Apply gold color directly to legs
+            const legs = previewChar.querySelectorAll('.rb-leg');
+            legs.forEach(leg => {
+                leg.style.backgroundColor = '#FFD700';
+            });
+        } else if (equippedBottom === 'black_torso') {
+            previewChar.classList.add('rb-black-variant');
+        }
+        
+        // Apply accessories - UPDATED FOR NEW DESIGNS (backpack removed)
+        if (hat) hat.style.display = equippedAccessories.rb_hat ? 'block' : 'none';
+        if (glasses) glasses.style.display = equippedAccessories.rb_glasses ? 'block' : 'none';
+        if (necklace) necklace.style.display = equippedAccessories.rb_necklace ? 'block' : 'none';
+        if (watch) watch.style.display = equippedAccessories.rb_watch ? 'block' : 'none';
+        if (headphones) headphones.style.display = equippedAccessories.rb_headphones ? 'block' : 'none';
+        if (ribbonNeck) ribbonNeck.style.display = equippedAccessories.rb_ribbon_neck ? 'block' : 'none';
+        
+        // Apply hair - ALL NEW STYLES INCLUDED - EXACTLY AS IN GAME
+        if (equippedHair === 'spiky_hair' && spikyHair) spikyHair.style.display = 'block';
+        if (equippedHair === 'long_hair' && longHair) longHair.style.display = 'block';
+        if (equippedHair === 'curly_hair' && curlyHair) curlyHair.style.display = 'block';
+        if (equippedHair === 'punk_hair' && punkHair) punkHair.style.display = 'block';
+        if (equippedHair === 'afro_hair' && afroHair) afroHair.style.display = 'block';
+        if (equippedHair === 'braids_hair' && braidsHair) braidsHair.style.display = 'block';
+        if (equippedHair === 'bob_hair' && bobHair) bobHair.style.display = 'block';
+        if (equippedHair === 'messy_bun_hair' && messyBunHair) messyBunHair.style.display = 'block';
+        if (equippedHair === 'dreadlocks_hair' && dreadlocksHair) dreadlocksHair.style.display = 'block';
+        if (equippedHair === 'side_part_hair' && sidePartHair) sidePartHair.style.display = 'block';
+    }
+}
+
+// Update current items list
+function updateCurrentItemsList() {
+    if (!currentItemsList) return;
+    
+    let itemsText = '';
+    let itemCount = 0;
+    
+    // Check for tops - INCLUDING NEW ONES
+    if (equippedTop === 'rb_classic_polo') { itemsText += '• Classic Polo<br>'; itemCount++; }
+    if (equippedTop === 'rb_dress_shirt') { itemsText += '• White Polo<br>'; itemCount++; }
+    if (equippedTop === 'rb_striped_shirt') { itemsText += '• Striped Shirt<br>'; itemCount++; }
+    if (equippedTop === 'rb_graphic_tshirt') { itemsText += '• Graphic T-Shirt<br>'; itemCount++; }
+    if (equippedTop === 'rb_vest') { itemsText += '• Formal Vest<br>'; itemCount++; }
+    if (equippedTop === 'rb_sport_polo') { itemsText += '• Sport Polo<br>'; itemCount++; }
+    
+    // Check for bottoms (legs colors) - UPDATED WITH NEW NAMES
+    if (equippedBottom === 'red_torso') { itemsText += '• Red<br>'; itemCount++; }
+    if (equippedBottom === 'green_torso') { itemsText += '• Green<br>'; itemCount++; }
+    if (equippedBottom === 'white_torso') { itemsText += '• White<br>'; itemCount++; }
+    if (equippedBottom === 'purple_torso') { itemsText += '• Purple<br>'; itemCount++; }
+    if (equippedBottom === 'gold_torso') { itemsText += '• Gold<br>'; itemCount++; }
+    if (equippedBottom === 'black_torso') { itemsText += '• Black<br>'; itemCount++; }
+    
+    // Check for accessories - UPDATED: Eye Glasses instead of Sunglasses, removed backpack, added new accessories
+    if (equippedAccessories.rb_hat) { itemsText += '• Cool Hat<br>'; itemCount++; }
+    if (equippedAccessories.rb_glasses) { itemsText += '• Eye Glasses<br>'; itemCount++; }
+    if (equippedAccessories.rb_necklace) { itemsText += '• Gold Necklace<br>'; itemCount++; }
+    if (equippedAccessories.rb_watch) { itemsText += '• Gold Watch<br>'; itemCount++; }
+    if (equippedAccessories.rb_headphones) { itemsText += '• Sunglasses<br>'; itemCount++; }
+    if (equippedAccessories.rb_ribbon_neck) { itemsText += '• Fashion Neck Ribbon<br>'; itemCount++; }
+    
+    // Check for hair - ALL NEW STYLES INCLUDED
+    if (equippedHair === 'spiky_hair') { itemsText += '• Spiky Hair<br>'; itemCount++; }
+    if (equippedHair === 'long_hair') { itemsText += '• Long Hair<br>'; itemCount++; }
+    if (equippedHair === 'curly_hair') { itemsText += '• Curly Hair<br>'; itemCount++; }
+    if (equippedHair === 'punk_hair') { itemsText += '• Punk Hair<br>'; itemCount++; }
+    if (equippedHair === 'afro_hair') { itemsText += '• Afro Hair<br>'; itemCount++; }
+    if (equippedHair === 'braids_hair') { itemsText += '• Braids Hair<br>'; itemCount++; }
+    if (equippedHair === 'bob_hair') { itemsText += '• Bob Hair<br>'; itemCount++; }
+    if (equippedHair === 'messy_bun_hair') { itemsText += '• Messy Bun<br>'; itemCount++; }
+    if (equippedHair === 'dreadlocks_hair') { itemsText += '• Dreadlocks<br>'; itemCount++; }
+    if (equippedHair === 'side_part_hair') { itemsText += '• Side Part Hair<br>'; itemCount++; }
+    
+    // Check for special blocks - INCLUDING NEW ONES - FIXED: Show only the equipped one
+    let equippedBlock = null;
+    if (equippedSpecialBlocks.diamond_block) { equippedBlock = 'Diamond Block'; }
+    else if (equippedSpecialBlocks.emerald_block) { equippedBlock = 'Emerald Block'; }
+    else if (equippedSpecialBlocks.ruby_block) { equippedBlock = 'Ruby Block'; }
+    else if (equippedSpecialBlocks.gold_block) { equippedBlock = 'Gold Block'; }
+    else if (equippedSpecialBlocks.rainbow_block) { equippedBlock = 'Rainbow Block'; }
+    else if (equippedSpecialBlocks.glowstone_block) { equippedBlock = 'Glowstone Block'; }
+    
+    if (equippedBlock) { 
+        itemsText += `• ${equippedBlock}<br>`; 
+        itemCount++; 
+    }
+    
+    if (itemsText === '') {
+        itemsText = 'No items equipped yet.<br>Browse the store to get some cool items!';
+    } else {
+        itemsText = `<span style="color:#0288D1;font-weight:bold;">Total Items: ${itemCount}</span><br><br>` + itemsText;
+    }
+    
+    currentItemsList.innerHTML = itemsText;
+}
+
+// Load store tabs - UPDATED: Added Special Blocks tab
+function loadStoreTabs() {
+    storeTabs.innerHTML = '';
+    
+    const tabs = [
+        {id: 'tops', name: 'Tops', icon: '👕'},
+        {id: 'bottoms', name: 'Bottoms', icon: '👖'},
+        {id: 'hair', name: 'Hair', icon: '💇'},
+        {id: 'accessories', name: 'Accessories', icon: '👓'},
+        {id: 'blocks', name: 'Special Blocks', icon: '🧱'} // NEW: Special Blocks tab
+    ];
+    
+    tabs.forEach(tab => {
+        const btn = document.createElement('button');
+        btn.className = `tab-btn ${tab.id === 'tops' ? 'active' : ''}`;
+        btn.dataset.tab = tab.id;
+        btn.innerHTML = `${tab.icon} ${tab.name}`;
+        
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            loadStoreItems(tab.id);
+            // Clear trying items when switching tabs
+            tryingItem = null;
+            tryingItemType = null;
+            updateCharacterPreview();
+        });
+        
+        storeTabs.appendChild(btn);
+    });
+}
+
+// Load store items by category - UPDATED: Added blocks section
+function loadStoreItems(category) {
+    storeItemsContainer.innerHTML = '';
+    
+    // Update title based on category
+    const storeItemsTitle = document.querySelector('#storeItemsTitle');
+    let title = '🛒 STORE ITEMS';
+    if (category === 'tops') title = '👕 TOPS';
+    else if (category === 'bottoms') title = '👖 Bottoms';
+    else if (category === 'hair') title = '💇 HAIR';
+    else if (category === 'accessories') title = '👓 ACCESSORIES';
+    else if (category === 'blocks') title = '🧱 SPECIAL BLOCKS'; // NEW
+    storeItemsTitle.textContent = title;
+    
+    let items = [];
+    
+    // Load from appropriate category
+    if (category === 'blocks') {
+        items = STORE_ITEMS.shared.blocks || [];
+    } else {
+        items = STORE_ITEMS.roblox[category] || [];
+    }
+    
+    items.forEach(item => {
+        const itemEl = document.createElement('div');
+        itemEl.className = 'store-item';
+        
+        const isOwned = playerItems[item.id];
+        const isTrying = tryingItem === item.id;
+        
+        let isEquipped = false;
+        if (category === 'accessories') {
+            isEquipped = equippedAccessories[item.id];
+        } else if (category === 'hair') {
+            isEquipped = equippedHair === item.id;
+        } else if (category === 'tops') {
+            isEquipped = equippedTop === item.id;
+        } else if (category === 'bottoms') {
+            isEquipped = equippedBottom === item.id;
+        } else if (category === 'blocks') {
+            // FIXED: For blocks, only one can be equipped at a time
+            isEquipped = equippedSpecialBlocks[item.id];
+        }
+        
+        // Don't show "Try On" button for special blocks
+        const showTryBtn = !isOwned && category !== 'blocks';
+        
+        itemEl.innerHTML = `
+            <div class="item-image">${item.icon}</div>
+            <div class="item-name">${item.name}</div>
+            <div class="item-price">
+                <span class="gem-icon">💎</span>
+                ${item.price}
+            </div>
+            <div style="font-size:14px;color:#666;text-align:center;">${item.effect}</div>
+            <button class="buy-btn ${isOwned ? 'owned' : ''}" 
+                    data-id="${item.id}" 
+                    data-price="${item.price}"
+                    data-type="${item.type}"
+                    ${isOwned ? 'disabled' : ''}>
+                ${isOwned ? 'OWNED ✓' : 'BUY NOW'}
+            </button>
+            ${showTryBtn ? `
+                <button class="try-btn ${isTrying ? 'active' : ''}" 
+                        data-id="${item.id}"
+                        data-type="${item.type}">
+                    ${isTrying ? 'TRYING ON ✓' : 'TRY ON'}
+                </button>
+            ` : ''}
+            ${isOwned ? `
+                <button class="remove-btn" data-id="${item.id}" data-type="${item.type}">
+                    ${isEquipped ? 'EQUIPPED ✓' : 'EQUIP'}
+                </button>
+            ` : ''}
+        `;
+        
+        storeItemsContainer.appendChild(itemEl);
+        
+        // Add event listener to buy button if not owned
+        if (!isOwned) {
+            const buyBtn = itemEl.querySelector('.buy-btn');
+            buyBtn.addEventListener('click', () => {
+                buyItem(item.id, item.price, item.type, item.name);
+            });
+        }
+        
+        // Add event listener to try button (only for non-owned items and not blocks)
+        if (showTryBtn) {
+            const tryBtn = itemEl.querySelector('.try-btn');
+            tryBtn.addEventListener('click', () => {
+                if (isTrying) {
+                    // Stop trying this item
+                    tryingItem = null;
+                    tryingItemType = null;
+                    tryBtn.textContent = 'TRY ON';
+                    tryBtn.classList.remove('active');
+                } else {
+                    // Try this item
+                    tryingItem = item.id;
+                    tryingItemType = item.type;
+                    tryBtn.textContent = 'TRYING ON ✓';
+                    tryBtn.classList.add('active');
+                    
+                    // Remove active state from other try buttons
+                    document.querySelectorAll('.try-btn').forEach(btn => {
+                        if (btn !== tryBtn) {
+                            btn.textContent = 'TRY ON';
+                            btn.classList.remove('active');
+                        }
+                    });
+                }
+                updateCharacterPreview();
+            });
+        }
+        
+        // Add event listener to remove/equip button
+        if (isOwned) {
+            const removeBtn = itemEl.querySelector('.remove-btn');
+            removeBtn.addEventListener('click', () => {
+                toggleEquipItem(item.id, item.type, item.name, category);
+            });
+        }
+    });
+}
+
+// Toggle equip/remove item - UPDATED FOR NEW CATEGORIES INCLUDING BLOCKS - FIXED: Only one special block at a time
+function toggleEquipItem(itemId, type, name, category) {
+    if (type === 'accessory') {
+        // Toggle accessory
+        if (equippedAccessories[itemId]) {
+            // Remove accessory
+            equippedAccessories[itemId] = false;
+            alert(`${name} has been removed from your character.`);
+        } else {
+            // Equip accessory
+            equippedAccessories[itemId] = true;
+            alert(`${name} has been equipped to your character.`);
+        }
+    } else if (type === 'tops') {
+        // For tops, you can only have one active at a time
+        if (equippedTop === itemId) {
+            // Remove top - go back to default
+            equippedTop = null;
+            alert(`${name} has been removed.`);
+        } else {
+            // Equip this top
+            equippedTop = itemId;
+            alert(`${name} has been equipped.`);
+        }
+    } else if (type === 'bottoms') {
+        // For bottoms (legs colors), you can only have one active at a time
+        if (equippedBottom === itemId) {
+            // Remove bottom - go back to default blue
+            equippedBottom = null;
+            playerColor = 'blue';
+            alert(`${name} has been removed. Legs are now default color.`);
+        } else {
+            // Equip this bottom (legs color)
+            equippedBottom = itemId;
+            // Update player color based on legs color
+            if (itemId === 'red_torso') playerColor = 'red';
+            else if (itemId === 'green_torso') playerColor = 'green';
+            else if (itemId === 'white_torso') playerColor = 'white';
+            else if (itemId === 'purple_torso') playerColor = 'purple';
+            else if (itemId === 'gold_torso') playerColor = 'gold';
+            else if (itemId === 'black_torso') playerColor = 'black';
+            alert(`${name} has been equipped.`);
+        }
+    } else if (type === 'hair') {
+        // For hair, you can only have one style at a time
+        if (equippedHair === itemId) {
+            // Remove hair
+            equippedHair = null;
+            alert(`${name} has been removed from your character.`);
+        } else {
+            // Equip hair
+            equippedHair = itemId;
+            alert(`${name} has been equipped to your character.`);
+        }
+    } else if (type === 'block') {
+        // FIXED: For special blocks, only one can be equipped at a time
+        if (equippedSpecialBlocks[itemId]) {
+            // Remove special block
+            equippedSpecialBlocks[itemId] = false;
+            alert(`${name} has been unequipped.`);
+        } else {
+            // Unequip all other special blocks first
+            Object.keys(equippedSpecialBlocks).forEach(key => {
+                equippedSpecialBlocks[key] = false;
+            });
+            
+            // Equip this special block
+            equippedSpecialBlocks[itemId] = true;
+            alert(`${name} has been equipped. Your new blocks will be special!`);
+        }
+    }
+    
+    // Save changes
+    savePlayerData();
+    
+    // Update character preview
+    updateCharacterPreview();
+    
+    // Update current items list
+    updateCurrentItemsList();
+    
+    // Reload store items to update buttons
+    const activeTab = document.querySelector('.tab-btn.active').dataset.tab;
+    loadStoreItems(activeTab);
+    
+    // Apply to game character
+    applyPurchasedItems();
+}
+
+// Buy item function - AUTOMATIC PURCHASE WITHOUT CONFIRMATION DIALOG
+function buyItem(itemId, price, type, name) {
+    if (gems < price) {
+        alert(`Not enough gems! You need ${price} gems but only have ${gems}.`);
+        return;
+    }
+    
+    // AUTOMATIC PURCHASE - No confirmation dialog
+    gems -= price;
+    playerItems[itemId] = true;
+    
+    // If it's an accessory, equip it automatically
+    if (type === 'accessory') {
+        equippedAccessories[itemId] = true;
+    }
+    
+    // If it's a top, equip it automatically
+    if (type === 'tops') {
+        equippedTop = itemId;
+    }
+    
+    // If it's a bottom (legs color), equip it automatically
+    if (type === 'bottoms') {
+        equippedBottom = itemId;
+        // Update player color based on legs color
+        if (itemId === 'red_torso') playerColor = 'red';
+        else if (itemId === 'green_torso') playerColor = 'green';
+        else if (itemId === 'white_torso') playerColor = 'white';
+        else if (itemId === 'purple_torso') playerColor = 'purple';
+        else if (itemId === 'gold_torso') playerColor = 'gold';
+        else if (itemId === 'black_torso') playerColor = 'black';
+    }
+    
+    // If it's hair, equip it automatically
+    if (type === 'hair') {
+        equippedHair = itemId;
+    }
+    
+    // If it's a special block, equip it automatically (and unequip others)
+    if (type === 'block') {
+        // Unequip all other special blocks first
+        Object.keys(equippedSpecialBlocks).forEach(key => {
+            equippedSpecialBlocks[key] = false;
+        });
+        equippedSpecialBlocks[itemId] = true;
+    }
+    
+    // Update displays
+    gemCount.textContent = gems;
+    storeGemCount.textContent = gems;
+    
+    // Save to localStorage
+    savePlayerData();
+    
+    // Apply purchased items to game character immediately
+    applyPurchasedItems();
+    
+    // Update character preview
+    updateCharacterPreview();
+    
+    // Update current items list
+    updateCurrentItemsList();
+    
+    // Reload store items to update buttons
+    const activeTab = document.querySelector('.tab-btn.active').dataset.tab;
+    loadStoreItems(activeTab);
+    
+    // Show purchase confirmation (but not a dialog)
+    const purchaseMsg = document.createElement('div');
+    purchaseMsg.className = 'gem-animation';
+    purchaseMsg.textContent = `Purchased ${name}!`;
+    purchaseMsg.style.left = '50%';
+    purchaseMsg.style.top = '50%';
+    purchaseMsg.style.color = '#4CAF50';
+    purchaseMsg.style.fontSize = '24px';
+    purchaseMsg.style.zIndex = '1000';
+    
+    document.getElementById('arena').appendChild(purchaseMsg);
+    
+    // Remove after animation completes
+    setTimeout(() => {
+        if (purchaseMsg.parentNode) {
+            purchaseMsg.parentNode.removeChild(purchaseMsg);
+        }
+    }, 1500);
+}
+
+// Create gem animation
+function createGemAnimation(x, y, gemAmount) {
+    const gemEl = document.createElement('div');
+    gemEl.className = 'gem-animation';
+    gemEl.textContent = `+${gemAmount} 💎`;
+    gemEl.style.left = x + 'px';
+    gemEl.style.top = y + 'px';
+    gemEl.style.color = '#FFD700';
+    
+    document.getElementById('arena').appendChild(gemEl);
+    
+    // Remove after animation completes
+    setTimeout(() => {
+        if (gemEl.parentNode) {
+            gemEl.parentNode.removeChild(gemEl);
+        }
+    }, 1500);
+}
+
+// Show reward notification
+function showRewardNotification(gemAmount) {
+    rewardGems.textContent = `+${gemAmount}`;
+    rewardNotification.style.display = 'flex';
+    
+    // Hide after 2 seconds
+    setTimeout(() => {
+        rewardNotification.style.display = 'none';
+    }, 2000);
+}
+
+// Add gems to player's total - FIXED: Gems now persist across games
+function addGems(amount, x = null, y = null) {
+    gems += amount;
+    gemCount.textContent = gems;
+    storeGemCount.textContent = gems;
+    
+    // Save gems to localStorage
+    savePlayerData();
+    
+    // Create floating gem animation if coordinates provided
+    if (x !== null && y !== null) {
+        createGemAnimation(x, y, amount);
+    }
+    
+    // Show reward notification for larger amounts
+    if (amount >= 5) {
+        showRewardNotification(amount);
+    }
+    
+    // Update gem counter with animation
+    gemCounter.style.transform = 'scale(1.2)';
+    setTimeout(() => {
+        gemCounter.style.transform = 'scale(1)';
+    }, 300);
+}
+
+// Save player data to localStorage
+function savePlayerData() {
+    let playerData = JSON.parse(localStorage.getItem('playerData') || '{}');
+    if (!playerData[playerNameFromURL]) {
+        playerData[playerNameFromURL] = {};
+    }
+    playerData[playerNameFromURL].gems = gems;
+    playerData[playerNameFromURL].items = playerItems;
+    playerData[playerNameFromURL].color = playerColor;
+    playerData[playerNameFromURL].equippedAccessories = equippedAccessories;
+    playerData[playerNameFromURL].equippedHair = equippedHair;
+    playerData[playerNameFromURL].equippedTop = equippedTop;
+    playerData[playerNameFromURL].equippedBottom = equippedBottom;
+    playerData[playerNameFromURL].equippedSpecialBlocks = equippedSpecialBlocks;
+    localStorage.setItem('playerData', JSON.stringify(playerData));
+}
+
+// Load player data from localStorage
+function loadPlayerData() {
+    let playerData = JSON.parse(localStorage.getItem('playerData') || '{}');
+    if (playerData[playerNameFromURL]) {
+        gems = playerData[playerNameFromURL].gems || 0;
+        playerItems = playerData[playerNameFromURL].items || {};
+        playerColor = playerData[playerNameFromURL].color || 'blue';
+        equippedAccessories = playerData[playerNameFromURL].equippedAccessories || {};
+        equippedHair = playerData[playerNameFromURL].equippedHair || null;
+        equippedTop = playerData[playerNameFromURL].equippedTop || null;
+        equippedBottom = playerData[playerNameFromURL].equippedBottom || null;
+        equippedSpecialBlocks = playerData[playerNameFromURL].equippedSpecialBlocks || {};
+        gemCount.textContent = gems;
+        storeGemCount.textContent = gems;
+        
+        // Apply purchased items to character
+        CHARACTERS[0].color = playerColor;
+        
+        // Wait a bit for DOM to be ready, then apply items
+        setTimeout(() => {
+            applyPurchasedItems();
+            updateCurrentItemsList();
+        }, 500);
+    }
+}
+// Apply purchased items to character - UPDATED WITH NEW ACCESSORY DESIGNS (backpack removed)
+function applyPurchasedItems() {
+    const playerChar = document.getElementById('player-char');
+    if (!playerChar) return;
+    
+    // Get default torso
+    const defaultTorso = playerChar.querySelector('.rb-torso');
+    
+    // Get all item design elements
+    const classicPolo = playerChar.querySelector('.rb-classic-polo');
+    const dressShirt = playerChar.querySelector('.rb-dress-shirt');
+    const stripedShirt = playerChar.querySelector('.rb-striped-shirt');
+    const graphicTshirt = playerChar.querySelector('.rb-graphic-tshirt');
+    const vest = playerChar.querySelector('.rb-vest');
+    const sportPolo = playerChar.querySelector('.rb-sport-polo');
+    
+    // Hide all item designs initially
+    [classicPolo, dressShirt, stripedShirt, graphicTshirt, vest, sportPolo].forEach(item => {
+        if (item) item.style.display = 'none';
+    });
+    
+    // Show default torso initially
+    if (defaultTorso) defaultTorso.style.display = 'block';
+    
+    // Remove all color classes first
+    playerChar.classList.remove('rb-red-variant', 'rb-green-variant', 'rb-white-variant', 'rb-purple-variant', 'rb-black-variant');
+    
+    // Apply equipped top - USE ACTUAL ITEM DESIGNS (INCLUDING NEW ONES)
+    if (equippedTop === 'rb_classic_polo' && classicPolo) {
+        defaultTorso.style.display = 'none';
+        classicPolo.style.display = 'block';
+    } else if (equippedTop === 'rb_dress_shirt' && dressShirt) {
+        defaultTorso.style.display = 'none';
+        dressShirt.style.display = 'block';
+    } else if (equippedTop === 'rb_striped_shirt' && stripedShirt) {
+        defaultTorso.style.display = 'none';
+        stripedShirt.style.display = 'block';
+    } else if (equippedTop === 'rb_graphic_tshirt' && graphicTshirt) {
+        defaultTorso.style.display = 'none';
+        graphicTshirt.style.display = 'block';
+    } else if (equippedTop === 'rb_vest' && vest) {
+        defaultTorso.style.display = 'none';
+        vest.style.display = 'block';
+    } else if (equippedTop === 'rb_sport_polo' && sportPolo) {
+        defaultTorso.style.display = 'none';
+        sportPolo.style.display = 'block';
+    }
+    
+    // Apply equipped bottom (legs color) - ONLY AFFECTS LEGS
+    if (equippedBottom === 'red_torso') {
+        playerChar.classList.add('rb-red-variant');
+    } else if (equippedBottom === 'green_torso') {
+        playerChar.classList.add('rb-green-variant');
+    } else if (equippedBottom === 'white_torso') {
+        playerChar.classList.add('rb-white-variant');
+    } else if (equippedBottom === 'purple_torso') {
+        playerChar.classList.add('rb-purple-variant');
+    } else if (equippedBottom === 'gold_torso') {
+        // Apply gold color directly to legs
+        const legs = playerChar.querySelectorAll('.rb-leg');
+        legs.forEach(leg => {
+            leg.style.backgroundColor = '#FFD700';
+        });
+    } else if (equippedBottom === 'black_torso') {
+        playerChar.classList.add('rb-black-variant');
+    }
+    
+    // Apply accessories - UPDATED FOR NEW DESIGNS (backpack removed)
+    const hat = playerChar.querySelector('.rb-hat');
+    const glasses = playerChar.querySelector('.rb-glasses');
+    const necklace = playerChar.querySelector('.rb-necklace');
+    const watch = playerChar.querySelector('.rb-watch');
+    const headphones = playerChar.querySelector('.rb-headphones');
+    const ribbonNeck = playerChar.querySelector('.rb-ribbon-neck');
+    
+    if (hat) hat.style.display = equippedAccessories.rb_hat ? 'block' : 'none';
+    if (glasses) glasses.style.display = equippedAccessories.rb_glasses ? 'block' : 'none';
+    if (necklace) necklace.style.display = equippedAccessories.rb_necklace ? 'block' : 'none';
+    if (watch) watch.style.display = equippedAccessories.rb_watch ? 'block' : 'none';
+    if (headphones) headphones.style.display = equippedAccessories.rb_headphones ? 'block' : 'none';
+    if (ribbonNeck) ribbonNeck.style.display = equippedAccessories.rb_ribbon_neck ? 'block' : 'none';
+    
+    // Apply hair - ALL NEW STYLES INCLUDED - EXACTLY AS IN PREVIEW
+    const spikyHair = playerChar.querySelector('.rb-spiky-hair');
+    const longHair = playerChar.querySelector('.rb-long-hair');
+    const curlyHair = playerChar.querySelector('.rb-curly-hair');
+    const punkHair = playerChar.querySelector('.rb-punk-hair');
+    const afroHair = playerChar.querySelector('.rb-afro-hair');
+    const braidsHair = playerChar.querySelector('.rb-braids-hair');
+    const bobHair = playerChar.querySelector('.rb-bob-hair');
+    const messyBunHair = playerChar.querySelector('.rb-messy-bun-hair');
+    const dreadlocksHair = playerChar.querySelector('.rb-dreadlocks-hair');
+    const sidePartHair = playerChar.querySelector('.rb-side-part-hair');
+    
+    // Reset all hair styles
+    [spikyHair, longHair, curlyHair, punkHair, afroHair, braidsHair, bobHair, messyBunHair, dreadlocksHair, sidePartHair].forEach(hair => {
+        if (hair) hair.style.display = 'none';
+    });
+    
+    // Apply equipped hair
+    if (equippedHair === 'spiky_hair' && spikyHair) spikyHair.style.display = 'block';
+    if (equippedHair === 'long_hair' && longHair) longHair.style.display = 'block';
+    if (equippedHair === 'curly_hair' && curlyHair) curlyHair.style.display = 'block';
+    if (equippedHair === 'punk_hair' && punkHair) punkHair.style.display = 'block';
+    if (equippedHair === 'afro_hair' && afroHair) afroHair.style.display = 'block';
+    if (equippedHair === 'braids_hair' && braidsHair) braidsHair.style.display = 'block';
+    if (equippedHair === 'bob_hair' && bobHair) bobHair.style.display = 'block';
+    if (equippedHair === 'messy_bun_hair' && messyBunHair) messyBunHair.style.display = 'block';
+    if (equippedHair === 'dreadlocks_hair' && dreadlocksHair) dreadlocksHair.style.display = 'block';
+    if (equippedHair === 'side_part_hair' && sidePartHair) sidePartHair.style.display = 'block';
+    
+    // Apply special blocks to player's stack
+    updateSpecialBlocks();
+}
+
+// Update special blocks in the player's stack - FIXED: Only one block type at a time
+function updateSpecialBlocks() {
+    const playerStack = document.getElementById('player-stack');
+    if (!playerStack) return;
+    
+    const blocks = playerStack.querySelectorAll('.block');
+    blocks.forEach((block, index) => {
+        // Reset block to default
+        block.style.background = 'linear-gradient(135deg,#FF9800,#FFB74D)';
+        block.style.border = '3px solid #E65100';
+        block.style.boxShadow = 'inset 0 -3px 0 rgba(0,0,0,0.25),0 4px 0 rgba(0,0,0,0.35)';
+        block.style.animation = '';
+        
+        // Apply special blocks if equipped - FIXED: Only one at a time
+        if (equippedSpecialBlocks.diamond_block) {
+            // Diamond block: shiny blue gradient
+            block.style.background = 'linear-gradient(135deg, #4FC3F7, #29B6F6, #0288D1)';
+            block.style.border = '3px solid #01579B';
+            block.style.boxShadow = 'inset 0 -3px 0 rgba(0,0,0,0.25),0 4px 0 rgba(0,0,0,0.35), 0 0 10px rgba(79,195,247,0.7)';
+        } else if (equippedSpecialBlocks.emerald_block) {
+            // Emerald block: glowing green
+            block.style.background = 'linear-gradient(135deg, #66BB6A, #43A047, #2E7D32)';
+            block.style.border = '3px solid #1B5E20';
+            block.style.boxShadow = 'inset 0 -3px 0 rgba(0,0,0,0.25),0 4px 0 rgba(0,0,0,0.35), 0 0 10px rgba(102,187,106,0.7)';
+        } else if (equippedSpecialBlocks.ruby_block) {
+            // Ruby block: fiery red
+            block.style.background = 'linear-gradient(135deg, #E57373, #F44336, #D32F2F)';
+            block.style.border = '3px solid #B71C1C';
+            block.style.boxShadow = 'inset 0 -3px 0 rgba(0,0,0,0.25),0 4px 0 rgba(0,0,0,0.35), 0 0 10px rgba(244,67,54,0.7)';
+        } else if (equippedSpecialBlocks.gold_block) {
+            // Gold block: shiny gold with sparkles
+            block.style.background = 'linear-gradient(135deg, #FFD700, #FFC107, #FFA000)';
+            block.style.border = '3px solid #B28704';
+            block.style.boxShadow = 'inset 0 -3px 0 rgba(0,0,0,0.25),0 4px 0 rgba(0,0,0,0.35), 0 0 15px rgba(255,215,0,0.8)';
+        } else if (equippedSpecialBlocks.rainbow_block) {
+            // Rainbow block: color-changing gradient
+            block.style.background = 'linear-gradient(135deg, #FF0000, #FF7F00, #FFFF00, #00FF00, #0000FF, #4B0082, #8B00FF)';
+            block.style.border = '3px solid #000';
+            block.style.boxShadow = 'inset 0 -3px 0 rgba(0,0,0,0.25),0 4px 0 rgba(0,0,0,0.35), 0 0 12px rgba(255,0,0,0.6)';
+            // Add animation for rainbow effect
+            block.style.animation = 'rainbowGlow 3s infinite alternate';
+        } else if (equippedSpecialBlocks.glowstone_block) {
+            // Glowstone block: glowing yellow light
+            block.style.background = 'linear-gradient(135deg, #FFF176, #FFEB3B, #FFD600)';
+            block.style.border = '3px solid #F9A825';
+            block.style.boxShadow = 'inset 0 -3px 0 rgba(0,0,0,0.25),0 4px 0 rgba(0,0,0,0.35), 0 0 20px rgba(255,235,59,0.9)';
+        }
+    });
+}
+
+// Add CSS animation for rainbow block
+const style = document.createElement('style');
+style.textContent = `
+@keyframes rainbowGlow {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+}
+`;
+document.head.appendChild(style);
+
+// Utility to create character columns
+function createCharacterCols(){
+  row.innerHTML='';
+  CHARACTERS.forEach((c,idx)=>{
+    const col = document.createElement('div');
+    col.className='char-col';
+    col.id = c.id+'-col';
+    
+    const name = document.createElement('div');
+    name.className='name-bubble';
+    name.textContent = c.name;
+    
+    // Stack container to hold blocks at bottom
+    const stackContainer = document.createElement('div');
+    stackContainer.className='stack-container';
+    
+    const stack = document.createElement('div');
+    stack.className='block-stack';
+    stack.id = c.id + '-stack';
+    
+    // Add initial blocks from bottom up (using flex-direction: column-reverse)
+    for(let i=0;i<c.blocks;i++){
+      const b = document.createElement('div');
+      b.className='block';
+      stack.appendChild(b);
+    }
+    
+    stackContainer.appendChild(stack);
+    
+    const char = document.createElement('div');
+    char.id = c.id + '-char';
+    char.className = 'roblox-character';
+    
+    // Set color class
+    if (c.color === 'red') {
+        char.classList.add('rb-red-variant');
+    } else if (c.color === 'green') {
+        char.classList.add('rb-green-variant');
+    } else if (c.color === 'white') {
+        char.classList.add('rb-white-variant');
+    } else if (c.color === 'purple') {
+        char.classList.add('rb-purple-variant');
+    } else if (c.color === 'black') {
+        char.classList.add('rb-black-variant');
+    } else if (c.color === 'gold') {
+        // For gold, we'll handle it in applyPurchasedItems
+        char.classList.add('rb-gold-variant');
+    }
+    
+    char.innerHTML = createRobloxCharacterHTML(c.color || 'blue', false);
+    
+    // Position character at the top of the stack container
+    char.style.position = 'absolute';
+    char.style.bottom = '0';
+    char.style.zIndex = '6';
+    
+    col.appendChild(name);
+    col.appendChild(stackContainer);
+    stackContainer.appendChild(char);
+    
+    row.appendChild(col);
+    
+    // Update visual
+    updateStackVisual(c.id, c.blocks);
+  });
+  
+  // Apply purchased items after characters are created - IMPORTANT!
+  setTimeout(() => {
+    applyPurchasedItems();
+  }, 100);
+}
+
+function updateStackVisual(id, blocks){
+  const stack = document.getElementById(id+'-stack');
+  const charCol = document.getElementById(id+'-col');
+  const character = document.getElementById(id+'-char');
+  if(!stack || !charCol || !character) return;
+  
+  // Clear existing blocks
+  stack.innerHTML='';
+  
+  // Add blocks from bottom up (will be reversed by CSS)
+  for(let i=0;i<blocks;i++){
+    const b = document.createElement('div');
+    b.className='block';
+    stack.appendChild(b);
+  }
+  
+  // Position character at the top of the stack
+  const totalBlockHeight = blocks * (18 + 3); // block height (18) + gap (3)
+  character.style.bottom = totalBlockHeight + 'px';
+  
+  // Apply purchased items to player character
+  if (id === 'player') {
+    applyPurchasedItems();
+  }
+  
+  // Check if we need to adjust the screen view
+  adjustScreenView();
+}
+
+// Adjust screen view when characters get too high
+function adjustScreenView() {
+  if (!gameActive) return;
+  
+  // Calculate the highest character position
+  let maxCharacterHeight = 0;
+  CHARACTERS.forEach(c => {
+    if (c.alive) {
+      // Calculate character's total height from bottom
+      const characterHeight = 120 + (c.blocks * 21); // character height (120) + blocks (18+3)
+      maxCharacterHeight = Math.max(maxCharacterHeight, characterHeight);
+    }
+  });
+  
+  // Calculate what percentage of screen this height represents
+  const arenaHeight = window.innerHeight;
+  const characterScreenPercent = (maxCharacterHeight / arenaHeight) * 100;
+  
+  // If characters are getting too high (close to top of screen), move view up
+  if (characterScreenPercent > SCREEN_ADJUST_THRESHOLD && screenOffset < 400) {
+    screenOffset += SCREEN_ADJUST_AMOUNT;
+    row.style.bottom = `calc(18% + 40px + ${screenOffset}px)`;
+    
+    // Adjust lava input container to stay at bottom
+    lavaInputContainer.style.bottom = `${25 + (screenOffset / 4)}px`;
+    
+    // Adjust HUD if needed
+    if (hud) {
+      hud.style.top = `${20 + (screenOffset / 20)}px`;
+    }
+  }
+  
+  // Record the highest character for game logic
+  highestCharacter = characterScreenPercent;
+}
+
+// Reset screen view
+function resetScreenView() {
+  screenOffset = 0;
+  row.style.bottom = 'calc(18% + 40px)';
+  lavaInputContainer.style.bottom = '25px';
+  if (hud) {
+    hud.style.top = '20px';
+  }
+}
+
+// Text-to-Speech function for spelling words
+function speakWord(word, rate = 0.9) {
+    if ('speechSynthesis' in window) {
+        // Cancel any ongoing speech
+        speechSynthesis.cancel();
+        
+        const utterance = new SpeechSynthesisUtterance(word);
+        utterance.rate = rate;
+        utterance.volume = 1.0;
+        utterance.pitch = 1.0;
+        
+        // Clear the input field when starting to speak
+        lavaAnswerInput.value = '';
+        
+        speechSynthesis.speak(utterance);
+        
+        // Focus on input after a short delay
+        setTimeout(() => {
+            lavaAnswerInput.focus();
+        }, 500);
+    } else {
+        console.log('Speech synthesis not supported');
+        // Fallback: just clear and focus the input
+        lavaAnswerInput.value = '';
+        lavaAnswerInput.focus();
+    }
+}
+
+// Text-to-Speech function for pop-up messages
+function speakPopupMessage(message, rate = 0.9) {
+    if ('speechSynthesis' in window) {
+        // Cancel any ongoing speech
+        speechSynthesis.cancel();
+        
+        const utterance = new SpeechSynthesisUtterance(message);
+        utterance.rate = rate;
+        utterance.volume = 1.0;
+        utterance.pitch = 1.0;
+        
+        speechSynthesis.speak(utterance);
+    } else {
+        console.log('Speech synthesis not supported');
+    }
+}
+
+// Initialize audio replay button
+function initAudioReplayButton() {
+    audioReplayBtn.addEventListener('click', () => {
+        if (currentAudioWord) {
+            speakWord(currentAudioWord);
+        }
+    });
+}
+
+// Start game flow
+playBtn.addEventListener('click',()=>{
+  // Stop homepage music and start gameplay music
+  homepageMusic.pause();
+  gameplayMusic.currentTime = 0; // Start from beginning
+  gameplayMusic.play().catch(e => {
+    console.log("Couldn't play gameplay music:", e);
+  });
+  
+  homeOverlay.style.display='none';
+  // Clear any saved game state and start fresh
+  localStorage.removeItem('lavaRushGameState');
+  startLevel(0);
+});
+
+restartBtn.addEventListener('click',()=>{
+  gameOverOverlay.style.display='none';
+  // Clear saved game state when restarting - BUT KEEP GEMS
+  localStorage.removeItem('lavaRushGameState');
+  startLevel(0);
+});
+
+winnerRestartBtn.addEventListener('click',()=>{
+  winnerOverlay.style.display='none';
+  // Clear saved game state when restarting - BUT KEEP GEMS
+  localStorage.removeItem('lavaRushGameState');
+  startLevel(0);
+});
+
+function startLevel(levelIndex){
+  currentLevelIndex = levelIndex;
+  currentWordIndex = 0;
+  
+  // FIXED: Reset game state but KEEP GEMS
+  score = 0;
+  lavaPercent = 18;
+  screenOffset = 0;
+  triesLeft = 3;
+  wrongAttemptsForCurrentWord = 0; // RESET WRONG ATTEMPTS COUNTER
+  
+  CHARACTERS.forEach(c=>{
+    c.blocks = START_BLOCKS;
+    c.alive = true;
+  });
+  
+  // Reset screen view
+  resetScreenView();
+  
+  // Reset character visuals (keep purchased items)
+  CHARACTERS.forEach(c=>{
+    const char = document.getElementById(c.id + '-char');
+    if(char){
+      char.classList.remove('dead');
+      char.style.opacity = '1';
+    }
+    const nameBubble = document.querySelector('#' + c.id + '-col .name-bubble');
+    if(nameBubble){
+      nameBubble.style.backgroundColor = '#FFEB3B';
+    }
+  });
+  
+  updateAllStacks();
+  updateHUD();
+  gameActive = true;
+  
+  // Hide old question card, show lava input
+  questionCard.style.display = 'none';
+  lavaInputContainer.style.display = 'block';
+  homeBtnGame.style.display = 'block';
+  storeBtnGame.style.display = 'block'; // Show shop button during gameplay
+  
+  // Ensure game over overlays are hidden
+  gameOverOverlay.style.display = 'none';
+  winnerOverlay.style.display = 'none';
+  
+  // Update gem counter (gems persist)
+  gemCount.textContent = gems;
+  
+  // REAPPLY PURCHASED ITEMS - IMPORTANT!
+  setTimeout(() => {
+    applyPurchasedItems();
+  }, 100);
+  
+  setupLavaTimer();
+  showNextQuestion();
+}
+
+function updateAllStacks(){
+  CHARACTERS.forEach(c=>updateStackVisual(c.id,c.blocks));
+}
+
+function setupLavaTimer(){
+  clearInterval(lavaIntervalId);
+  clearInterval(lavaCountdown);
+  
+  lavaPercent = 18;
+  applyLavaHeight();
+  
+  const lvl = LEVELS[currentLevelIndex];
+  lavaTimerSeconds = lvl.lavaInterval;
+  lavaCountdown = setInterval(()=>{
+    lavaTimerSeconds--;
+    lavaTimer.textContent = `Lava in: ${lavaTimerSeconds}s`;
+    if(lavaTimerSeconds<=0){
+      riseLava();
+      lavaTimerSeconds = lvl.lavaInterval;
+    }
+  },1200);
+}
+
+function riseLava(){
+  const lvl = LEVELS[currentLevelIndex];
+  lavaPercent = Math.min(MAX_LAVA_PERCENT, lavaPercent + 4);
+  applyLavaHeight();
+  checkLavaDeaths();
+}
+
+function applyLavaHeight(){
+  lavaEl.style.height = lavaPercent + '%';
+}
+
+function checkLavaDeaths(){
+  CHARACTERS.forEach(c=>{
+    if(!c.alive) return;
+    
+    // Calculate the bottom of the character's block stack in percentage
+    // Each block is approximately BLOCK_HEIGHT_PERCENT of screen height
+    const characterBottomPercent = 18 + (c.blocks * BLOCK_HEIGHT_PERCENT);
+    
+    // If lava has reached or passed the character's bottom block
+    if(lavaPercent >= characterBottomPercent){
+      if(c.isPlayer){
+        // Player loses immediately when lava reaches their first block
+        endGame(false, 'The lava reached your blocks!');
+      } else {
+        // Bot is defeated - stays dead
+        c.alive = false;
+        c.blocks = 0;
+        updateStackVisual(c.id, c.blocks);
+        
+        // Visual feedback for dead bot
+        const char = document.getElementById(c.id + '-char');
+        if(char){
+          char.classList.add('dead');
+          char.style.opacity = '0.5';
+        }
+        const nameBubble = document.querySelector('#' + c.id + '-col .name-bubble');
+        if(nameBubble){
+          nameBubble.style.backgroundColor = '#888';
+        }
+        
+        console.log(`${c.name} was defeated by lava`);
+      }
+    }
+  });
+  
+  // Check if player is dead (should be handled in the loop above)
+  const player = CHARACTERS.find(x=>x.isPlayer);
+  if(player && !player.alive){
+    endGame(false, 'You were defeated by lava!');
+  }
+}
+
+// Question flow - UPDATED TO INCLUDE AUDIO AND TRACK WRONG ATTEMPTS
+function showNextQuestion(){
+  if(!gameActive) return;
+  
+  const lvl = LEVELS[currentLevelIndex];
+  const levelKey = lvl.name;
+  const bank = WORD_BANK[levelKey];
+  
+  if(currentWordIndex >= bank.length){
+    // Move to next level immediately without alert
+    currentLevelIndex++;
+    currentWordIndex = 0;
+    
+    if(currentLevelIndex >= LEVELS.length){
+      endGame(true,'Congratulations! You are the winner!');
+      return;
+    } else {
+      // Continue to next level seamlessly
+      updateHUD();
+      showNextQuestion();
+      return;
+    }
+  }
+  
+  const item = bank[currentWordIndex];
+  triesLeft = 3;
+  wrongAttemptsForCurrentWord = 0; // RESET WRONG ATTEMPTS FOR NEW WORD
+  
+  // Update lava input display
+  lavaInputDesc.textContent = item.desc;
+  lavaTriesInfo.textContent = `Tries left: ${triesLeft}`;
+  lavaAnswerInput.value = '';
+  
+  // Also update old question card (for consistency)
+  questionDesc.textContent = item.desc;
+  triesInfo.textContent = `Tries left: ${triesLeft}`;
+  
+  // Set current audio word and play it
+  currentAudioWord = item.word;
+  speakWord(item.word);
+  
+  startBotsForQuestion(item.word, lvl.botAccuracy);
+}
+
+// Bot logic
+let botsTimeouts = [];
+function startBotsForQuestion(correctWord, baseAccuracy){
+  botsTimeouts.forEach(t=>clearTimeout(t));
+  botsTimeouts=[];
+  
+  CHARACTERS.filter(c=>!c.isPlayer && c.alive).forEach((bot, idx)=>{
+    const accuracy = Math.min(0.98, baseAccuracy + (Math.random()*0.12 - 0.06));
+    const willGetIt = Math.random() < accuracy;
+    
+    const lvl = LEVELS[currentLevelIndex];
+    const baseDelay = lvl.lavaInterval * 500;
+    const jitter = Math.random()*baseDelay;
+    const delay = 2000 + jitter + idx*700;
+    
+    const t = setTimeout(()=>{
+      if(!gameActive || !bot.alive) return;
+      
+      if(willGetIt){
+        bot.blocks += 1; 
+        updateStackVisual(bot.id, bot.blocks);
+        const bubble = document.querySelector('#'+bot.id+'-col .name-bubble');
+        const prev = bubble.textContent; 
+        bubble.textContent = bot.name + ' ✓';
+        setTimeout(()=>{
+          if(bubble) bubble.textContent = prev;
+        },900);
+      } else {
+        const bubble = document.querySelector('#'+bot.id+'-col .name-bubble');
+        const prev = bubble.textContent; 
+        bubble.textContent = bot.name + ' ✗';
+        setTimeout(()=>{
+          if(bubble) bubble.textContent = prev;
+        },900);
+      }
+    }, delay);
+    botsTimeouts.push(t);
+  });
+}
+
+// Submit handling for OLD input
+submitBtn.addEventListener('click', ()=>handleSubmit());
+answerInput.addEventListener('keydown', (e)=>{ 
+  if(e.key === 'Enter') handleSubmit(); 
+});
+
+// Submit handling for lava input
+lavaSubmitBtn.addEventListener('click', ()=>handleLavaSubmit());
+lavaAnswerInput.addEventListener('keydown', (e)=>{ 
+  if(e.key === 'Enter') handleLavaSubmit(); 
+});
+
+function handleSubmit(){
+  if(!gameActive) return;
+  const answer = (answerInput.value||'').trim().toLowerCase();
+  if(answer === '') return;
+  const lvl = LEVELS[currentLevelIndex];
+  const item = WORD_BANK[lvl.name][currentWordIndex];
+  if(!item) return;
+  
+  processAnswer(answer, item);
+}
+
+function handleLavaSubmit(){
+  if(!gameActive) return;
+  const answer = (lavaAnswerInput.value||'').trim().toLowerCase();
+  if(answer === '') return;
+  const lvl = LEVELS[currentLevelIndex];
+  const item = WORD_BANK[lvl.name][currentWordIndex];
+  if(!item) return;
+  
+  processAnswer(answer, item);
+}
+
+function processAnswer(answer, item){
+  if(answer === item.word.toLowerCase()){
+    // Play bell sound for correct answer (no voice, no pop-up)
+    playCorrectSound();
+    
+    score += 10;
+    scoreBox.textContent = `Score: ${score}`;
+    
+    // Award gems for correct spelling
+    let gemAward = 5;
+    if (currentLevelIndex === 1) gemAward = 8; // DIFFICULT level
+    if (currentLevelIndex === 2) gemAward = 12; // IMPOSSIBLE level
+    
+    // Bonus gems for perfect spelling (no mistakes)
+    if (triesLeft === 3) {
+      gemAward += 2;
+    }
+    
+    // Add gems with animation from input box position
+    const inputRect = lavaInputContainer.getBoundingClientRect();
+    const x = inputRect.left + inputRect.width / 2;
+    const y = inputRect.top;
+    addGems(gemAward, x, y);
+    
+    const player = CHARACTERS.find(x=>x.isPlayer);
+    if(player && player.alive){
+      player.blocks += 1; 
+      updateStackVisual(player.id, player.blocks);
+      
+      const pbubble = document.querySelector('#player-col .name-bubble'); 
+      const prev=pbubble.textContent; 
+      pbubble.textContent = playerNameFromURL + ' ✓ +' + gemAward + '💎'; 
+      setTimeout(()=>{
+        if(pbubble) pbubble.textContent=prev;
+      },800);
+    }
+    
+    currentWordIndex++;
+    showNextQuestion();
+  } else {
+    // INCREMENT WRONG ATTEMPTS COUNTER
+    wrongAttemptsForCurrentWord++;
+    
+    // Show pop-up notification for wrong answer
+    triesLeft -= 1;
+    
+    // Show pop-up with voice message
+    if (triesLeft <= 0) {
+        // All 3 tries used - show correct answer with voice
+        showPopupNotification('Wrong answer', true, item.word);
+        
+        // Move to next question after a short delay
+        setTimeout(() => {
+            currentWordIndex++;
+            showNextQuestion();
+        }, 4000);
+    } else {
+        // Still has tries left - show simple wrong answer message
+        showPopupNotification('TRY AGAIN');
+    }
+    
+    // Update tries display
+    lavaTriesInfo.textContent = `Tries left: ${triesLeft}`;
+    triesInfo.textContent = `Tries left: ${triesLeft}`;
+    
+    // Clear input and focus for next attempt
+    lavaAnswerInput.value = '';
+    lavaAnswerInput.focus();
+    answerInput.value = '';
+    answerInput.focus();
+  }
+}
+
+function updateHUD(){
+  if(!gameActive) return;
+  levelBox.textContent = `Level: ${LEVELS[currentLevelIndex].name}`;
+  scoreBox.textContent = `Score: ${score}`;
+}
+
+// ================= CLOUD LEADERBOARD FUNCTIONS =================
+
+// Fetch scores from cloud
+async function fetchFromCloud() {
+    try {
+        const response = await fetch(`${CLOUD_API_URL}/latest`, {
+            headers: {
+                'X-Master-Key': CLOUD_MASTER_KEY,
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error(`Cloud error: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        return data.record?.scores || [];
+        
+    } catch (error) {
+        console.error('❌ Cloud fetch failed:', error);
+        // Fallback to localStorage
+        return JSON.parse(localStorage.getItem('gameScoresBackup') || '[]');
+    }
+}
+
+// Save player data to localStorage AND cloud
+async function savePlayerData() {
+    const playerData = {
+        gems: gems,
+        items: playerItems,
+        color: playerColor,
+        equippedAccessories: equippedAccessories,
+        equippedHair: equippedHair,
+        equippedTop: equippedTop,
+        equippedBottom: equippedBottom,
+        equippedSpecialBlocks: equippedSpecialBlocks,
+        lastUpdated: new Date().toISOString()
+    };
+    
+    // Save to cloud
+    await savePlayerToCloud(playerNameFromURL, playerData);
+    
+    // Also save locally as backup
+    let localData = JSON.parse(localStorage.getItem('playerData') || '{}');
+    localData[playerNameFromURL] = playerData;
+    localStorage.setItem('playerData', JSON.stringify(localData));
+}
+
+// SCORE SAVING FUNCTION - UPDATED FOR CLOUD
+async function saveScoreToDashboard(playerName, playerScore, gameType) {
+    // Create score object
+    const scoreData = {
+        playerName: playerName,
+        score: playerScore,
+        gems: gems,
+        gameType: gameType,
+        timestamp: new Date().toISOString(),
+        deviceId: localStorage.getItem('deviceId') || 'unknown'
+    };
+    
+    // Save to cloud
+    const cloudSuccess = await saveGameScoreToCloud(playerName, playerScore, gameType);
+    
+    if (cloudSuccess) {
+        console.log('✅ Score saved to cloud');
+    } else {
+        console.log('⚠️ Saved to local storage (cloud unavailable)');
+    }
+    
+    // Also save player data to cloud (including gems and items)
+    const playerData = {
+        name: playerName,
+        gems: gems,
+        items: playerItems,
+        color: playerColor,
+        equippedAccessories: equippedAccessories,
+        equippedHair: equippedHair,
+        equippedTop: equippedTop,
+        equippedBottom: equippedBottom,
+        equippedSpecialBlocks: equippedSpecialBlocks,
+        lastPlayed: new Date().toISOString(),
+        lastScore: playerScore,
+        totalGames: (localStorage.getItem(`${playerName}_totalGames`) || 0) + 1
+    };
+    
+    await savePlayerToCloud(playerName, playerData);
+    
+    // Keep local backup
+    localStorage.setItem('gameScores', JSON.stringify(
+        JSON.parse(localStorage.getItem('gameScores') || '[]')
+            .concat(scoreData)
+            .slice(-50)
+    ));
+    
+    console.log('Score saved:', scoreData);
+    
+    // Refresh all player data from cloud to update other players
+    await updateAllPlayersFromCloud();
+}
+
+// Load player data from localStorage AND cloud
+async function loadPlayerData() {
+    // First try to get from cloud
+    try {
+        const allPlayers = await getAllPlayersFromCloud();
+        if (allPlayers[playerNameFromURL]) {
+            const cloudData = allPlayers[playerNameFromURL];
+            gems = cloudData.gems || 0;
+            playerItems = cloudData.items || {};
+            playerColor = cloudData.color || 'blue';
+            equippedAccessories = cloudData.equippedAccessories || {};
+            equippedHair = cloudData.equippedHair || null;
+            equippedTop = cloudData.equippedTop || null;
+            equippedBottom = cloudData.equippedBottom || null;
+            equippedSpecialBlocks = cloudData.equippedSpecialBlocks || {};
+            gemCount.textContent = gems;
+            storeGemCount.textContent = gems;
+            
+            console.log('✅ Loaded player data from cloud');
+        }
+    } catch (error) {
+        console.log('⚠️ Could not load from cloud, using local storage');
+        // Fallback to local storage
+        let playerData = JSON.parse(localStorage.getItem('playerData') || '{}');
+        if (playerData[playerNameFromURL]) {
+            gems = playerData[playerNameFromURL].gems || 0;
+            playerItems = playerData[playerNameFromURL].items || {};
+            playerColor = playerData[playerNameFromURL].color || 'blue';
+            equippedAccessories = playerData[playerNameFromURL].equippedAccessories || {};
+            equippedHair = playerData[playerNameFromURL].equippedHair || null;
+            equippedTop = playerData[playerNameFromURL].equippedTop || null;
+            equippedBottom = playerData[playerNameFromURL].equippedBottom || null;
+            equippedSpecialBlocks = playerData[playerNameFromURL].equippedSpecialBlocks || {};
+            gemCount.textContent = gems;
+            storeGemCount.textContent = gems;
+        }
+    }
+    
+    // Apply purchased items to character
+    CHARACTERS[0].color = playerColor;
+    
+    // Wait a bit for DOM to be ready, then apply items
+    setTimeout(() => {
+        applyPurchasedItems();
+        updateCurrentItemsList();
+    }, 500);
+}
+
+// Function to update all players from cloud (for real-time dashboard)
+async function updateAllPlayersFromCloud() {
+    try {
+        const allPlayers = await getAllPlayersFromCloud();
+        
+        // Update the CHARACTERS array with all online players
+        const onlinePlayers = Object.values(allPlayers)
+            .filter(player => {
+                // Consider players active if they played in last 5 minutes
+                if (!player.lastUpdated) return false;
+                const lastPlayed = new Date(player.lastUpdated);
+                const fiveMinutesAgo = new Date(Date.now() - 5 * 60000);
+                return lastPlayed > fiveMinutesAgo;
+            });
+        
+        // Update dashboard display if we have one
+        if (window.updateDashboardDisplay) {
+            window.updateDashboardDisplay(onlinePlayers);
+        }
+        
+        return onlinePlayers;
+    } catch (error) {
+        console.error('Error updating players from cloud:', error);
+        return [];
+    }
+}
+
+
+// ================= MODIFIED SCORE SAVING FUNCTION =================
+// This function now saves to the cloud leaderboard instead of just localStorage
+async function saveScoreToDashboard(playerName, playerScore, gameType) {
+    if (!playerName || typeof playerScore !== 'number') {
+        console.error('Invalid score data');
+        return false;
+    }
+    
+    // Create score object with device ID
+    const newScore = {
+        playerName: playerName,
+        score: playerScore,
+        gems: gems,
+        gameType: gameType || 'Lava Rush',
+        timestamp: new Date().toISOString(),
+        deviceId: deviceId
+    };
+    
+    console.log('📤 Saving score to cloud leaderboard:', newScore);
+    
+    // Get current scores from cloud
+    let scores = await fetchFromCloud();
+    
+    // Add new score
+    scores.push(newScore);
+    
+    // Save to cloud
+    const success = await saveToCloud(scores);
+    
+    if (success) {
+        console.log(`✅ Score saved to cloud leaderboard! ${playerName}: ${playerScore} points`);
+    } else {
+        console.log('⚠️ Score saved locally only (cloud unavailable)');
+    }
+    
+    // Also save to localStorage for backward compatibility
+    let allScores = JSON.parse(localStorage.getItem('gameScores') || '[]');
+    allScores.unshift(newScore);
+    if (allScores.length > 40) {
+        allScores = allScores.slice(0, 40);
+    }
+    localStorage.setItem('gameScores', JSON.stringify(allScores));
+    localStorage.setItem('latestLavaRushScore', JSON.stringify(newScore));
+    
+    return success;
+}
+
+function endGame(won, message){
+  gameActive = false;
+  clearInterval(lavaCountdown);
+  botsTimeouts.forEach(t => clearTimeout(t));
+  
+  // Hide input box and home button
+  lavaInputContainer.style.display = 'none';
+  questionCard.style.display = 'none';
+  homeBtnGame.style.display = 'none';
+  storeBtnGame.style.display = 'none';
+  
+  // ========== SAVE SCORE TO CLOUD LEADERBOARD ==========
+  // This happens automatically when the game ends
+  saveScoreToDashboard(playerNameFromURL, score, gameTypeFromURL);
+  
+  // Clear saved game state when game ends
+  localStorage.removeItem('lavaRushGameState');
+  
+  if(won){
+    // Bonus gems for winning
+    const bonusGems = 50; // Big bonus for winning the game
+    addGems(bonusGems);
+    
+    // Show victory overlay
+    winnerScore.textContent = `Final Score: ${score}`;
+    winnerGemTotal.textContent = `Gems Earned: ${gems}`;
+    winnerMessage.textContent = message;
+    winnerOverlay.style.display = 'flex';
+    gameOverOverlay.style.display = 'none';
+    
+    // ADDED: Play win sound and clapping sound
+    winSound.currentTime = 0; // Reset to start
+    winSound.play().catch(e => console.log("Couldn't play win sound:", e));
+    
+    // Play clapping sound after a short delay (0.5 seconds)
+    setTimeout(() => {
+      clapSound.currentTime = 0; // Reset to start
+      clapSound.play().catch(e => console.log("Couldn't play clap sound:", e));
+    }, 500);
+    
+  } else {
+    // Show game over overlay
+    gameOverScore.textContent = `Score: ${score}`;
+    gemTotal.textContent = `Gems Earned: ${gems}`;
+    gameOverMessage.textContent = message;
+    gameOverOverlay.style.display = 'flex';
+    winnerOverlay.style.display = 'none';
+    
+    // ADDED: Play lose sound
+    loseSound.currentTime = 0; // Reset to start
+    loseSound.play().catch(e => console.log("Couldn't play lose sound:", e));
+  }
+}
+
+// Initialize visual
+createCharacterCols();
+
+// Get HUD reference for screen adjustment
+const hud = document.querySelector('.hud');
+
+// Lava bubble animation
+function createLavaBubbles(){
+  const arena = document.getElementById('arena');
+  for(let i=0;i<12;i++){
+    const b = document.createElement('div');
+    b.className='lava-bubble';
+    const size = 10 + Math.random()*30; 
+    b.style.width = size+'px'; 
+    b.style.height = size+'px';
+    const left = Math.random()*100; 
+    b.style.left = left+'%';
+    const bottom = Math.random()*30; 
+    b.style.bottom = bottom+'%';
+    arena.appendChild(b);
+    
+    const dur = 3000 + Math.random()*4000;
+    setTimeout(()=>{
+      b.style.transition='transform '+(dur/1000)+'s linear,opacity '+(dur/1000)+'s';
+      b.style.transform='translateY(-200px)';
+      b.style.opacity='0';
+    },100);
+    
+    setTimeout(()=>{
+      if(b.parentNode) b.parentNode.removeChild(b);
+    },dur+1200);
+  }
+}
+setInterval(createLavaBubbles,2500);
+createLavaBubbles();
+
+// Game loop - continuous lava rise
+setInterval(()=>{
+  if(!gameActive) return;
+  updateHUD();
+  
+  // Continuous slow lava rise (0.003% per frame)
+  lavaPercent = Math.min(MAX_LAVA_PERCENT, lavaPercent + 0.003);
+  applyLavaHeight();
+  
+  // Check for lava deaths more frequently
+  checkLavaDeaths();
+},800);
+
+// Load player data and initialize store when page loads
+loadPlayerData();
+initStore();
+initHomeButton();
+initAudioReplayButton(); // Initialize the audio replay button
+
+// Home button functionality for game over and win screens - CHANGED TEXT TO "HOME"
+backToHomeBtn1.addEventListener('click', () => {
+    // Stop gameplay music, start homepage music
+    gameplayMusic.pause();
+    homepageMusic.currentTime = 0;
+    homepageMusic.play().catch(e => console.log("Couldn't play homepage music:", e));
+    
+    // Hide game over overlay
+    gameOverOverlay.style.display = 'none';
+    // Show home overlay
+    homeOverlay.style.display = 'flex';
+    // Save player data
+    savePlayerData();
+});
+
+backToHomeBtn2.addEventListener('click', () => {
+    // Stop gameplay music, start homepage music
+    gameplayMusic.pause();
+    homepageMusic.currentTime = 0;
+    homepageMusic.play().catch(e => console.log("Couldn't play homepage music:", e));
+    
+    // Hide winner overlay
+    winnerOverlay.style.display = 'none';
+    // Show home overlay
+    homeOverlay.style.display = 'flex';
+    // Save player data
+    savePlayerData();
+});
+
+homepageBtn.addEventListener('click', () => {
+    // Save current data before leaving
+    savePlayerData();
+    // Redirect to index.html
+    window.location.href = 'index.html'; // <-- CHANGED TO index.html
+});
+
+// Check if there's a saved game on page load - NEW: Automatically clear saved game when a name is entered
+window.addEventListener('load', () => {
+    // Start homepage music on homepage
+    homepageMusic.currentTime = 0; // Start from beginning
+    homepageMusic.play().catch(e => {
+        console.log("Couldn't play homepage music:", e);
+        // Some browsers require user interaction first
+    });
+    
+    createSunParticles();
+    // Refresh particles every 15 seconds
+    setInterval(createSunParticles, 15000);
+    
+    // Check if player name is passed from homepage
+    const urlParams = new URLSearchParams(window.location.search);
+    const playerNameFromURL = urlParams.get('player') || 'Student';
+    
+    // If a player name is provided, clear any saved game state to start fresh
+    if (playerNameFromURL && playerNameFromURL !== 'Student') {
+        localStorage.removeItem('lavaRushGameState');
+        // Also update the character name in the game
+        CHARACTERS[0].name = playerNameFromURL;
+        // Update the name bubble if it exists
+        const playerNameBubble = document.querySelector('#player-col .name-bubble');
+        if (playerNameBubble) {
+            playerNameBubble.textContent = playerNameFromURL;
+        }
+    }
+    
+    // Don't auto-resume game - always start fresh
+    const hasSavedGame = localStorage.getItem('lavaRushGameState');
+    if (hasSavedGame) {
+        // Clear it if it exists
+        localStorage.removeItem('lavaRushGameState');
+    }
+    
+    // Load player data (gems, items, etc.)
+    loadPlayerData();
+});
+
+playBtn.addEventListener('click',()=>{
+  homeOverlay.style.display='none';
+  // Clear any saved game state and start fresh
+  localStorage.removeItem('lavaRushGameState');
+  startLevel(0);
+});
+
+function initHomeButton() {
+    homeBtnGame.addEventListener('click', () => {
+        if (!gameActive) return;
+        
+        // Pause the game
+        gameActive = false;
+        clearInterval(lavaCountdown);
+        botsTimeouts.forEach(t => clearTimeout(t));
+        
+        // Switch from gameplay music to homepage music
+        gameplayMusic.pause();
+        homepageMusic.currentTime = 0;
+        homepageMusic.play().catch(e => console.log("Couldn't play homepage music:", e));
+        
+        // Hide game elements
+        lavaInputContainer.style.display = 'none';
+        questionCard.style.display = 'none';
+        homeBtnGame.style.display = 'none';
+        storeBtnGame.style.display = 'none';
+        
+        // Show home overlay
+        homeOverlay.style.display = 'flex';
+        
+        // Save current state so they can return
+        saveGameState();
+    });
+}
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,371 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Spelling Games</title>
+        <link rel="stylesheet" href="style.css">
+        <style>
+            /* ----- Background ----- */
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: 'Poppins', sans-serif;
+                background: linear-gradient(135deg, #1a1a2e, #162447);
+                overflow-x: hidden;
+                position: relative;
+                color: #fff;
+            }
+
+            /* ----- Floating letters ----- */
+            @keyframes floatLetters {
+                0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+                50% { opacity: 1; }
+                100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+            }
+
+            .floating-letter {
+                position: absolute;
+                font-size: 24px;
+                font-weight: bold;
+                color: rgba(255, 255, 255, 0.15);
+                animation: floatLetters linear infinite;
+            }
+
+            /* ----- Container ----- */
+            .container {
+                width: 85%;
+                margin: auto;
+                text-align: center;
+                padding-top: 50px;
+                z-index: 1;
+                position: relative;
+            }
+
+            /* ----- Header ----- */
+            h1 {
+                font-size: 48px;
+                font-weight: 800;
+                color: #ffd166;
+                text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+                transition: color 0.3s, transform 0.3s;
+            }
+
+            h1:hover {
+                color: #ff7f50;
+                transform: scale(1.05);
+            }
+
+            /* ----- Subheader ----- */
+            h2 {
+                color: #ffffffaa;
+                font-weight: 400;
+                margin-bottom: 40px;
+                text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+            }
+
+            /* ----- Dashboard Button Container ----- */
+            .dashboard-container {
+                margin-bottom: 40px;
+            }
+
+            /* ----- Games layout ----- */
+            .games {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 30px;
+                padding-bottom: 50px;
+            }
+
+            /* Centered row specifically for Game 4 and 5 */
+            .games-row {
+                display: flex;
+                justify-content: center;
+                gap: 30px;
+                width: 100%;
+            }
+
+            /* ----- Game card ----- */
+            .game-card {
+                width: 240px;
+                height: 280px;
+                padding: 25px;
+                background: rgba(255,255,255,0.05);
+                backdrop-filter: blur(8px);
+                border-radius: 20px;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+                transition: transform 0.4s, box-shadow 0.4s, background 0.3s;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: center;
+                cursor: pointer;
+            }
+
+            .game-card:hover {
+                transform: translateY(-15px) scale(1.05);
+                box-shadow: 0 20px 40px rgba(0,0,0,0.7);
+                background: rgba(255,255,255,0.15);
+            }
+
+            /* ----- Game titles ----- */
+            .game-card h3 {
+                color: #ffd166;
+                margin-bottom: 20px;
+                font-size: 24px;
+                font-weight: 700;
+                transition: color 0.3s, transform 0.3s;
+            }
+
+            .game-card h3:hover {
+                color: #ff7f50;
+                transform: scale(1.1);
+            }
+
+            /* ----- Button ----- */
+            .btn {
+                background: linear-gradient(135deg, #ff7f50, #ffd166);
+                color: #1a1a2e;
+                padding: 12px 20px;
+                display: inline-block;
+                text-decoration: none;
+                border-radius: 20px;
+                font-weight: 700;
+                transition: all 0.3s ease;
+                box-shadow: 0 6px 10px rgba(0,0,0,0.3);
+            }
+
+            .btn:hover {
+                transform: scale(1.1);
+                box-shadow: 0 12px 20px rgba(0,0,0,0.6);
+            }
+
+            /* ----- Player Name Modal ----- */
+            .player-modal {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.7);
+                z-index: 1000;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .modal-content {
+                background: linear-gradient(135deg, #1a1a2e, #162447);
+                padding: 40px;
+                border-radius: 20px;
+                text-align: center;
+                width: 90%;
+                max-width: 400px;
+                box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            }
+
+            .modal-content h3 {
+                color: #ffd166;
+                margin-bottom: 20px;
+                font-size: 28px;
+            }
+
+            .modal-content p {
+                color: #ffffffaa;
+                margin-bottom: 25px;
+            }
+
+            #playerNameInput {
+                width: 100%;
+                padding: 15px;
+                border: 2px solid #ffd166;
+                border-radius: 10px;
+                background: rgba(255,255,255,0.1);
+                color: white;
+                font-size: 18px;
+                margin-bottom: 25px;
+                box-sizing: border-box;
+            }
+
+            .modal-buttons {
+                display: flex;
+                gap: 15px;
+                justify-content: center;
+            }
+
+            .modal-btn {
+                padding: 12px 25px;
+                border: none;
+                border-radius: 10px;
+                font-weight: 700;
+                cursor: pointer;
+                transition: all 0.3s;
+            }
+
+            #confirmNameBtn {
+                background: linear-gradient(135deg, #ff7f50, #ffd166);
+                color: #1a1a2e;
+            }
+
+            #cancelNameBtn {
+                background: rgba(255,255,255,0.1);
+                color: white;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- ----- Floating letters ----- -->
+        <div class="floating-letter" style="left: 5%; animation-duration: 15s;">A</div>
+        <div class="floating-letter" style="left: 20%; animation-duration: 12s;">B</div>
+        <div class="floating-letter" style="left: 35%; animation-duration: 18s;">C</div>
+        <div class="floating-letter" style="left: 50%; animation-duration: 20s;">D</div>
+        <div class="floating-letter" style="left: 65%; animation-duration: 16s;">E</div>
+        <div class="floating-letter" style="left: 80%; animation-duration: 14s;">F</div>
+
+        <!-- Player Name Modal -->
+        <div class="player-modal" id="playerModal">
+            <div class="modal-content">
+                <h3>Enter Your Name</h3>
+                <p>Please enter your name to start the game:</p>
+                <input type="text" id="playerNameInput" placeholder="Type your name here" maxlength="20">
+                <div class="modal-buttons">
+                    <button class="modal-btn" id="confirmNameBtn">Start Game</button>
+                    <button class="modal-btn" id="cancelNameBtn">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <h1>Spelling Games</h1>
+            <h2>Select a Game</h2>
+
+            <!-- Dashboard Button -->
+            <div class="dashboard-container">
+                <a href="dashboard.html" class="btn">Leaderboard</a>
+            </div>
+
+            <div class="games">
+                <div class="game-card">
+                    <h3>Lava Rush</h3>
+                    <!-- CHANGED: Added class and data attributes for modal -->
+                    <a href="#" class="btn play-modal-btn" data-game="Lava Rush" data-link="lavarush.html">Play Now</a>
+                </div>
+                <div class="game-card">
+                    <h3>Word Search</h3>
+                    <!-- Keeping this as is -->
+                    <a href="#" class="btn play-modal-btn" data-game="Word Search" data-link="wordsearch.html">Play Now</a>
+                </div>
+                <div class="game-card">
+                    <h3>Spelling Bee</h3>
+                    <a href="#" class="btn play-modal-btn" data-game="Spelling Bee" data-link="spellingbee.html">Play Now</a>
+                </div>
+
+                <!-- Centered row for Game 4 and 5 --> 
+                <div class="games-row">
+                    <div class="game-card">
+                        <h3>Hangman</h3>
+                        <a href="#" class="btn play-modal-btn" data-game="Hangman" data-link="hangman.html">Play Now</a>
+                    </div>
+
+                  <div class="game-card">
+    <h3>Word Shake</h3>
+    <a href="#" class="btn play-modal-btn" data-game="Word Shake" data-link="wordshake.html">Play Now</a>
+</div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Store the clicked link for later use
+            let pendingGameLink = null;
+            let pendingGameType = null;
+
+            // Function to show player name modal
+            function showPlayerNameModal(link, gameType) {
+                pendingGameLink = link;
+                pendingGameType = gameType;
+                document.getElementById('playerModal').style.display = 'flex';
+                document.getElementById('playerNameInput').focus();
+                return false;
+            }
+
+            // Function to start game with player name
+            function startGameWithName() {
+                const playerName = document.getElementById('playerNameInput').value.trim();
+                
+                if (!playerName) {
+                    alert("Please enter your name to play!");
+                    return;
+                }
+
+                // Store player name in localStorage for all games
+                localStorage.setItem('playerName', playerName);
+                
+                // Generate a unique player ID if needed
+                if (!localStorage.getItem('playerId')) {
+                    const playerId = Date.now().toString();
+                    localStorage.setItem('playerId', playerId);
+                }
+                
+                // Close modal
+                document.getElementById('playerModal').style.display = 'none';
+                
+                // Clear input
+                document.getElementById('playerNameInput').value = '';
+                
+                // Navigate to the game page with player name
+                if (pendingGameLink) {
+                    // For Lava Rush, pass the player name in URL
+                    const url = pendingGameLink + "?player=" + encodeURIComponent(playerName);
+                    window.location.href = url;
+                }
+                
+                // Reset pending values
+                pendingGameLink = null;
+                pendingGameType = null;
+            }
+
+            // Event listeners for modal
+            document.addEventListener('DOMContentLoaded', function() {
+                // CHANGED: Updated selector to handle all game buttons
+                document.querySelectorAll('.play-modal-btn').forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const gameType = this.getAttribute('data-game');
+                        const gameLink = this.getAttribute('data-link');
+                        showPlayerNameModal(gameLink, gameType);
+                    });
+                });
+
+                // Confirm name button
+                document.getElementById('confirmNameBtn').addEventListener('click', startGameWithName);
+                
+                // Cancel button
+                document.getElementById('cancelNameBtn').addEventListener('click', function() {
+                    document.getElementById('playerModal').style.display = 'none';
+                    document.getElementById('playerNameInput').value = '';
+                    pendingGameLink = null;
+                    pendingGameType = null;
+                });
+                
+                // Enter key in input field
+                document.getElementById('playerNameInput').addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        startGameWithName();
+                    }
+                });
+                
+                // Close modal when clicking outside
+                document.getElementById('playerModal').addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        document.getElementById('playerModal').style.display = 'none';
+                        document.getElementById('playerNameInput').value = '';
+                        pendingGameLink = null;
+                        pendingGameType = null;
+                    }
+                });
+            });
+        </script>
+    </body>
+    </html> 

@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hangman Challenge - Grade 6 Edition</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #4a00e0, #8e2de2);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-image: radial-gradient(#ffffff22 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            margin-top: 10px;
+            border: 8px solid #ff6b6b;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 15px;
+            background: linear-gradient(90deg, #ff6b6b, #ffd93d, #6bcf7f, #4d96ff, #9d5bff);
+            z-index: 1;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #4d96ff;
+            font-size: 3.2rem;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            text-shadow: 3px 3px 0 #ffd93d;
+            letter-spacing: 1px;
+            background: linear-gradient(45deg, #ff6b6b, #4d96ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.4rem;
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+        
+        .player-info {
+            display: flex;
+            justify-content: space-between;
+            background: linear-gradient(90deg, #ffd93d, #ff9a3d);
+            padding: 15px 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            box-shadow: 0 5px 15px rgba(255, 169, 77, 0.4);
+            border: 4px solid #ff9a3d;
+        }
+        
+        .player-name {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 2px 2px 0 #ff6b6b;
+            display: flex;
+            align-items: center;
+        }
+        
+        .player-name-icon {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+        
+        .game-info {
+            display: flex;
+            gap: 25px;
+            font-size: 1.3rem;
+        }
+        
+        .level-info, .score-info, .hints-info {
+            background-color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            color: #333;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 3px solid;
+            display: flex;
+            align-items: center;
+        }
+        
+        .level-info {
+            border-color: #4d96ff;
+        }
+        
+        .score-info {
+            border-color: #6bcf7f;
+        }
+        
+        .hints-info {
+            border-color: #9d5bff;
+            color: #9d5bff;
+        }
+        
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 25px 0;
+        }
+        
+        .hangman-container {
+            background: linear-gradient(135deg, #ff9a3d, #ff6b6b);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
+            border: 5px solid #ffd93d;
+            position: relative;
+        }
+        
+        .hangman-container h3 {
+            color: white;
+            font-size: 2rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 0 #ff9a3d;
+        }
+        
+        .hangman-drawing {
+            font-family: monospace;
+            white-space: pre;
+            font-size: 1.4rem;
+            line-height: 1.4;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            min-height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 4px solid #ff9a3d;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .word-display {
+            font-size: 3rem;
+            letter-spacing: 15px;
+            margin: 30px 0;
+            text-align: center;
+            font-weight: bold;
+            color: #4d96ff;
+            min-height: 70px;
+            text-shadow: 2px 2px 0 #ffd93d;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            border: 5px dashed #ff6b6b;
+            width: 100%;
+            box-shadow: 0 8px 16px rgba(77, 150, 255, 0.2);
+        }
+        
+        .instructions {
+            background: linear-gradient(135deg, #6bcf7f, #4d96ff);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: white;
+            border: 5px solid #ffd93d;
+            box-shadow: 0 8px 20px rgba(107, 207, 127, 0.4);
+        }
+        
+        .instructions h3 {
+            color: #ffd93d;
+            margin-top: 0;
+            font-size: 1.8rem;
+            text-shadow: 2px 2px 0 #4d96ff;
+        }
+        
+        .letters {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 25px 0;
+            max-width: 750px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            border: 5px solid #ff9a3d;
+            box-shadow: 0 10px 20px rgba(255, 154, 61, 0.3);
+        }
+        
+        .letter-btn {
+            width: 55px;
+            height: 55px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #4d96ff, #9d5bff);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 5px 0 #3a7bd5;
+            text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
+        }
+        
+        .letter-btn:hover:not(:disabled) {
+            background: linear-gradient(135deg, #3a7bd5, #8a4dff);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 0 #3a7bd5;
+        }
+        
+        .letter-btn:active:not(:disabled) {
+            transform: translateY(2px);
+            box-shadow: 0 3px 0 #3a7bd5;
+        }
+        
+        .letter-btn:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            box-shadow: 0 3px 0 #999999;
+            transform: translateY(2px);
+        }
+        
+        .letter-btn.correct {
+            background: linear-gradient(135deg, #6bcf7f, #4caf50);
+            box-shadow: 0 3px 0 #3d8b40;
+            transform: translateY(2px);
+        }
+        
+        .letter-btn.incorrect {
+            background: linear-gradient(135deg, #ff6b6b, #ff4757);
+            box-shadow: 0 3px 0 #d63031;
+            transform: translateY(2px);
+        }
+        
+        .letter-btn.hint-revealed {
+            background: linear-gradient(135deg, #ffd93d, #ff9a3d);
+            box-shadow: 0 3px 0 #ff8c00;
+            transform: translateY(2px);
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 15px 30px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 8px 0 rgba(0, 0, 0, 0.2);
+            text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        button:hover:not(:disabled) {
+            transform: translateY(-5px);
+            box-shadow: 0 13px 0 rgba(0, 0, 0, 0.2);
+        }
+        
+        button:active:not(:disabled) {
+            transform: translateY(3px);
+            box-shadow: 0 5px 0 rgba(0, 0, 0, 0.2);
+        }
+        
+        .hint-btn {
+            background: linear-gradient(135deg, #9d5bff, #ff6bcf);
+            color: white;
+            box-shadow: 0 8px 0 #8a4dff;
+        }
+        
+        .hint-btn:hover:not(:disabled) {
+            background: linear-gradient(135deg, #8a4dff, #ff5bb8);
+            box-shadow: 0 13px 0 #8a4dff;
+        }
+        
+        .hint-btn:disabled {
+            background: #cccccc;
+            box-shadow: 0 5px 0 #999999;
+            transform: translateY(3px);
+            cursor: not-allowed;
+        }
+        
+        .next-btn {
+            background: linear-gradient(135deg, #6bcf7f, #4d96ff);
+            color: white;
+            box-shadow: 0 8px 0 #3d8b40;
+        }
+        
+        .next-btn:hover {
+            background: linear-gradient(135deg, #5bbf6f, #3a7bd5);
+            box-shadow: 0 13px 0 #3d8b40;
+        }
+        
+        .home-btn {
+            background: linear-gradient(135deg, #ff9a3d, #ff6b6b);
+            color: white;
+            box-shadow: 0 8px 0 #ff8c00;
+        }
+        
+        .home-btn:hover {
+            background: linear-gradient(135deg, #ff8c00, #ff4757);
+            box-shadow: 0 13px 0 #ff8c00;
+        }
+        
+        .play-again-btn {
+            background: linear-gradient(135deg, #4d96ff, #6bcf7f);
+            color: white;
+            box-shadow: 0 8px 0 #3a7bd5;
+        }
+        
+        .play-again-btn:hover {
+            background: linear-gradient(135deg, #3a7bd5, #5bbf6f);
+            box-shadow: 0 13px 0 #3a7bd5;
+        }
+        
+        .message {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 30px 0;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            border: 5px dashed #ffd93d;
+            width: 100%;
+        }
+        
+        .perfect-score {
+            color: #ff6b6b;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.7);
+            animation: pulse 1.5s infinite, rainbow 3s infinite;
+            font-size: 2.5rem;
+            text-align: center;
+            margin: 10px 0;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes rainbow {
+            0% { color: #ff6b6b; }
+            25% { color: #ffd93d; }
+            50% { color: #6bcf7f; }
+            75% { color: #4d96ff; }
+            100% { color: #9d5bff; }
+        }
+        
+        .game-over {
+            color: #ff6b6b;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 0 #ffd93d;
+        }
+        
+        .hint-area {
+            background: linear-gradient(135deg, #ffd93d, #ff9a3d);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 25px;
+            font-size: 1.3rem;
+            min-height: 90px;
+            width: 100%;
+            border: 5px solid #ff6b6b;
+            box-shadow: 0 8px 20px rgba(255, 217, 61, 0.4);
+        }
+        
+        .hint-title {
+            color: #fff;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+            text-shadow: 2px 2px 0 #ff6b6b;
+        }
+        
+        .setup-screen {
+            text-align: center;
+            padding: 40px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 25px;
+            border: 8px solid #4d96ff;
+            box-shadow: 0 15px 35px rgba(77, 150, 255, 0.4);
+        }
+        
+        .setup-screen h2 {
+            color: #ff6b6b;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 0 #ffd93d;
+        }
+        
+        .name-input {
+            padding: 15px;
+            font-size: 1.5rem;
+            width: 350px;
+            max-width: 90%;
+            border-radius: 15px;
+            border: 5px solid #ff9a3d;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(255, 154, 61, 0.3);
+        }
+        
+        .name-input:focus {
+            outline: none;
+            border-color: #ff6b6b;
+            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.4);
+        }
+        
+        .start-btn {
+            background: linear-gradient(135deg, #6bcf7f, #4d96ff);
+            color: white;
+            padding: 20px 50px;
+            font-size: 1.8rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 0 #3d8b40;
+        }
+        
+        .start-btn:hover {
+            background: linear-gradient(135deg, #5bbf6f, #3a7bd5);
+            box-shadow: 0 15px 0 #3d8b40;
+        }
+        
+        .wrong-letters {
+            margin-top: 20px;
+            font-size: 1.4rem;
+            color: #ff6b6b;
+            min-height: 40px;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            border: 4px solid #ff6b6b;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .wrong-title {
+            color: #ff6b6b;
+            font-weight: bold;
+            text-shadow: 1px 1px 0 #ffd93d;
+        }
+        
+        .level-complete {
+            color: #6bcf7f;
+            font-size: 2rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 0 #ffd93d;
+        }
+        
+        .hint-message {
+            color: #fff;
+            font-size: 1.3rem;
+            margin-top: 8px;
+            font-weight: bold;
+            background-color: rgba(255, 107, 107, 0.7);
+            padding: 8px 12px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-right: 10px;
+            margin-bottom: 8px;
+        }
+        
+        .hint-count {
+            color: #fff;
+            font-size: 1.2rem;
+            margin-top: 15px;
+            font-weight: bold;
+            text-shadow: 1px 1px 0 #ff6b6b;
+        }
+        
+        .hints-left {
+            display: inline-block;
+            background-color: white;
+            color: #9d5bff;
+            padding: 5px 12px;
+            border-radius: 20px;
+            margin-left: 10px;
+            font-weight: bold;
+            border: 3px solid #9d5bff;
+        }
+        
+        .end-game-controls {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .emoji {
+            font-size: 2rem;
+            margin-right: 10px;
+        }
+        
+        .decoration {
+            position: absolute;
+            font-size: 2rem;
+            z-index: 0;
+        }
+        
+        @media (max-width: 900px) {
+            .letter-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.6rem;
+            }
+            
+            .word-display {
+                font-size: 2.5rem;
+                letter-spacing: 12px;
+            }
+            
+            .player-info {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .game-info {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            h1 {
+                font-size: 2.8rem;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .letter-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 1.4rem;
+            }
+            
+            .word-display {
+                font-size: 2rem;
+                letter-spacing: 8px;
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .game-info {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+            
+            .controls {
+                gap: 15px;
+            }
+            
+            button {
+                padding: 12px 20px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hangman Challenge</h1>
+        <p class="subtitle">Grade 6 Word Adventure</p>
+        
+        <div id="setupScreen" class="setup-screen">
+            <h2>Enter Your Name to Start</h2>
+            <input type="text" id="playerNameInput" class="name-input" placeholder="Your Name" maxlength="15">
+            <br>
+            <button id="startGameBtn" class="start-btn">
+                <span class="emoji">🚀</span> Start Game
+            </button>
+        </div>
+        
+        <div id="gameScreen" style="display: none;">
+            <div class="player-info">
+                <div class="player-name">
+                    <span class="player-name-icon">👤</span> 
+                    Player: <span id="playerNameDisplay">Guest</span>
+                </div>
+                <div class="game-info">
+                    <div class="level-info">
+                        <span class="emoji">📚</span> 
+                        Level: <span id="levelDisplay">1</span>/10
+                    </div>
+                    <div class="score-info">
+                        <span class="emoji">⭐</span> 
+                        Score: <span id="scoreDisplay">0</span> points
+                    </div>
+                    <div class="hints-info">
+                        <span class="emoji">💡</span> 
+                        Hints: <span id="hintsDisplay">3</span>/3 left
+                    </div>
+                </div>
+            </div>
+            
+            <div class="instructions">
+                <h3>How to Play</h3>
+                <p>Guess the word by clicking letters. Complete each level to earn 10 points. 
+                You have 3 FREE hints per level - use them wisely! Avoid too many wrong guesses or the hangman will be completed!</p>
+            </div>
+            
+            <div class="game-area">
+                <div class="hangman-container">
+                    <h3>Hangman</h3>
+                    <div class="hangman-drawing" id="hangmanDrawing">
+  _______
+ |/      |
+ |      
+ |      
+ |      
+ |      
+ |
+_|___
+                    </div>
+                </div>
+                
+                <div class="word-display" id="wordDisplay"></div>
+                
+                <div class="wrong-letters">
+                    <span class="wrong-title">Wrong Letters: </span>
+                    <span id="wrongLettersDisplay"></span>
+                </div>
+                
+                <div class="hint-area" id="hintArea">
+                    <div class="hint-title">Recent Hints:</div>
+                    <div id="hintText">No hints used yet.</div>
+                    <div id="hintCount" class="hint-count"></div>
+                </div>
+                
+                <div class="message" id="message"></div>
+                
+                <div class="letters" id="lettersContainer"></div>
+                
+                <div class="controls">
+                    <button id="hintBtn" class="hint-btn">
+                        <span class="emoji">💡</span> Use Hint 
+                        <span id="hintsLeftBadge" class="hints-left">3</span>
+                    </button>
+                    <button id="nextLevelBtn" class="next-btn" style="display: none;">
+                        <span class="emoji">⏭️</span> Next Level
+                    </button>
+                    <button id="homeBtn" class="home-btn">
+                        <span class="emoji">🏠</span> Back to Home
+                    </button>
+                </div>
+                
+                <div class="end-game-controls" id="endGameControls" style="display: none;">
+                    <button id="playAgainBtn" class="play-again-btn">
+                        <span class="emoji">🔄</span> Play Again
+                    </button>
+                    <button id="homeBtnEnd" class="home-btn">
+                        <span class="emoji">🏠</span> Back to Home
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game data - Grade 6 level words
+        const gameWords = [
+            // Level 1: Simple word
+            { word: "SCHOOL", hint: "A place where students learn" },
+            // Level 2
+            { word: "PENCIL", hint: "You use this to write on paper" },
+            // Level 3
+            { word: "FRIEND", hint: "Someone you like and trust" },
+            // Level 4
+            { word: "LIBRARY", hint: "A place with many books to borrow" },
+            // Level 5
+            { word: "SCIENCE", hint: "Subject about experiments and the natural world" },
+            // Level 6
+            { word: "HISTORY", hint: "Subject about past events and civilizations" },
+            // Level 7
+            { word: "EQUATION", hint: "A mathematical statement with an equals sign" },
+            // Level 8
+            { word: "GEOMETRY", hint: "A branch of mathematics about shapes" },
+            // Level 9
+            { word: "EXPERIMENT", hint: "A scientific test to discover something" },
+            // Level 10
+            { word: "PHOTOSYNTHESIS", hint: "Process plants use to make food from sunlight" }
+        ];
+
+        // Game state
+        let playerName = "Guest";
+        let currentLevel = 1;
+        let score = 0;
+        let currentWord = "";
+        let currentHint = "";
+        let guessedLetters = [];
+        let wrongLetters = [];
+        let maxWrongAttempts = 7;
+        let wrongAttempts = 0;
+        let gameActive = true;
+        let hintsUsedThisLevel = 0;
+        let hintsRemaining = 3;
+        let recentHints = [];
+        
+        // Hangman drawing stages
+        const hangmanStages = [
+            // Stage 0: No wrong attempts
+`  _______
+ |/      |
+ |      
+ |      
+ |      
+ |      
+ |
+_|___`,
+            // Stage 1: Head
+`  _______
+ |/      |
+ |      (_)
+ |      
+ |      
+ |      
+ |
+_|___`,
+            // Stage 2: Body
+`  _______
+ |/      |
+ |      (_)
+ |       |
+ |       |
+ |      
+ |
+_|___`,
+            // Stage 3: Left arm
+`  _______
+ |/      |
+ |      (_)
+ |      \\|
+ |       |
+ |      
+ |
+_|___`,
+            // Stage 4: Right arm
+`  _______
+ |/      |
+ |      (_)
+ |      \\|/
+ |       |
+ |      
+ |
+_|___`,
+            // Stage 5: Left leg
+`  _______
+ |/      |
+ |      (_)
+ |      \\|/
+ |       |
+ |      /
+ |
+_|___`,
+            // Stage 6: Right leg
+`  _______
+ |/      |
+ |      (_)
+ |      \\|/
+ |       |
+ |      / \\
+ |
+_|___`,
+            // Stage 7: Final stage - complete hangman
+`  _______
+ |/      |
+ |      (_)
+ |      \\|/
+ |       |
+ |      / \\
+ |
+_|___`
+        ];
+        
+        // DOM elements
+        const setupScreen = document.getElementById('setupScreen');
+        const gameScreen = document.getElementById('gameScreen');
+        const playerNameInput = document.getElementById('playerNameInput');
+        const startGameBtn = document.getElementById('startGameBtn');
+        const playerNameDisplay = document.getElementById('playerNameDisplay');
+        const levelDisplay = document.getElementById('levelDisplay');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const hintsDisplay = document.getElementById('hintsDisplay');
+        const wordDisplay = document.getElementById('wordDisplay');
+        const hangmanDrawing = document.getElementById('hangmanDrawing');
+        const lettersContainer = document.getElementById('lettersContainer');
+        const hintBtn = document.getElementById('hintBtn');
+        const hintsLeftBadge = document.getElementById('hintsLeftBadge');
+        const hintArea = document.getElementById('hintArea');
+        const hintText = document.getElementById('hintText');
+        const hintCount = document.getElementById('hintCount');
+        const nextLevelBtn = document.getElementById('nextLevelBtn');
+        const homeBtn = document.getElementById('homeBtn');
+        const message = document.getElementById('message');
+        const wrongLettersDisplay = document.getElementById('wrongLettersDisplay');
+        const endGameControls = document.getElementById('endGameControls');
+        const playAgainBtn = document.getElementById('playAgainBtn');
+        const homeBtnEnd = document.getElementById('homeBtnEnd');
+        
+        // NEW FUNCTION: Get player name from URL
+        function getPlayerNameFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('player');
+        }
+        
+        // NEW FUNCTION: Check if coming from homepage
+        function checkIfFromHomepage() {
+            const urlPlayerName = getPlayerNameFromURL();
+            if (urlPlayerName) {
+                // We have a player name from the homepage
+                playerName = urlPlayerName;
+                playerNameInput.value = playerName; // Fill the input field
+                playerNameDisplay.textContent = playerName;
+                
+                // Skip the setup screen and go directly to game
+                setupScreen.style.display = 'none';
+                gameScreen.style.display = 'block';
+                
+                // Start the game immediately
+                startGameDirect();
+                return true;
+            }
+            return false;
+        }
+        
+        // Initialize the game
+        function initGame() {
+            // NEW: First check if we have a player name from homepage
+            const fromHomepage = checkIfFromHomepage();
+            
+            // Only set up event listeners if not from homepage
+            if (!fromHomepage) {
+                startGameBtn.addEventListener('click', startGame);
+                playerNameInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        startGame();
+                    }
+                });
+            }
+            
+            // Set up other event listeners (always)
+            hintBtn.addEventListener('click', useHint);
+            nextLevelBtn.addEventListener('click', nextLevel);
+            homeBtn.addEventListener('click', goHome);
+            playAgainBtn.addEventListener('click', playAgain);
+            homeBtnEnd.addEventListener('click', goHome);
+            
+            // Create letter buttons
+            createLetterButtons();
+        }
+        
+        // NEW FUNCTION: Start game directly (when coming from homepage)
+        function startGameDirect() {
+            // Reset game state
+            currentLevel = 1;
+            score = 0;
+            
+            // Start first level
+            startLevel();
+        }
+        
+        // Create letter buttons A-Z
+        function createLetterButtons() {
+            lettersContainer.innerHTML = '';
+            
+            for (let i = 65; i <= 90; i++) {
+                const letter = String.fromCharCode(i);
+                const button = document.createElement('button');
+                button.className = 'letter-btn';
+                button.textContent = letter;
+                button.id = `letter-${letter}`;
+                button.addEventListener('click', () => guessLetter(letter));
+                lettersContainer.appendChild(button);
+            }
+        }
+        
+        // Start the game (for manual entry)
+        function startGame() {
+            playerName = playerNameInput.value.trim() || "Guest";
+            playerNameDisplay.textContent = playerName;
+            
+            // Reset game state
+            currentLevel = 1;
+            score = 0;
+            
+            // Show game screen
+            setupScreen.style.display = 'none';
+            gameScreen.style.display = 'block';
+            
+            // Start first level
+            startLevel();
+        }
+        
+        // Start a new level
+        function startLevel() {
+            // Reset level state
+            guessedLetters = [];
+            wrongLetters = [];
+            wrongAttempts = 0;
+            gameActive = true;
+            hintsUsedThisLevel = 0;
+            hintsRemaining = 3;
+            recentHints = [];
+            
+            // Hide message and end game controls
+            message.innerHTML = '';
+            nextLevelBtn.style.display = 'none';
+            endGameControls.style.display = 'none';
+            
+            // Show regular controls
+            document.querySelector('.controls').style.display = 'flex';
+            
+            // Update displays
+            levelDisplay.textContent = currentLevel;
+            scoreDisplay.textContent = score;
+            hintsDisplay.textContent = hintsRemaining;
+            hintsLeftBadge.textContent = hintsRemaining;
+            wrongLettersDisplay.textContent = '';
+            
+            // Select word for current level (0-based index)
+            const wordIndex = currentLevel - 1;
+            currentWord = gameWords[wordIndex].word;
+            currentHint = gameWords[wordIndex].hint;
+            
+            // Reset hangman drawing
+            hangmanDrawing.textContent = hangmanStages[0];
+            
+            // Display word as underscores
+            let displayWord = '';
+            for (let i = 0; i < currentWord.length; i++) {
+                displayWord += '_ ';
+            }
+            wordDisplay.textContent = displayWord.trim();
+            
+            // Reset letter buttons
+            const letterButtons = document.getElementsByClassName('letter-btn');
+            for (let button of letterButtons) {
+                button.disabled = false;
+                button.classList.remove('correct', 'incorrect', 'hint-revealed');
+            }
+            
+            // Update hint button state
+            updateHintButton();
+            
+            // Reset hint display
+            hintText.innerHTML = "No hints used yet.";
+            hintCount.textContent = "";
+            
+            // Show level message
+            message.innerHTML = `<div class="level-complete">Level ${currentLevel}: Find the hidden word!</div>`;
+        }
+        
+        // Update hint button state
+        function updateHintButton() {
+            // Check if player has hints remaining AND there are still letters to reveal
+            const unguessedLetters = getUnguessedLetters();
+            const hasUnguessedLetters = unguessedLetters.length > 0;
+            
+            hintBtn.disabled = !(hintsRemaining > 0 && hasUnguessedLetters && gameActive);
+            
+            // Update button text
+            hintBtn.innerHTML = `<span class="emoji">💡</span> Use Hint <span class="hints-left">${hintsRemaining}</span>`;
+            hintsLeftBadge.textContent = hintsRemaining;
+        }
+        
+        // Get all unguessed letters in the current word
+        function getUnguessedLetters() {
+            const unguessedLetters = [];
+            for (let i = 0; i < currentWord.length; i++) {
+                const letter = currentWord[i];
+                if (!guessedLetters.includes(letter)) {
+                    // Check all positions of this letter
+                    for (let j = 0; j < currentWord.length; j++) {
+                        if (currentWord[j] === letter && !unguessedLetters.includes(letter)) {
+                            unguessedLetters.push(letter);
+                        }
+                    }
+                }
+            }
+            return unguessedLetters;
+        }
+        
+        // Handle letter guess
+        function guessLetter(letter) {
+            if (!gameActive) return;
+            
+            const letterButton = document.getElementById(`letter-${letter}`);
+            
+            // Check if letter was already guessed
+            if (guessedLetters.includes(letter)) {
+                return;
+            }
+            
+            // Add to guessed letters
+            guessedLetters.push(letter);
+            letterButton.disabled = true;
+            
+            // Check if letter is in the word
+            if (currentWord.includes(letter)) {
+                // Correct guess
+                letterButton.classList.add('correct');
+                
+                // Update word display
+                updateWordDisplay();
+                
+                // Check if word is complete
+                if (isWordComplete()) {
+                    winLevel();
+                }
+            } else {
+                // Wrong guess
+                letterButton.classList.add('incorrect');
+                wrongAttempts++;
+                wrongLetters.push(letter);
+                wrongLettersDisplay.textContent = wrongLetters.join(', ');
+                
+                // Update hangman drawing
+                hangmanDrawing.textContent = hangmanStages[Math.min(wrongAttempts, hangmanStages.length - 1)];
+                
+                // Check if game over
+                if (wrongAttempts >= maxWrongAttempts) {
+                    loseLevel();
+                }
+            }
+            
+            // Update hint button state
+            updateHintButton();
+        }
+        
+        // Update the word display with correctly guessed letters
+        function updateWordDisplay() {
+            let displayWord = '';
+            for (let i = 0; i < currentWord.length; i++) {
+                const letter = currentWord[i];
+                if (guessedLetters.includes(letter)) {
+                    displayWord += letter + ' ';
+                } else {
+                    displayWord += '_ ';
+                }
+            }
+            wordDisplay.textContent = displayWord.trim();
+        }
+        
+        // Check if the word is completely guessed
+        function isWordComplete() {
+            for (let i = 0; i < currentWord.length; i++) {
+                if (!guessedLetters.includes(currentWord[i])) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        
+        // Use a hint to reveal one letter - 3 FREE hints per level
+        function useHint() {
+            if (hintsRemaining <= 0 || !gameActive) return;
+            
+            // Find letters that haven't been guessed yet
+            const unguessedLetters = getUnguessedLetters();
+            
+            // If all letters are already guessed, no hint needed
+            if (unguessedLetters.length === 0) {
+                hintText.innerHTML = "All letters have been revealed!";
+                updateHintButton();
+                return;
+            }
+            
+            // Deduct one hint from remaining hints
+            hintsRemaining--;
+            hintsUsedThisLevel++;
+            hintsDisplay.textContent = hintsRemaining;
+            
+            // Pick a random unguessed letter to reveal
+            const randomIndex = Math.floor(Math.random() * unguessedLetters.length);
+            const hintLetter = unguessedLetters[randomIndex];
+            
+            // Add the hinted letter to guessed letters if not already there
+            if (!guessedLetters.includes(hintLetter)) {
+                guessedLetters.push(hintLetter);
+            }
+            
+            // Update all instances of this letter in the word
+            for (let i = 0; i < currentWord.length; i++) {
+                if (currentWord[i] === hintLetter) {
+                    // Mark the letter button as hint-revealed
+                    const letterButton = document.getElementById(`letter-${hintLetter}`);
+                    if (letterButton) {
+                        letterButton.disabled = true;
+                        if (!letterButton.classList.contains('correct')) {
+                            letterButton.classList.add('hint-revealed');
+                        }
+                    }
+                }
+            }
+            
+            // Update word display
+            updateWordDisplay();
+            
+            // Store this hint in recent hints
+            const hintPositions = [];
+            for (let i = 0; i < currentWord.length; i++) {
+                if (currentWord[i] === hintLetter) {
+                    hintPositions.push(i + 1); // Convert to 1-based index
+                }
+            }
+            
+            recentHints.unshift({
+                letter: hintLetter,
+                positions: hintPositions,
+                count: hintsUsedThisLevel
+            });
+            
+            // Keep only last 3 hints
+            if (recentHints.length > 3) {
+                recentHints.pop();
+            }
+            
+            // Update hint display
+            updateHintDisplay();
+            
+            // Check if word is complete after hint
+            if (isWordComplete()) {
+                setTimeout(() => {
+                    winLevel();
+                }, 500);
+            }
+            
+            // Update hint button state
+            updateHintButton();
+        }
+        
+        // Update the hint display area
+        function updateHintDisplay() {
+            if (recentHints.length === 0) {
+                hintText.innerHTML = "No hints used yet.";
+                hintCount.textContent = "";
+                return;
+            }
+            
+            let hintHTML = "";
+            recentHints.forEach((hint, index) => {
+                const positionsText = hint.positions.length > 1 ? 
+                    `positions ${hint.positions.join(', ')}` : 
+                    `position ${hint.positions[0]}`;
+                
+                hintHTML += `<div class="hint-message">Hint ${hint.count}: Letter "${hint.letter}" revealed in ${positionsText}</div>`;
+            });
+            
+            hintText.innerHTML = hintHTML;
+            hintCount.textContent = `Hints used: ${hintsUsedThisLevel} (${hintsRemaining} remaining)`;
+        }
+        
+        // Player wins the current level
+        function winLevel() {
+            gameActive = false;
+            
+            // Award 10 points for completing the level
+            score += 10;
+            scoreDisplay.textContent = score;
+            
+            // Clear message first
+            message.innerHTML = '';
+            
+            if (currentLevel < 10) {
+                message.innerHTML = `
+                    <div class="level-complete">Level ${currentLevel} Complete! +10 points!</div>
+                    <div style="color:#ff6b6b; font-size:1.4rem; margin-top:10px; font-weight:bold;">Click "Next Level" to continue</div>
+                `;
+                nextLevelBtn.style.display = 'inline-block';
+            } else {
+                // Level 10 complete
+                endGame();
+            }
+            
+            // Disable all letter buttons
+            const letterButtons = document.getElementsByClassName('letter-btn');
+            for (let button of letterButtons) {
+                button.disabled = true;
+            }
+            
+            // Disable hint button
+            hintBtn.disabled = true;
+        }
+        
+        // Player loses the current level
+        function loseLevel() {
+            gameActive = false;
+            
+            // Show the full word
+            let displayWord = '';
+            for (let i = 0; i < currentWord.length; i++) {
+                displayWord += currentWord[i] + ' ';
+            }
+            wordDisplay.textContent = displayWord.trim();
+            
+            // Show game over message
+            message.innerHTML = `
+                <div class="game-over">Game Over!</div>
+                <div style="color:#ff6b6b; font-size:1.4rem; margin-top:10px; font-weight:bold;">The word was "${currentWord}"</div>
+            `;
+            
+            // Disable all letter buttons
+            const letterButtons = document.getElementsByClassName('letter-btn');
+            for (let button of letterButtons) {
+                button.disabled = true;
+            }
+            
+            // Disable hint button
+            hintBtn.disabled = true;
+            
+            // End the game
+            setTimeout(() => {
+                endGame();
+            }, 2000);
+        }
+        
+        // Move to next level
+        function nextLevel() {
+            if (currentLevel < 10) {
+                currentLevel++;
+                startLevel();
+            }
+        }
+        
+        // NEW FUNCTION: Save score to localStorage
+        function saveScoreToDashboard() {
+            // Get existing scores or initialize empty array
+            let allScores = JSON.parse(localStorage.getItem('gameScores') || '[]');
+            
+            // Check if player already has a score
+            const existingScoreIndex = allScores.findIndex(score => score.playerName === playerName);
+            
+            // Create score object
+            const scoreData = {
+                playerName: playerName,
+                score: score,
+                gameType: "Hangman Challenge",
+                timestamp: new Date().toISOString()
+            };
+            
+            if (existingScoreIndex !== -1) {
+                // Update existing score
+                allScores[existingScoreIndex] = scoreData;
+            } else {
+                // Add new score
+                allScores.push(scoreData);
+            }
+            
+           // Sort by timestamp (newest first) and keep only latest 40 scores
+allScores.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+// Keep only the latest 40 scores
+if (allScores.length > 40) {
+    allScores = allScores.slice(0, 40);
+}
+            
+            // Save back to localStorage
+            localStorage.setItem('gameScores', JSON.stringify(allScores));
+            
+            console.log("Score saved for:", playerName, "Score:", score);
+        }
+        
+        // End the game
+        function endGame() {
+            gameActive = false;
+            
+            // NEW: Save score to dashboard
+            saveScoreToDashboard();
+            
+            // Hide regular controls
+            document.querySelector('.controls').style.display = 'none';
+            
+            // Show end game controls
+            endGameControls.style.display = 'flex';
+            
+            // Disable hint button
+            hintBtn.disabled = true;
+            
+            // Check for perfect score
+            const maxPossibleScore = 10 * 10; // 10 points per level, 10 levels
+            if (score === maxPossibleScore && currentLevel === 10) {
+                message.innerHTML = `
+                    <div class="perfect-score">🎉 Congratulations ${playerName}! 🎉</div>
+                    <div class="perfect-score">You have a perfect score: 100!</div>
+                    <div style="color:#ff6b6b; font-size:1.4rem; margin-top:20px; font-weight:bold;">You completed all 10 levels!</div>
+                `;
+            } else {
+                message.innerHTML = `
+                    <div class="game-over">Game Over ${playerName}!</div>
+                    <div style="color:#ff6b6b; font-size:1.8rem; margin-top:10px; font-weight:bold;">Final Score: ${score} points</div>
+                    <div style="color:#ff6b6b; font-size:1.2rem; margin-top:10px;">You completed ${currentLevel} out of 10 levels</div>
+                `;
+            }
+            
+            // Hide next level button
+            nextLevelBtn.style.display = 'none';
+        }
+        
+        // Play Again - restart the game
+        function playAgain() {
+            // Reset game state
+            currentLevel = 1;
+            score = 0;
+            
+            // Start fresh game
+            startLevel();
+        }
+        
+        // Go back to home screen
+        function goHome() {
+            window.location.href = "index.html";
+        }
+        
+        // Initialize the game when page loads
+        window.onload = initGame;
+    </script>
+</body>
+</html>

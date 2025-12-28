@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Dashboard</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #162447);
+            color: #fff;
+            text-align: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 42px;
+            font-weight: 800;
+            color: #ffd166;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #aaa;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #ff7f50, #ffd166);
+            color: #1a1a2e;
+            padding: 12px 24px;
+            display: inline-block;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 10px rgba(0,0,0,0.3);
+            margin-top: 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.4);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(8px);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        th {
+            background: rgba(255,255,255,0.1);
+            color: #ffd166;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        td {
+            color: #fff;
+            font-size: 15px;
+        }
+
+        .no-data {
+            color: #ffffffaa;
+            font-size: 18px;
+            margin-top: 40px;
+            padding: 30px;
+        }
+        
+        .refresh-btn {
+            background: linear-gradient(135deg, #4d94ff, #0066cc);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 700;
+            margin: 5px;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+        
+        .refresh-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0,102,204,0.4);
+        }
+        
+        .latest-badge {
+            background: #ffd166;
+            color: #1a1a2e;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+        
+        .player-badge {
+            background: linear-gradient(135deg, #51cf66, #2b8a3e);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+        
+        .loading {
+            color: #ffd166;
+            font-size: 18px;
+            margin: 20px 0;
+            padding: 20px;
+        }
+        
+        .status-message {
+            padding: 12px 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            width: 90%;
+            max-width: 600px;
+            font-weight: 600;
+            display: none;
+        }
+        
+        .success {
+            background: rgba(81, 207, 102, 0.15);
+            color: #51cf66;
+            border-left: 4px solid #51cf66;
+        }
+        
+        .error {
+            background: rgba(255, 107, 107, 0.15);
+            color: #ff6b6b;
+            border-left: 4px solid #ff6b6b;
+        }
+        
+        .info {
+            background: rgba(77, 148, 255, 0.15);
+            color: #4d94ff;
+            border-left: 4px solid #4d94ff;
+        }
+        
+        .player-count {
+            background: rgba(255, 209, 102, 0.2);
+            color: #ffd166;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+        
+        .total-players-box {
+            background: rgba(77, 148, 255, 0.15);
+            border: 1px solid rgba(77, 148, 255, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px auto;
+            max-width: 400px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .total-players-number {
+            color: #4d94ff;
+            font-size: 32px;
+            font-weight: 800;
+            margin: 5px 0;
+        }
+        
+        .controls {
+            margin: 25px 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding-top: 20px;
+            }
+            
+            h1 {
+                font-size: 32px;
+            }
+            
+            table {
+                font-size: 14px;
+            }
+            
+            th, td {
+                padding: 10px;
+            }
+            
+            .btn, .refresh-btn {
+                padding: 10px 18px;
+                font-size: 14px;
+            }
+            
+            .total-players-box {
+                font-size: 16px;
+                padding: 12px;
+            }
+            
+            .total-players-number {
+                font-size: 28px;
+            }
+        }
+    </style>
+
+    <script src="api-config.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🏆 Game Leaderboard</h1>
+        <p class="subtitle">Live scores from all players on all devices</p>
+        
+        <!-- Total Players Display -->
+        <div id="totalPlayersBox" class="total-players-box">
+            <div>Total Players</div>
+            <div id="totalPlayersNumber" class="total-players-number">0</div>
+            <div style="font-size: 14px; color: #aaa;">Unique players who have played</div>
+        </div>
+        
+        <!-- Status Messages -->
+        <div id="statusMessage" class="status-message success">
+            ✓ Connected to cloud leaderboard
+        </div>
+        
+        <!-- Loading Indicator -->
+        <div id="loadingIndicator" class="loading">
+            ⏳ Loading leaderboard from cloud...
+        </div>
+        
+        <!-- Controls -->
+        <div class="controls">
+            <button class="refresh-btn" onclick="refreshLeaderboard()">🔄 Refresh</button>
+            <button class="refresh-btn" onclick="clearLeaderboard()" style="background: linear-gradient(135deg, #ff4d4d, #cc0000);">🗑️ Clear All</button>
+        </div>
+        
+        <!-- Leaderboard Table -->
+        <div id="leaderboardContainer">
+            <table>
+    <thead>
+        <tr>
+            <th>Rank</th>
+            <th>Player Name</th>
+            <th>Score</th>
+            <th>Gems</th>
+            <th>Game</th>
+            <th>Time</th>
+        </tr>
+    </thead>
+    <tbody id="scoresTableBody">
+        <!-- Scores loaded here -->
+    </tbody>
+</table>
+        </div>
+        
+        <p id="noScoresMessage" class="no-data" style="display: none;">
+            No scores yet. Be the first to play!
+        </p>
+        
+        <!-- Info -->
+        <div style="margin-top: 40px; color: #888; font-size: 14px;">
+            <p>📱 <strong>Live Leaderboard:</strong> All players on all devices can see these scores</p>
+            <p>🔄 Refresh to see latest scores</p>
+        </div>
+        
+        <a href="index.html" class="btn">← Back to Homepage</a>
+    </div>
+
+    <script src="api-config.js"></script>
+<script>
+    // ================= DASHBOARD CONFIGURATION =================
+    const POLL_INTERVAL = 10000; // Refresh every 10 seconds
+    
+    // DOM Elements
+    const statusMessage = document.getElementById('statusMessage');
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    const leaderboardContainer = document.getElementById('leaderboardContainer');
+    const totalPlayersNumber = document.getElementById('totalPlayersNumber');
+    const totalPlayersBox = document.getElementById('totalPlayersBox');
+    
+    // ================= HELPER FUNCTIONS =================
+    
+    function showLoading(show) {
+        loadingIndicator.style.display = show ? 'block' : 'none';
+        leaderboardContainer.style.opacity = show ? '0.5' : '1';
+    }
+    
+    function showMessage(text, type = 'success') {
+        statusMessage.textContent = text;
+        statusMessage.className = `status-message ${type}`;
+        statusMessage.style.display = 'block';
+        
+        // Auto-hide success messages after 5 seconds
+        if (type === 'success') {
+            setTimeout(() => {
+                statusMessage.style.display = 'none';
+            }, 5000);
+        }
+    }
+    
+    // Function to count unique active players
+    function countUniquePlayers(players) {
+        const uniquePlayers = new Set();
+        Object.values(players).forEach(player => {
+            if (player.name) {
+                uniquePlayers.add(player.name.toLowerCase().trim());
+            }
+        });
+        return uniquePlayers.size;
+    }
+    
+    // Function to format date
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffMs = now - date;
+        const diffMins = Math.floor(diffMs / 60000);
+        
+        if (diffMins < 1) return 'Just now';
+        if (diffMins < 60) return `${diffMins}m ago`;
+        if (diffMins < 1440) return `${Math.floor(diffMins / 60)}h ago`;
+        return date.toLocaleDateString();
+    }
+    
+    // ================= CLOUD FUNCTIONS =================
+    
+    async function fetchAllPlayers() {
+        try {
+            const players = await getAllPlayersFromCloud();
+            console.log(`📊 Loaded ${Object.keys(players).length} players from cloud`);
+            return players;
+        } catch (error) {
+            console.error('❌ Failed to fetch players:', error);
+            showMessage('⚠️ Using local data. Cloud unavailable.', 'error');
+            return {};
+        }
+    }
+    
+    async function fetchAllScores() {
+        try {
+            const scores = await getAllScoresFromCloud();
+            console.log(`📊 Loaded ${scores.length} scores from cloud`);
+            return scores;
+        } catch (error) {
+            console.error('❌ Failed to fetch scores:', error);
+            showMessage('⚠️ Using local scores. Cloud unavailable.', 'error');
+            return JSON.parse(localStorage.getItem('gameScores') || '[]');
+        }
+    }
+    
+    // ================= DASHBOARD DISPLAY =================
+    
+    async function loadDashboard() {
+        const tableBody = document.getElementById('scoresTableBody');
+        const noScoresMessage = document.getElementById('noScoresMessage');
+        
+        tableBody.innerHTML = '';
+        showLoading(true);
+        
+        // Fetch both players and scores
+        const [allPlayers, allScores] = await Promise.all([
+            fetchAllPlayers(),
+            fetchAllScores()
+        ]);
+        
+        // Update total active players count (players active in last 10 minutes)
+        const activePlayers = Object.values(allPlayers).filter(player => {
+            if (!player.lastUpdated) return false;
+            const lastActive = new Date(player.lastUpdated);
+            const tenMinutesAgo = new Date(Date.now() - 10 * 60000);
+            return lastActive > tenMinutesAgo;
+        });
+        
+        const uniquePlayersCount = activePlayers.length;
+        totalPlayersNumber.textContent = uniquePlayersCount;
+        totalPlayersBox.style.opacity = uniquePlayersCount === 0 ? '0.5' : '1';
+        
+        // Display player status
+        displayPlayerStatus(activePlayers);
+        
+        if (allScores.length === 0) {
+            noScoresMessage.style.display = 'block';
+            tableBody.innerHTML = '';
+            showLoading(false);
+            return;
+        }
+        
+        noScoresMessage.style.display = 'none';
+        
+        // Sort scores by score (highest first)
+        allScores.sort((a, b) => b.score - a.score);
+        
+        // Take top 20 scores
+        const topScores = allScores.slice(0, 20);
+        
+        // Display scores
+        topScores.forEach((score, index) => {
+            const row = document.createElement('tr');
+            
+            // Rank
+            const rankCell = document.createElement('td');
+            rankCell.textContent = `#${index + 1}`;
+            rankCell.style.fontWeight = 'bold';
+            rankCell.style.color = '#4d94ff';
+            row.appendChild(rankCell);
+            
+            // Player Name
+            const nameCell = document.createElement('td');
+            nameCell.textContent = score.playerName || 'Anonymous';
+            
+            // Add "ONLINE" badge if player is currently active
+            const playerData = allPlayers[score.playerName];
+            if (playerData && playerData.lastUpdated) {
+                const lastActive = new Date(playerData.lastUpdated);
+                const fiveMinutesAgo = new Date(Date.now() - 5 * 60000);
+                if (lastActive > fiveMinutesAgo) {
+                    const onlineBadge = document.createElement('span');
+                    onlineBadge.className = 'player-badge';
+                    onlineBadge.textContent = 'ONLINE';
+                    onlineBadge.title = 'Currently playing';
+                    nameCell.appendChild(onlineBadge);
+                }
+            }
+            
+            // Add "YOU" badge if it's current device
+            if (score.deviceId === localStorage.getItem('deviceId')) {
+                const youBadge = document.createElement('span');
+                youBadge.className = 'player-badge';
+                youBadge.textContent = 'YOU';
+                youBadge.title = 'This is your score';
+                nameCell.appendChild(youBadge);
+            }
+            
+            row.appendChild(nameCell);
+            
+            // Score
+            const scoreCell = document.createElement('td');
+            scoreCell.textContent = score.score.toLocaleString();
+            scoreCell.style.fontWeight = 'bold';
+            scoreCell.style.color = '#ffd166';
+            scoreCell.style.fontSize = '18px';
+            row.appendChild(scoreCell);
+            
+            // Gems
+            const gemsCell = document.createElement('td');
+            gemsCell.textContent = score.gems || '0';
+            gemsCell.style.color = '#ffd700';
+            row.appendChild(gemsCell);
+            
+            // Game Type
+            const gameCell = document.createElement('td');
+            gameCell.textContent = score.gameType || 'Lava Rush';
+            row.appendChild(gameCell);
+            
+            // Time
+            const timeCell = document.createElement('td');
+            if (score.timestamp) {
+                timeCell.textContent = formatDate(score.timestamp);
+                timeCell.title = new Date(score.timestamp).toLocaleString();
+            } else {
+                timeCell.textContent = 'Recently';
+            }
+            row.appendChild(timeCell);
+            
+            tableBody.appendChild(row);
+        });
+        
+        console.log(`📊 Displayed ${topScores.length} scores from ${uniquePlayersCount} active players`);
+        showLoading(false);
+    }
+    
+    function displayPlayerStatus(activePlayers) {
+        // You could add a separate section to show currently online players
+        console.log(`👥 ${activePlayers.length} players currently online`);
+        
+        // Update the subtitle with online count
+        const subtitle = document.querySelector('.subtitle');
+        if (subtitle && activePlayers.length > 0) {
+            subtitle.innerHTML = `Live scores from all players on all devices • <span style="color:#51cf66">${activePlayers.length} players online</span>`;
+        }
+    }
+    
+    async function refreshDashboard() {
+        showMessage('🔄 Refreshing dashboard...', 'info');
+        await loadDashboard();
+    }
+    
+    async function clearDashboard() {
+        if (!confirm("⚠️ WARNING: This will delete ALL scores from ALL devices!\n\nAre you sure?")) {
+            return;
+        }
+        
+        showLoading(true);
+        
+        try {
+            // Clear cloud data
+            const response = await fetch(API_CONFIG.updateGameScoresURL(), {
+                method: 'PUT',
+                headers: API_CONFIG.headers(),
+                body: JSON.stringify({
+                    scores: [],
+                    players: {},
+                    lastUpdated: new Date().toISOString()
+                })
+            });
+            
+            if (response.ok) {
+                // Clear local storage
+                localStorage.removeItem('gameScores');
+                localStorage.removeItem('playerData');
+                
+                // Update display
+                totalPlayersNumber.textContent = '0';
+                totalPlayersBox.style.opacity = '0.5';
+                
+                await loadDashboard();
+                showMessage('🗑️ All data cleared from all devices', 'info');
+            }
+        } catch (error) {
+            console.error('Error clearing data:', error);
+            showMessage('❌ Failed to clear data', 'error');
+        }
+    }
+    
+    // ================= INITIALIZATION =================
+    
+    document.addEventListener('DOMContentLoaded', async function() {
+        console.log('🚀 Initializing real-time dashboard...');
+        
+        // Set up auto-refresh
+        setInterval(refreshDashboard, POLL_INTERVAL);
+        
+        // Initial load
+        await loadDashboard();
+        
+        showMessage('✅ Connected to cloud dashboard. Viewing live data from all devices.', 'success');
+    });
+    
+    // ================= GLOBAL FUNCTIONS =================
+    
+    // Expose refresh function globally
+    window.refreshLeaderboard = refreshDashboard;
+    window.clearLeaderboard = clearDashboard;
+    
+    // For debugging
+    window.debugDashboard = async function() {
+        console.log('=== DASHBOARD DEBUG ===');
+        const players = await fetchAllPlayers();
+        const scores = await fetchAllScores();
+        console.log('Active players:', Object.keys(players).length);
+        console.log('Total scores:', scores.length);
+        console.log('All players:', players);
+        console.log('All scores:', scores);
+        
+        alert(`Dashboard Debug:\nPlayers: ${Object.keys(players).length}\nScores: ${scores.length}\nLast refresh: ${new Date().toLocaleTimeString()}`);
+    };
+</script>
+</body>
+</html>
